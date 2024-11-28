@@ -10,6 +10,21 @@ namespace Quizpractice.Models.EFCore
         : base(options) 
         {
         }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
+
+            if (!optionsBuilder.IsConfigured)
+            {
+                Console.WriteLine(Directory.GetCurrentDirectory());
+                IConfiguration config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", true, true)
+                .Build();
+                var strConn = config["ConnectionStrings:DefaultConnection"];
+                optionsBuilder.UseSqlServer(strConn);
+            }
+        }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Quiz> Quizzes { get; set; }
