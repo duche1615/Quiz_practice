@@ -16,7 +16,13 @@ namespace Quizpractice.Models.EFCore
 
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=DESKTOP-QO80HR6\\SQLEXPRESS;Database=QuizPractice;Trusted_Connection=True;TrustServerCertificate=True;uid=sa;pwd=123");
+                Console.WriteLine(Directory.GetCurrentDirectory());
+                IConfiguration config = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", true, true)
+                .Build();
+                var strConn = config["ConnectionStrings:DefaultConnection"];
+                optionsBuilder.UseSqlServer(strConn);
             }
         }
         public DbSet<Category> Categories { get; set; }
