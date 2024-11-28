@@ -10,6 +10,15 @@ namespace Quizpractice.Models.EFCore
         : base(options) 
         {
         }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
+
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("Server=DESKTOP-QO80HR6\\SQLEXPRESS;Database=QuizPractice;Trusted_Connection=True;TrustServerCertificate=True;uid=sa;pwd=123");
+            }
+        }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Quiz> Quizzes { get; set; }
