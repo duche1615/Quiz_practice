@@ -7,10 +7,12 @@ namespace Quizpractice.Services.IRepository
        
         Task<IEnumerable<Question>> GetQuestionsWithDetailsAsync();
         Task<Question> GetQuestionWithAnswersAsync(int questionId);
+        Task AddQuestionAsync(Question question);
     }
 
     public interface IAnswerRepository : IBaseRepository<Answer>
     {
+        Task AddAnswerAsync(Answer answer);
     }
 }
 

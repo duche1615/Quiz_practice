@@ -11,7 +11,7 @@ namespace Quizpractice.Services.Repository
         {
             _context = context;
             Questions = new QuestionRepository(_context);
-           
+            Answers = new AnswerRepository(_context);
         }
 
         public IQuestionRepository Questions { get; private set; }
