@@ -1,7 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using Quizpractice.Models.EFCore;
-using Quizpractice.Services;
-using System;
+using Quizpractice.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,11 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
 
-
-builder.Services.AddDbContext<QuizPracticeContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
+builder.Services.AddDbContext<SWP391_DBContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("MyDatabase")));
 
 var app = builder.Build();
 
