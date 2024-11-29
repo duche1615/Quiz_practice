@@ -20,7 +20,7 @@ namespace Quizpractice.Pages.Questions
 
         public void OnGet()
         {
-            // Khởi tạo dữ liệu mặc định cho câu hỏi và đáp án
+            // create answer mặc định
             QuestionAnswer = new QuestionAnswerViewModel
             {
                 Answers = new List<AnswerViewModel>
