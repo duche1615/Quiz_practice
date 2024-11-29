@@ -16,7 +16,7 @@ namespace Quizpractice.Pages.Questions
 
         public Question Question { get; set; }
         
-        public async Task<IActionResult> OnGetAsync([FromQuery] int id)
+        public async Task<IActionResult> OnGetAsync( int id)
         {
             
             Question = await _unitOfWork.Questions.GetQuestionWithAnswersAsync(id);

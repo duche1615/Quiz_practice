@@ -1,0 +1,51 @@
+﻿@page
+@model Quizpractice.Pages.Questions.CreateModel
+
+<h1>Thêm câu hỏi mới</h1>
+
+<form method="post">
+    <div class="mb-3">
+        <label class="form-label">Nội dung câu hỏi</label>
+        <textarea class="form-control" asp-for="QuestionAnswer.Content"></textarea>
+        <span asp-validation-for="QuestionAnswer.Content" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Mức độ</label>
+        <select class="form-select" asp-for="QuestionAnswer.Level">
+            <option value="Easy">Dễ</option>
+            <option value="Medium">Trung bình</option>
+            <option value="Hard">Khó</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Đa lựa chọn</label>
+        <input type="checkbox" asp-for="QuestionAnswer.IsMultipleChoice" />
+    </div>
+
+    <h3>Đáp án</h3>
+    <div>
+        @if (Model.QuestionAnswer.Answers != null)
+        {
+            @for (int i = 0; i < Model.QuestionAnswer.Answers.Count; i++)
+            {
+                <div class="mb-3">
+                    <label class="form-label">Đáp án @(i+1)</label>
+                    <input class="form-control" name="QuestionAnswer.Answers[@i].Content"/>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="QuestionAnswer.Answers[@i].Correct" value="true"/>
+                        <label class="form-check-label">Đúng</label>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <p>Không có đáp án nào được thêm vào.</p>
+        }
+    </div>
+
+    <button type="submit" class="btn btn-primary">Lưu</button>
+    <a asp-page="/Questions/Index" class="btn btn-secondary">Hủy</a>
+</form>

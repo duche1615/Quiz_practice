@@ -29,13 +29,25 @@ namespace Quizpractice.Services.Repository
                 .Include(q => q.Topic)
                 .ToListAsync();
         }
-
-
-        public class AnswerRepository : BaseRepository<Answer>, IAnswerRepository
+        public async Task AddQuestionAsync(Question question)
         {
-            public AnswerRepository(SWP391_DBContext context) : base(context)
-            {
-            }
+            await AddAsync(question);
+        }
+
+    }
+    public class AnswerRepository : BaseRepository<Answer>, IAnswerRepository
+    {
+        private readonly SWP391_DBContext _context;
+
+        public AnswerRepository(SWP391_DBContext context) : base(context)
+        {
+            _context = context;
+        }
+
+
+        public async Task AddAnswerAsync(Answer answer)
+        {
+            await AddAsync(answer);
         }
     }
 
