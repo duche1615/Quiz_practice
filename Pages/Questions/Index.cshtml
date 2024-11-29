@@ -1,0 +1,36 @@
+﻿@page
+@model Quizpractice.Pages.Questions.IndexModel
+
+<h1>Question List</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Content</th>
+            <th>Level</th>
+            <th>Multiple Choice</th>
+            <th>Subject</th>
+            <th>Lesson</th>
+            <th>Topic</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var question in Model.Questions)
+        {
+            <tr>
+                <td>@question.Id</td>
+                <td>@question.Content</td>
+                <td>@question.Level</td>
+                <td>@(question.IsMultipleChoice ? "Yes" : "No")</td>
+                <td>@question.SubjectName</td>
+                <td>@question.LessonName</td>
+                <td>@question.TopicName</td>
+                <td>
+                    <a class="btn btn-info" asp-page="/Questions/Details" asp-route-id="@question.Id">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
