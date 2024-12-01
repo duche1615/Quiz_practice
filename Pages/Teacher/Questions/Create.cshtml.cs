@@ -39,7 +39,24 @@ namespace Quizpractice.Pages.Questions
             {
                 return Page(); 
             }
-
+            if (!QuestionAnswer.IsMultipleChoice)
+            {
+                var correctAnswers = QuestionAnswer.Answers.Count(a => a.Correct);
+                if (correctAnswers != 1)
+                {
+                    ModelState.AddModelError(string.Empty, "chose one answer please");
+                    return Page();
+                }
+            }
+            else
+            {
+                var correctAnswers = QuestionAnswer.Answers.Count(a => a.Correct);
+                if (correctAnswers < 2)
+                {
+                    ModelState.AddModelError(string.Empty, "chose more two answer please");
+                    return Page(); 
+                }
+            }
             // create question
             var question = new Question
             {
@@ -47,6 +64,7 @@ namespace Quizpractice.Pages.Questions
                 //SubjectId = QuestionAnswer.SubjectId,
                 //LessonId = QuestionAnswer.LessonId,
                 //TopicId = QuestionAnswer.TopicId,
+                Status =true,
                 Level = QuestionAnswer.Level,
                 IsMultipleChoice = QuestionAnswer.IsMultipleChoice
             };
@@ -72,7 +90,7 @@ namespace Quizpractice.Pages.Questions
             await _unitOfWork.SaveAsync();
 
             
-            return RedirectToPage("/Questions/Index");
+            return RedirectToPage("Index");
         }
     }
 }
