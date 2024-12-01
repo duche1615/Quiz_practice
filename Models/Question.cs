@@ -31,5 +31,7 @@ namespace Quizpractice.Models
         public virtual ICollection<Answer> Answers { get; set; }
         public virtual ICollection<CustomerExamDetail> CustomerExamDetails { get; set; }
         public virtual ICollection<ExamDetail> ExamDetails { get; set; }
+
+        public virtual Quiz? Quiz { get; set; }
     }
 }
