@@ -14,6 +14,9 @@ builder.Services.AddDbContext<SWP391_DBContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("MyDatabase")));
 
 builder.Services.AddScoped<IUserRepository,UserRepository>();
+builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
+builder.Services.AddScoped<IQuizRepository, QuizRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
 
