@@ -1,0 +1,42 @@
+﻿@page
+@model Quizpractice.Pages.Teacher.Quizzes.IndexModel
+
+@{
+    Layout = "~/Pages/Shared/_Layout_Teacher.cshtml";
+}
+
+<h1>Quiz List</h1>
+
+<p>
+    <a asp-page="Create" class="btn btn-success">Create New Quiz</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Level</th>
+            <th>Description</th>
+            <th>Duration</th>
+            <th>Status</th>
+            <th>Total Questions</th>           
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var quiz in Model.Quizzes)
+        {
+            <tr>
+                <td>@quiz.Title</td>
+                <td>@quiz.Level</td>
+                <td>@quiz.Description</td>
+                <td>@quiz.Duration minutes</td>
+                <td>@quiz.Status</td>
+                <td>@quiz.TotalQues</td>
+                <td>
+                    <a class="btn btn-info" asp-page="Details" asp-route-id="@quiz.QuizId">Details</a>                   
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,25 @@
+﻿@page
+@model Quizpractice.Pages.Teacher.Quizzes.DetailsModel
+
+@{
+    Layout = "~/Pages/Shared/_Layout_Teacher.cshtml";
+}
+
+<h1>Quiz Details</h1>
+
+<div>
+    <h3>@Model.Quiz.Title</h3>
+    <p><strong>Level:</strong> @Model.Quiz.Level</p>
+    <p><strong>Description:</strong> @Model.Quiz.Description</p>
+    <p><strong>Status:</strong> @(Model.Quiz.Status.HasValue ? (Model.Quiz.Status.Value ? "Active" : "Inactive") : "Unknown")</p>
+    <p><strong>Start Time:</strong> @Model.Quiz.StartTime</p>
+    <p><strong>End Time:</strong> @Model.Quiz.EndTime</p>
+    <p><strong>Rate:</strong> @Model.Quiz.Rate</p>
+    <p><strong>Duration:</strong> @Model.Quiz.Duration minutes</p>
+
+    
+
+    
+
+    <a class="btn btn-secondary" asp-page="Index">Back to List</a>
+</div>

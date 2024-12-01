@@ -20,9 +20,6 @@
                 @Html.DisplayNameFor(model => model.User[0].Password)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.User[0].Status)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.User[0].Email)
             </th>
             <th>
@@ -38,6 +35,9 @@
                 @Html.DisplayNameFor(model => model.User[0].Gender)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.User[0].Avatar)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.User[0].CreatedDate)
             </th>
             <th>
@@ -50,62 +50,44 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.User)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Username)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Password)
-                </td>
-                <td>
-                    @if (item.Status == true)
-                    {
-                        <a>Active</a>
-                    }
-                    else
-                    {
-                        <a>Inactive</a>
-                    }
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Phone)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Fullname)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Address)
-                </td>
-                <td>
-                    @if (item.Gender == true)
-                    {
-                        <a>Male</a>
-                    }
-                    else
-                    {
-                        <a>Female</a>
-                    }
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ModifyDate)
-                </td>
-                <td>
-                    <a>@item.Role.RoleName</a>
-                </td>
-                <td>
-                    <a asp-page="./Edit" asp-route-id="@item.UserId">Edit</a> |
-                    <a asp-page="./Details" asp-route-id="@item.UserId">Details</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.UserId">Delete</a>
-                </td>
-            </tr>
-        }
+@foreach (var item in Model.User) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Username)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Password)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fullname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gender)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Avatar)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModifyDate)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.UserId">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.UserId">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.UserId">Delete</a>
+            </td>
+        </tr>
+}
     </tbody>
 </table>

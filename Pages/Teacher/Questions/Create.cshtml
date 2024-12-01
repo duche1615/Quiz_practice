@@ -1,0 +1,51 @@
+﻿@page
+@model Quizpractice.Pages.Questions.CreateModel
+@{
+    Layout = "~/Pages/Shared/_Layout_Teacher.cshtml";
+}
+<h1>Create new question</h1>
+
+<form method="post">
+   
+    <div class="mb-3">
+        <label class="form-label">Content</label>
+        <textarea class="form-control" asp-for="QuestionAnswer.Content"></textarea>
+        <span asp-validation-for="QuestionAnswer.Content" class="text-danger"></span>
+    </div>
+    
+    <div class="mb-3">
+        <label class="form-label">level</label>
+        <select class="form-select" asp-for="QuestionAnswer.Level">
+            <option value="Easy">Dễ</option>
+            <option value="Medium">Trung bình</option>
+            <option value="Hard">Khó</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Multiplechoice</label>
+        <input type="checkbox" asp-for="QuestionAnswer.IsMultipleChoice" />
+    </div>
+
+    <h3>Đáp án</h3>
+    <div>
+        @if (Model.QuestionAnswer.Answers != null)
+        {
+            @for (int i = 0; i < Model.QuestionAnswer.Answers.Count; i++)
+            {
+                <div class="mb-3">
+                    <label class="form-label">Đáp án @(i+1)</label>
+                    <input class="form-control" name="QuestionAnswer.Answers[@i].Content"/>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="QuestionAnswer.Answers[@i].Correct" value="true"/>
+                        <label class="form-check-label">True</label>
+                    </div>
+                </div>
+            }
+        }
+        
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-page="Index" class="btn btn-secondary">Cancel</a>
+</form>

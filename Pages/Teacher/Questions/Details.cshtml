@@ -1,0 +1,35 @@
+﻿@page
+@model Quizpractice.Pages.Questions.DetailsModel
+@{
+    Layout = "~/Pages/Shared/_Layout_Teacher.cshtml";
+}
+<h1>Question Details</h1>
+
+<div>
+    <h2>Question Content</h2>
+    <p>@Model.Question.Content</p>
+</div>
+
+<div>
+    <h2>Detailed Information</h2>
+    <p><strong>Subject:</strong> @Model.Question.Subject?.SubjectName</p>
+    <p><strong>Lesson:</strong> @Model.Question.Lesson?.LessonName</p>
+    <p><strong>Topic:</strong> @Model.Question.Topic?.Name</p>
+</div>
+
+<div>
+    <h2>Answers</h2>
+    <ul>
+        @foreach (var answer in Model.Question.Answers)
+        {
+            <li>
+                @answer.Content @if (answer.Correct == true)
+                {
+                    <strong>(Correct)</strong>
+                }
+            </li>
+        }
+    </ul>
+</div>
+
+<a class="btn btn-secondary" asp-page="Index">Back to List</a>
