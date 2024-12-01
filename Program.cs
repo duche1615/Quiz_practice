@@ -3,20 +3,17 @@ using Quizpractice.Models;
 using Quizpractice.Services.IRepository;
 using Quizpractice.Services.Repository;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
-builder.Services.AddScoped<IAnswerRepository, AnswerRepository>();
-builder.Services.AddScoped<IQuizRepository, QuizRepository>();
-
-
 builder.Services.AddDbContext<SWP391_DBContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("MyDatabase")));
+
+builder.Services.AddScoped<IUserRepository,UserRepository>();
 
 var app = builder.Build();
 
