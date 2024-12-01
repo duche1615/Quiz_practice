@@ -6,6 +6,14 @@ using Quizpractice.Services.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+});
+
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
@@ -27,6 +35,8 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Error");
 }
 app.UseHttpsRedirection();
+
+app.UseSession();
 
 app.UseStaticFiles();
 
