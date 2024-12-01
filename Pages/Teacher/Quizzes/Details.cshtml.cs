@@ -13,14 +13,14 @@ namespace Quizpractice.Pages.Teacher.Quizzes
             _quizRepository = quizRepository;
         }
         public Quiz Quiz { get; set; }
-        public async Task OnGet(int id)
+        public async Task<IActionResult> OnGet(int id)
         {
             Quiz = await _quizRepository.GetQuizByIdAsync(id);
             if (Quiz == null)
             {
-                RedirectToPage("Index");
+               return NotFound();
             }
-
+            return Page();
         }
     }
 }

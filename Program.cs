@@ -15,6 +15,7 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("MyDatabase")));
 
 builder.Services.AddScoped<IUserRepository,UserRepository>();
 builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
+builder.Services.AddScoped<IAnswerRepository, AnswerRepository>();
 builder.Services.AddScoped<IQuizRepository, QuizRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 

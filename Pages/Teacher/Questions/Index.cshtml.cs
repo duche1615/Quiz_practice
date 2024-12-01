@@ -23,7 +23,7 @@ namespace Quizpractice.Pages.Questions
         public async Task OnGetAsync()
         {
             var questions = await _unitOfWork.Questions.GetQuestionsWithDetailsAsync();
-          
+            
             Questions = questions.Select(q => new QuestionAnswerViewModel
             {
                 Id = q.QuestionId,
@@ -34,7 +34,7 @@ namespace Quizpractice.Pages.Questions
                 LessonName = q.Lesson?.LessonName ?? "N/A",
                 TopicName = q.Topic?.Name ?? "N/A"
             }).ToList();
-
+            
         }
     }
 }
