@@ -9,6 +9,7 @@ namespace Quizpractice.ViewModels
         public string Content { get; set; }
         public string Level { get; set; }
         public bool IsMultipleChoice { get; set; }
+        public string? Status { get; set; }
         public string? SubjectName { get; set; }
         public string? LessonName { get; set; }
         public string? TopicName { get; set; }
