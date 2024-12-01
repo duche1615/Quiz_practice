@@ -19,11 +19,11 @@ namespace Quizpractice.Pages.Questions
         }
 
         public IEnumerable<QuestionAnswerViewModel> Questions { get; set; }
-
+        
         public async Task OnGetAsync()
         {
             var questions = await _unitOfWork.Questions.GetQuestionsWithDetailsAsync();
-
+          
             Questions = questions.Select(q => new QuestionAnswerViewModel
             {
                 Id = q.QuestionId,

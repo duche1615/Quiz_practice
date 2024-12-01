@@ -1,6 +1,8 @@
 ﻿@page
 @model Quizpractice.Pages.Questions.DetailsModel
-
+@{
+    Layout = "~/Pages/Shared/_Layout_Teacher.cshtml";
+}
 <h1>Question Details</h1>
 
 <div>
@@ -30,4 +32,4 @@
     </ul>
 </div>
 
-<a class="btn btn-secondary" asp-page="/Questions/Index">Back to List</a>
+<a class="btn btn-secondary" asp-page="Index">Back to List</a>
