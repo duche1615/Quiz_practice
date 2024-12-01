@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Quizpractice.Models;
+using Quizpractice.Services.IRepository;
+using Quizpractice.Services.Repository;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +12,8 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<SWP391_DBContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("MyDatabase")));
+
+builder.Services.AddScoped<IUserRepository,UserRepository>();
 
 var app = builder.Build();
 
