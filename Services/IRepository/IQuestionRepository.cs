@@ -10,9 +10,6 @@ namespace Quizpractice.Services.IRepository
         Task AddQuestionAsync(Question question);
     }
 
-    public interface IAnswerRepository : IBaseRepository<Answer>
-    {
-        Task AddAnswerAsync(Answer answer);
-    }
+
 }
 
