@@ -23,7 +23,6 @@
             <th>Multiple Choice</th>
             <th>Status</th>
             <th>Subject</th>
-            <th>Lesson</th>
             <th>Topic</th>
             <th>Action</th>
         </tr>
@@ -38,8 +37,7 @@
                 <td>@(question.IsMultipleChoice ? "Yes" : "No")</td>
                 <td>@(question.Status)</td>
                 <td>@question.SubjectName</td>
-                <td>@question.LessonName</td>
-                <td>@question.TopicName</td>
+                <td>@question.ChapterName</td>
                 <td>
                     <a class="btn btn-info btn-sm" asp-page="Details" asp-route-id="@question.Id">Details</a>
                     <a class="btn btn-info btn-sm">Edit</a>
