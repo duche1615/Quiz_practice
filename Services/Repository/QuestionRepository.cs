@@ -35,7 +35,27 @@ namespace Quizpractice.Services.Repository
             await AddAsync(question);
         }
 
+        public async Task<IEnumerable<Question>> SearchQuestionsByContentAsync(string searchTerm)
+        {
+            return await _context.Questions
+                .Include(q => q.Subject)
+                .Include(q => q.Lesson)
+                .Include(q => q.Topic)
+                .Where(q => q.Content.Contains(searchTerm))
+                .ToListAsync();
+        }
+
+        public async Task UpdateQuestionStatusAsync(int questionId, bool newStatus)
+        {
+            var question = await _context.Questions.FindAsync(questionId);
+            if (question != null)
+            {
+                question.Status = newStatus;
+                await _context.SaveChangesAsync();
+            }
+        }
+
     }
-    
+
 
 }
