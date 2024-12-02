@@ -14,7 +14,6 @@ namespace Quizpractice.Models
         public string? Name { get; set; }
         public int? AcessDuration { get; set; }
         public double? Price { get; set; }
-        public double? SalePrice { get; set; }
         public bool? Status { get; set; }
         public string? Description { get; set; }
 
