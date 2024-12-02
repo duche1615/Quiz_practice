@@ -1,0 +1,43 @@
+﻿@page
+@model Quizpractice.Pages.Quizs.IndexModel
+
+<!-- Hiển thị thông báo kết quả trả lời -->
+@if (TempData["Result"] != null)
+{
+    <div class="alert alert-info">
+        @TempData["Result"]
+    </div>
+}
+
+<!-- Hiển thị danh sách câu hỏi -->
+<div class="quiz-container">
+    @foreach (var question in Model.Questions)
+    {
+        <div class="question mb-4 p-3 border rounded shadow">
+            <div class="question-header">
+                <a href="/Quizs/Detail/@question.QuestionId">
+                    <strong>Câu hỏi @question.QuestionId</strong>
+                </a>
+            </div>
+            <div class="question-content mb-3">
+                @question.Content
+            </div>
+
+            <!-- Hiển thị các đáp án -->
+            <div class="answers">
+                @foreach (var answer in question.Answers)
+                {
+                    <div class="answer-option mb-3 p-3 border rounded">
+                        <input type="radio" class="form-check-input me-2" id="option_@answer.AnswerId" name="answer_@question.QuestionId" value="@answer.AnswerId" />
+                        <label class="form-check-label" for="option_@answer.AnswerId">@answer.Content</label>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Thêm nút submit để gửi câu trả lời -->
+<div class="text-center mt-4">
+    <button type="submit" class="btn btn-primary">Gửi Câu Trả Lời</button>
+</div>

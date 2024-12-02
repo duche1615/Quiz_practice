@@ -1,0 +1,25 @@
+﻿@page "{questionId:int}"
+@model Quizpractice.Pages.Quizs.DetailModel
+
+<h3>Câu hỏi @Model.Question.QuestionId</h3>
+<div class="question-content">
+    @Model.Question.Content
+</div>
+
+<!-- Hiển thị các đáp án -->
+<div class="answers mt-4">
+    <form method="post" asp-action="SubmitAnswer">
+        @foreach (var answer in Model.Question.Answers)
+        {
+            <div class="answer-option mb-3 p-3 border rounded">
+                <input type="radio" class="form-check-input me-2" id="option_@answer.AnswerId" name="selectedAnswerId" value="@answer.AnswerId" />
+                <label class="form-check-label" for="option_@answer.AnswerId">@answer.Content</label>
+            </div>
+        }
+
+        <!-- Nút gửi câu trả lời -->
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Gửi Câu Trả Lời</button>
+        </div>
+    </form>
+</div>
