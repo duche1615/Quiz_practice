@@ -30,7 +30,7 @@ namespace Quizpractice.Pages.Teacher.Quizzes
                 Level = q.Level,
                 Description = q.Description,
                 Duration = (int)q.Duration,
-                Status = q.Status == true ? "Active" : "Inactive", 
+                Status = q.Active == true ? "Active" : "Inactive", 
                 TotalQues = q.TotalQues,              
             }).ToList();
             
@@ -43,12 +43,12 @@ namespace Quizpractice.Pages.Teacher.Quizzes
             if (quiz != null)
             {
                 
-                quiz.Status = quiz.Status ?? false;
+                quiz.Active = quiz.Active ?? false;
 
                 
-                quiz.Status = !quiz.Status;
+                quiz.Active = !quiz.Active;
 
-                await _quizRepository.UpdateQuizStatusAsync(quizId,quiz.Status.Value); 
+                await _quizRepository.UpdateQuizStatusAsync(quizId,quiz.Active.Value); 
             }
 
             return RedirectToPage(); 

@@ -14,18 +14,16 @@ namespace Quizpractice.Services.Repository
         public async Task<IEnumerable<Question>> GetAllQuestionsAsync()
         {
             return await _context.Questions
+                .Include(q => q.Chapter)
                 .Include(q => q.Subject)
-                .Include(q => q.Lesson)
-                .Include(q => q.Topic)
                 .ToListAsync();
         }
         public async Task<Question> GetQuestionWithAnswersAsync(int questionId)
         {
             return await _context.Questions
                 .Include(q => q.Answers) 
+                .Include(q => q.Chapter) 
                 .Include(q => q.Subject) 
-                .Include(q => q.Lesson) 
-                .Include(q => q.Topic) 
                 .FirstOrDefaultAsync(q => q.QuestionId == questionId);
         }
 
@@ -38,9 +36,8 @@ namespace Quizpractice.Services.Repository
         public async Task<IEnumerable<Question>> SearchQuestionsByContentAsync(string searchTerm)
         {
             return await _context.Questions
-                .Include(q => q.Subject)
-                .Include(q => q.Lesson)
-                .Include(q => q.Topic)
+                .Include(q => q.Chapter)
+                .Include(q => q.Subject)              
                 .Where(q => q.Content.Contains(searchTerm))
                 .ToListAsync();
         }

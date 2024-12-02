@@ -22,12 +22,12 @@ namespace Quizpractice.Services.Repository
             return await GetByIdAsync(quizId);
         }
         
-        public async Task UpdateQuizStatusAsync(int quizId, bool newStatus)
+        public async Task UpdateQuizStatusAsync(int quizId, bool newActive)
         {
             var quiz = await _context.Quizzes.FindAsync(quizId);
             if (quiz != null)
             {
-                quiz.Status = newStatus; 
+                quiz.Active = newActive; 
                 await _context.SaveChangesAsync(); 
             }
         }

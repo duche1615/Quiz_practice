@@ -48,9 +48,8 @@ namespace Quizpractice.Pages.Questions
                 Level = q.Level,
                 IsMultipleChoice = q.IsMultipleChoice ?? false,
                 Status = q.Status == true ? "Active" : "Inactive",
-                SubjectName = q.Subject?.SubjectName ?? "N/A",
-                LessonName = q.Lesson?.LessonName ?? "N/A",
-                TopicName = q.Topic?.Name ?? "N/A"
+                SubjectName = q.Subject?.SubjectName ?? "N/A",              
+                ChapterName = q.Chapter?.ChapterName ?? "N/A"
             }).ToList();
             
         }
