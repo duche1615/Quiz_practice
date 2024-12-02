@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Quizpractice.Services.IRepository;
+using Quizpractice.Services.Repository;
 using Quizpractice.ViewModels;
 
 namespace Quizpractice.Pages.Teacher.Quizzes
@@ -33,6 +34,24 @@ namespace Quizpractice.Pages.Teacher.Quizzes
                 TotalQues = q.TotalQues,              
             }).ToList();
             
+        }
+
+        public async Task<IActionResult> OnPostChangeQuizStatusAsync(int quizId)
+        {
+            var quiz = await _quizRepository.GetQuizByIdAsync(quizId);
+
+            if (quiz != null)
+            {
+                
+                quiz.Status = quiz.Status ?? false;
+
+                
+                quiz.Status = !quiz.Status;
+
+                await _quizRepository.UpdateQuizStatusAsync(quizId,quiz.Status.Value); 
+            }
+
+            return RedirectToPage(); 
         }
     }
 }

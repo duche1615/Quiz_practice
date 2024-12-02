@@ -21,7 +21,16 @@ namespace Quizpractice.Services.Repository
         {
             return await GetByIdAsync(quizId);
         }
-
+        
+        public async Task UpdateQuizStatusAsync(int quizId, bool newStatus)
+        {
+            var quiz = await _context.Quizzes.FindAsync(quizId);
+            if (quiz != null)
+            {
+                quiz.Status = newStatus; 
+                await _context.SaveChangesAsync(); 
+            }
+        }
 
     }
 }
