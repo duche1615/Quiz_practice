@@ -7,7 +7,7 @@ namespace Quizpractice.Models
     {
         public int RegisId { get; set; }
         public DateTime? RegisDate { get; set; }
-        public string? Statis { get; set; }
+        public bool? Status { get; set; }
         public int? SubId { get; set; }
         public int? PriceId { get; set; }
         public int? UserId { get; set; }
