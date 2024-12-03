@@ -66,7 +66,7 @@
                 <span asp-validation-for="User.Status" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="User.RoleId" class="control-label"></label>
+                <label asp-for="User.Role" class="control-label"></label>
                 <select asp-for="User.RoleId" class="form-control">
                     @foreach (var role in roles)
                     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Quizpractice.Models
 {
-    public partial class QuizQuestionDetail
+    public partial class QuizAnswerDetail
     {
         public int QuizDetailId { get; set; }
         public int QuestionId { get; set; }
