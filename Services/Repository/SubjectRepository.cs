@@ -19,5 +19,16 @@ namespace Quizpractice.Services.Repository
         {
             return await _dbContext.Subjects.FirstAsync(s => s.SubjectId == id);
         }
+
+        public async Task<Subject> GetByPackageId(int id)
+        {
+            var subject = await(from pp in _dbContext.PricePackages
+                                join sp in _dbContext.SubjectPrices on pp.PriceId equals sp.PriceId
+                                join s in _dbContext.Subjects on sp.SubjectId equals s.SubjectId
+                                where pp.PriceId == id
+                                select s).FirstOrDefaultAsync(); // Lấy ra Subject đầu tiên tìm được
+
+            return subject;
+        }
     }
 }

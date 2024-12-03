@@ -1,0 +1,38 @@
+﻿@page
+@model Quizpractice.Pages.LessonList.IndexModel
+@{
+    ViewData["Title"] = "Lesson List";
+}
+
+<h2>Lesson List</h2>
+<a asp-page="/LessonList/EditLesson" asp-route-packageId="@Model.PackageId" class="btn btn-primary">Add New Lesson</a>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var lesson in Model.Lessons)
+        {
+            <tr>
+                <td>@lesson.Title</td>
+                <td>@(lesson.Status.HasValue && lesson.Status.Value ? "Active" : "Inactive")</td>
+                <td>
+                    <a asp-page="/LessonList/EditLesson" asp-route-id="@lesson.LesstionId" asp-route-packageId="@Model.PackageId" class="btn btn-warning">Edit</a>
+                    <form method="post" asp-page-handler="ActivateDeactivate" style="display:inline;">
+                        <input type="hidden" name="lessonId" value="@lesson.LesstionId" />
+                        <input type="hidden" name="isActive" value="@(lesson.Status.HasValue && lesson.Status.Value ? "false" : "true")" />
+                        <input type="hidden" name="packageIds" value="@Model.PackageId" />
+                        <button type="submit" class="btn btn-secondary">
+                            @(lesson.Status.HasValue && lesson.Status.Value ? "Deactivate" : "Activate")
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,66 @@
+﻿@page
+@model Quizpractice.Pages.LessonList.EditLessonModel
+@{
+    ViewData["Title"] = "Edit Lesson";
+}
+
+<h2>@(Model.Lesson.LesstionId == 0 ? "Add New Lesson" : "Edit Lesson")</h2>
+
+<form method="post">
+    <div class="form-group">
+        <label for="Title">Title</label>
+        <input asp-for="Lesson.Title" class="form-control" />
+        <span asp-validation-for="Lesson.Title" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="LessonUrl">Lesson URL</label>
+        <input asp-for="Lesson.LesstionUrl" class="form-control" />
+        <span asp-validation-for="Lesson.LesstionUrl" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="Notes">Notes</label>
+        <textarea asp-for="Lesson.Notes" class="form-control"></textarea>
+        <span asp-validation-for="Lesson.Notes" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label for="Backlink">Backlink</label>
+        <input asp-for="Lesson.Backlink" class="form-control" />
+        <span asp-validation-for="Lesson.Backlink" class="text-danger"></span>
+    </div>
+    @if(Model.Lesson.LesstionId == 0)
+    {
+        <input asp-for="Lesson.Subid" hidden value="@Model.Subject.SubjectId" class="form-control" />
+        <input asp-for="Lesson.Status" hidden value="true" class="form-control" />
+    }else{
+        <input asp-for="Lesson.Subid" hidden class="form-control" />
+        <span asp-validation-for="Lesson.Subid" class="text-danger"></span>
+        <input asp-for="Lesson.Status" hidden class="form-control" />
+        <span asp-validation-for="Lesson.Status" class="text-danger"></span>
+        <input asp-for="Lesson.LesstionId" hidden class="form-control" />
+        <span asp-validation-for="Lesson.LesstionId" class="text-danger"></span>
+    }
+    <div class="form-group">
+        <label for="Public">Public</label>
+        <select asp-for="Lesson.Public">
+            <option value="true">
+                Public
+            </option>
+            <option value="false">
+                Hide
+            </option>
+        </select>
+        <span asp-validation-for="Lesson.Public" class="text-danger"></span>
+    </div>
+    
+    <div class="form-group">
+        <label for="Content">Content</label>
+        <textarea asp-for="Lesson.Content" class="form-control"></textarea>
+        <span asp-validation-for="Lesson.Content" class="text-danger"></span>
+    </div>
+    <input type="hidden" name="packageIds" value="@Model.PackageId" />
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a href="/LessonList?packageId=@Model.PackageId" class="btn btn-secondary">Cancel</a>
+</form>

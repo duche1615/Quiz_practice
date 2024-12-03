@@ -6,5 +6,6 @@ namespace Quizpractice.Services.IRepository
     {
         Task<List<Subject>> GetAllSubjects();
         Task<Subject> GetById(int id);
+        Task<Subject> GetByPackageId(int id);
     }
 }
