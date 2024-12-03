@@ -46,7 +46,7 @@ namespace Quizpractice.Pages.Signup
             _context.Users.Add(NewUser);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("/Signin");
+            return Redirect("/Signin");
         }
     }
 }
