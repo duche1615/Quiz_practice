@@ -26,9 +26,9 @@ namespace Quizpractice.Models
         public virtual DbSet<Question> Questions { get; set; } = null!;
         public virtual DbSet<QuestionQuiz> QuestionQuizzes { get; set; } = null!;
         public virtual DbSet<Quiz> Quizzes { get; set; } = null!;
+        public virtual DbSet<QuizAnswerDetail> QuizAnswerDetails { get; set; } = null!;
         public virtual DbSet<QuizChapter> QuizChapters { get; set; } = null!;
         public virtual DbSet<QuizDetail> QuizDetails { get; set; } = null!;
-        public virtual DbSet<QuizQuestionDetail> QuizQuestionDetails { get; set; } = null!;
         public virtual DbSet<RegistrationSubject> RegistrationSubjects { get; set; } = null!;
         public virtual DbSet<Role> Roles { get; set; } = null!;
         public virtual DbSet<Subject> Subjects { get; set; } = null!;
@@ -398,6 +398,29 @@ namespace Quizpractice.Models
                     .HasConstraintName("FK_Quiz_User");
             });
 
+            modelBuilder.Entity<QuizAnswerDetail>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("Quiz_Answer_Detail");
+
+                entity.Property(e => e.IsCorrect).HasColumnName("isCorrect");
+
+                entity.Property(e => e.QuestionId).HasColumnName("questionId");
+
+                entity.Property(e => e.QuizDetailId).HasColumnName("quiz_detail_id");
+
+                entity.Property(e => e.SelectedAnswerId).HasColumnName("selected_answer_id");
+
+                entity.Property(e => e.TrueAnswerId).HasColumnName("true_answer_id");
+
+                entity.HasOne(d => d.QuizDetail)
+                    .WithMany()
+                    .HasForeignKey(d => d.QuizDetailId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Quiz_Question_Detail_Quiz_Detail");
+            });
+
             modelBuilder.Entity<QuizChapter>(entity =>
             {
                 entity.HasNoKey();
@@ -442,29 +465,6 @@ namespace Quizpractice.Models
                     .HasForeignKey(d => d.QuizId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Quiz_Detail_Quiz");
-            });
-
-            modelBuilder.Entity<QuizQuestionDetail>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToTable("Quiz_Question_Detail");
-
-                entity.Property(e => e.IsCorrect).HasColumnName("isCorrect");
-
-                entity.Property(e => e.QuestionId).HasColumnName("questionId");
-
-                entity.Property(e => e.QuizDetailId).HasColumnName("quiz_detail_id");
-
-                entity.Property(e => e.SelectedAnswerId).HasColumnName("selected_answer_id");
-
-                entity.Property(e => e.TrueAnswerId).HasColumnName("true_answer_id");
-
-                entity.HasOne(d => d.QuizDetail)
-                    .WithMany()
-                    .HasForeignKey(d => d.QuizDetailId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Quiz_Question_Detail_Quiz_Detail");
             });
 
             modelBuilder.Entity<RegistrationSubject>(entity =>
