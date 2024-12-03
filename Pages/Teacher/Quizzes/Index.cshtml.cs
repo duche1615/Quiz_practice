@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Quizpractice.Services.IRepository;
+using Quizpractice.Services.Repository;
 using Quizpractice.ViewModels;
 
 namespace Quizpractice.Pages.Teacher.Quizzes
@@ -29,10 +30,28 @@ namespace Quizpractice.Pages.Teacher.Quizzes
                 Level = q.Level,
                 Description = q.Description,
                 Duration = (int)q.Duration,
-                Status = q.Status == true ? "Active" : "Inactive", 
+                Status = q.Active == true ? "Active" : "Inactive", 
                 TotalQues = q.TotalQues,              
             }).ToList();
             
+        }
+
+        public async Task<IActionResult> OnPostChangeQuizStatusAsync(int quizId)
+        {
+            var quiz = await _quizRepository.GetQuizByIdAsync(quizId);
+
+            if (quiz != null)
+            {
+                
+                quiz.Active = quiz.Active ?? false;
+
+                
+                quiz.Active = !quiz.Active;
+
+                await _quizRepository.UpdateQuizStatusAsync(quizId,quiz.Active.Value); 
+            }
+
+            return RedirectToPage(); 
         }
     }
 }

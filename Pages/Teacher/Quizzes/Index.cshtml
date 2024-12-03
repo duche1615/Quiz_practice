@@ -36,7 +36,11 @@
                 <td>
                     <a class="btn btn-info" asp-page="Details" asp-route-id="@quiz.QuizId">Details</a> 
                     <a>#</a>
-                    <a>#</a>
+                    <form method="post" asp-page-handler="ChangeQuizStatus" asp-route-quizId="@quiz.QuizId" class="d-inline">
+                        <button type="submit" class="btn btn-warning btn-sm">
+                            @(quiz.Status)
+                        </button>
+                    </form>
                 </td>
             </tr>
         }

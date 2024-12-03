@@ -5,7 +5,12 @@
     Layout = "~/Pages/Shared/_Layout_Teacher.cshtml";
 }
 <h1>Question List</h1>
-
+<form method="get">
+    <div class="form-group">
+        <input type="text" name="SearchTerm" value="@Model.SearchTerm" class="form-control" placeholder="Search by content..." />
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
 <p>
     <a asp-page="Create" class="btn btn-success">Create New</a>
 </p>
@@ -18,7 +23,6 @@
             <th>Multiple Choice</th>
             <th>Status</th>
             <th>Subject</th>
-            <th>Lesson</th>
             <th>Topic</th>
             <th>Action</th>
         </tr>
@@ -33,44 +37,20 @@
                 <td>@(question.IsMultipleChoice ? "Yes" : "No")</td>
                 <td>@(question.Status)</td>
                 <td>@question.SubjectName</td>
-                <td>@question.LessonName</td>
-                <td>@question.TopicName</td>
+                <td>@question.ChapterName</td>
                 <td>
                     <a class="btn btn-info btn-sm" asp-page="Details" asp-route-id="@question.Id">Details</a>
                     <a class="btn btn-info btn-sm">Edit</a>
-                    <a class="btn btn-info btn-sm">ChangeStatus</a>
+                    <form method="post" asp-page-handler="ChangeStatus" asp-route-questionId="@question.Id" class="d-inline">
+                        <button type="submit" class="btn btn-warning btn-sm">
+                            @(question.Status)
+                        </button>
+                    </form>
                 </td>
             </tr>
         }
     </tbody>
 </table>
-<div>
-    <nav>
-        <ul class="pagination">
-            <!-- Nút Previous -->
-            @if (Model.CurrentPage > 1)
-            {
-                <li class="page-item">
-                    <a class="page-link" asp-page="./Index" asp-route-currentPage="@((Model.CurrentPage - 1))">Previous</a>
-                </li>
-            }
 
-            <!-- Các số trang -->
-            @for (int i = 1; i <= Model.TotalPages; i++)
-            {
-                <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
-                    <a class="page-link" asp-page="./Index" asp-route-currentPage="@i">@i</a>
-                </li>
-            }
 
-            <!-- Nút Next -->
-            @if (Model.CurrentPage < Model.TotalPages)
-            {
-                <li class="page-item">
-                    <a class="page-link" asp-page="./Index" asp-route-currentPage="@((Model.CurrentPage + 1))">Next</a>
-                </li>
-            }
-        </ul>
-    </nav>
-</div>
 

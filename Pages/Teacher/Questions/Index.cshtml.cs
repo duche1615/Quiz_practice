@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Quizpractice.Models;
 using Quizpractice.Services.IRepository;
+using Quizpractice.Services.Repository;
 using Quizpractice.ViewModels;
 
 namespace Quizpractice.Pages.Questions
@@ -18,21 +19,28 @@ namespace Quizpractice.Pages.Questions
         
         }
         [BindProperty(SupportsGet = true)]
-        public int CurrentPage { get; set; } = 1; // Trang hiện tại
-        public int TotalPages { get; set; } // Tổng số trang
-        public int PageSize { get; set; } = 20; // Số câu hỏi trên mỗi trang
+        public string SearchTerm { get; set; } = string.Empty;      
+
         public IEnumerable<QuestionAnswerViewModel> Questions { get; set; }
         
         public async Task OnGetAsync()
         {
-            var questions = await _unitOfWork.Questions.GetAllQuestionsAsync();
+            
+            IEnumerable<Question> questions;
+            if (!string.IsNullOrWhiteSpace(SearchTerm))
+            {
+                questions = await _unitOfWork.Questions.SearchQuestionsByContentAsync(SearchTerm);
+            }
+            else
+            {
+                questions = await _unitOfWork.Questions.GetAllQuestionsAsync();
+            }
+            
             // Tính toán tổng số trang
-            var totalQuestions = questions.Count();
-            TotalPages = (int)Math.Ceiling(totalQuestions / (double)PageSize);
+            
 
             Questions = questions
-                .Skip((CurrentPage - 1) * PageSize) // Bỏ qua số câu hỏi trên trang trước
-                .Take(PageSize) // Lấy số câu hỏi trên trang hiện tại
+                
                 .Select(q => new QuestionAnswerViewModel
             {
                 Id = q.QuestionId,
@@ -40,11 +48,26 @@ namespace Quizpractice.Pages.Questions
                 Level = q.Level,
                 IsMultipleChoice = q.IsMultipleChoice ?? false,
                 Status = q.Status == true ? "Active" : "Inactive",
-                SubjectName = q.Subject?.SubjectName ?? "N/A",
-                LessonName = q.Lesson?.LessonName ?? "N/A",
-                TopicName = q.Topic?.Name ?? "N/A"
+                SubjectName = q.Subject?.SubjectName ?? "N/A",              
+                ChapterName = q.Chapter?.ChapterName ?? "N/A"
             }).ToList();
             
         }
+
+        public async Task<IActionResult> OnPostChangeStatusAsync(int questionId)
+        {
+            // Fetch the question and toggle its status
+            var question = await _unitOfWork.Questions.GetQuestionWithAnswersAsync(questionId);
+            if (question != null)
+            {
+                question.Status = question.Status ?? false; 
+                question.Status = !question.Status; 
+
+                await _unitOfWork.SaveAsync();
+            }
+
+            return RedirectToPage(); 
+        }
+
     }
 }

@@ -14,36 +14,25 @@ namespace Quizpractice.Models
         public SWP391_DBContext(DbContextOptions<SWP391_DBContext> options)
             : base(options)
         {
-
         }
 
         public virtual DbSet<Answer> Answers { get; set; } = null!;
-        public virtual DbSet<AnswerDetail> AnswerDetails { get; set; } = null!;
         public virtual DbSet<Blog> Blogs { get; set; } = null!;
-        public virtual DbSet<Category> Categories { get; set; } = null!;
-        public virtual DbSet<CustomerExam> CustomerExams { get; set; } = null!;
-        public virtual DbSet<CustomerExamDetail> CustomerExamDetails { get; set; } = null!;
-        public virtual DbSet<Dimension> Dimensions { get; set; } = null!;
-        public virtual DbSet<Exam> Exams { get; set; } = null!;
-        public virtual DbSet<ExamDetail> ExamDetails { get; set; } = null!;
-        public virtual DbSet<ExamType> ExamTypes { get; set; } = null!;
-        public virtual DbSet<Lesson> Lessons { get; set; } = null!;
+        public virtual DbSet<Chapter> Chapters { get; set; } = null!;
+        public virtual DbSet<Lesstion> Lesstions { get; set; } = null!;
         public virtual DbSet<Post> Posts { get; set; } = null!;
         public virtual DbSet<PostFile> PostFiles { get; set; } = null!;
         public virtual DbSet<PricePackage> PricePackages { get; set; } = null!;
         public virtual DbSet<Question> Questions { get; set; } = null!;
-        public virtual DbSet<QuestionDimension> QuestionDimensions { get; set; } = null!;
         public virtual DbSet<QuestionQuiz> QuestionQuizzes { get; set; } = null!;
         public virtual DbSet<Quiz> Quizzes { get; set; } = null!;
-        public virtual DbSet<QuizPoint> QuizPoints { get; set; } = null!;
+        public virtual DbSet<QuizAnswerDetail> QuizAnswerDetails { get; set; } = null!;
+        public virtual DbSet<QuizChapter> QuizChapters { get; set; } = null!;
+        public virtual DbSet<QuizDetail> QuizDetails { get; set; } = null!;
         public virtual DbSet<RegistrationSubject> RegistrationSubjects { get; set; } = null!;
         public virtual DbSet<Role> Roles { get; set; } = null!;
-        public virtual DbSet<Setting> Settings { get; set; } = null!;
-        public virtual DbSet<Slider> Sliders { get; set; } = null!;
         public virtual DbSet<Subject> Subjects { get; set; } = null!;
-        public virtual DbSet<SubjectDimension> SubjectDimensions { get; set; } = null!;
         public virtual DbSet<SubjectPrice> SubjectPrices { get; set; } = null!;
-        public virtual DbSet<Topic> Topics { get; set; } = null!;
         public virtual DbSet<Type> Types { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
 
@@ -84,43 +73,6 @@ namespace Quizpractice.Models
                     .HasConstraintName("FK_Answer_Question");
             });
 
-            modelBuilder.Entity<AnswerDetail>(entity =>
-            {
-                entity.ToTable("answerDetail");
-
-                entity.Property(e => e.Id).HasColumnName("id");
-
-                entity.Property(e => e.AnswerId).HasColumnName("answerId");
-
-                entity.Property(e => e.Attempt).HasColumnName("attempt");
-
-                entity.Property(e => e.QuestionId).HasColumnName("questionId");
-
-                entity.Property(e => e.QuizId).HasColumnName("quizId");
-
-                entity.Property(e => e.UserId).HasColumnName("userId");
-
-                entity.HasOne(d => d.Answer)
-                    .WithMany(p => p.AnswerDetails)
-                    .HasForeignKey(d => d.AnswerId)
-                    .HasConstraintName("FK__answerDet__answe__6EF57B66");
-
-                entity.HasOne(d => d.Question)
-                    .WithMany(p => p.AnswerDetails)
-                    .HasForeignKey(d => d.QuestionId)
-                    .HasConstraintName("FK__answerDet__quest__6FE99F9F");
-
-                entity.HasOne(d => d.Quiz)
-                    .WithMany(p => p.AnswerDetails)
-                    .HasForeignKey(d => d.QuizId)
-                    .HasConstraintName("FK__answerDet__quizI__70DDC3D8");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.AnswerDetails)
-                    .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__answerDet__userI__71D1E811");
-            });
-
             modelBuilder.Entity<Blog>(entity =>
             {
                 entity.ToTable("Blog");
@@ -142,249 +94,87 @@ namespace Quizpractice.Models
                     .HasColumnName("img");
             });
 
-            modelBuilder.Entity<Category>(entity =>
+            modelBuilder.Entity<Chapter>(entity =>
             {
-                entity.ToTable("Category");
+                entity.ToTable("Chapter");
 
-                entity.Property(e => e.CategoryId).HasColumnName("categoryId");
+                entity.Property(e => e.ChapterId).HasColumnName("chapterId");
 
-                entity.Property(e => e.CategoryName)
-                    .HasMaxLength(255)
-                    .HasColumnName("categoryName");
+                entity.Property(e => e.Active).HasColumnName("active");
 
-                entity.Property(e => e.Value)
-                    .HasMaxLength(255)
-                    .HasColumnName("value");
-            });
-
-            modelBuilder.Entity<CustomerExam>(entity =>
-            {
-                entity.HasKey(e => e.CeId)
-                    .HasName("PK__Customer__51ADD27C8AF1166C");
-
-                entity.ToTable("Customer_Exam");
-
-                entity.Property(e => e.CeId).HasColumnName("CE_id");
-
-                entity.Property(e => e.DateTaken)
-                    .HasColumnType("date")
-                    .HasColumnName("date_taken");
-
-                entity.Property(e => e.ExamId).HasColumnName("examId");
-
-                entity.Property(e => e.TimeExam).HasColumnName("time_exam");
-
-                entity.Property(e => e.UserId).HasColumnName("userId");
-
-                entity.HasOne(d => d.Exam)
-                    .WithMany(p => p.CustomerExams)
-                    .HasForeignKey(d => d.ExamId)
-                    .HasConstraintName("FK_Customer_Exam_Exam");
-            });
-
-            modelBuilder.Entity<CustomerExamDetail>(entity =>
-            {
-                entity.HasKey(e => e.CeId)
-                    .HasName("PK__Customer__51ADD27C728B7DE5");
-
-                entity.ToTable("Customer_Exam_Detail");
-
-                entity.Property(e => e.CeId)
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("CE_id");
-
-                entity.Property(e => e.AnswerId).HasColumnName("answerId");
-
-                entity.Property(e => e.QuestionId).HasColumnName("questionId");
-
-                entity.Property(e => e.Truth).HasColumnName("truth");
-
-                entity.HasOne(d => d.Ce)
-                    .WithOne(p => p.CustomerExamDetail)
-                    .HasForeignKey<CustomerExamDetail>(d => d.CeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Customer_Exam_Customer_Exam");
-
-                entity.HasOne(d => d.Question)
-                    .WithMany(p => p.CustomerExamDetails)
-                    .HasForeignKey(d => d.QuestionId)
-                    .HasConstraintName("FK_Customer_Exam_Detail_Question");
-            });
-
-            modelBuilder.Entity<Dimension>(entity =>
-            {
-                entity.HasKey(e => e.DimId);
-
-                entity.ToTable("Dimension");
-
-                entity.Property(e => e.DimId).HasColumnName("dimId");
-
-                entity.Property(e => e.Description)
-                    .HasMaxLength(255)
-                    .HasColumnName("description");
-
-                entity.Property(e => e.Name)
-                    .HasMaxLength(255)
-                    .HasColumnName("name");
-
-                entity.Property(e => e.TypeId)
+                entity.Property(e => e.ChapterName)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("typeId");
-
-                entity.HasOne(d => d.Type)
-                    .WithMany(p => p.Dimensions)
-                    .HasForeignKey(d => d.TypeId)
-                    .HasConstraintName("FK_Dimension_Type");
-            });
-
-            modelBuilder.Entity<Exam>(entity =>
-            {
-                entity.ToTable("Exam");
-
-                entity.Property(e => e.ExamId).HasColumnName("examId");
-
-                entity.Property(e => e.CategoryId).HasColumnName("categoryId");
+                    .HasColumnName("chapterName");
 
                 entity.Property(e => e.Content)
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("content");
 
-                entity.Property(e => e.CreatedDate)
-                    .HasColumnType("date")
-                    .HasColumnName("created_date")
-                    .HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.ExamTypeId)
+                entity.Property(e => e.Description)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("exam_typeId");
+                    .HasColumnName("description");
 
-                entity.Property(e => e.IsFree).HasColumnName("isFree");
-
-                entity.Property(e => e.Level)
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("level");
-
-                entity.Property(e => e.Number).HasColumnName("number");
-
-                entity.Property(e => e.PassRate).HasColumnName("passRate");
+                entity.Property(e => e.Public).HasColumnName("public");
 
                 entity.Property(e => e.SubId).HasColumnName("subId");
+
+                entity.HasOne(d => d.Sub)
+                    .WithMany(p => p.Chapters)
+                    .HasForeignKey(d => d.SubId)
+                    .HasConstraintName("FK_Lesson_Subject");
+            });
+
+            modelBuilder.Entity<Lesstion>(entity =>
+            {
+                entity.ToTable("Lesstion");
+
+                entity.Property(e => e.LesstionId).HasColumnName("lesstionId");
+
+                entity.Property(e => e.Backlink)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("backlink");
+
+                entity.Property(e => e.Chapterid).HasColumnName("chapterid");
+
+                entity.Property(e => e.Content)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("content");
+
+                entity.Property(e => e.LesstionUrl)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("lesstion_url");
+
+                entity.Property(e => e.Notes)
+                    .HasMaxLength(255)
+                    .IsUnicode(false)
+                    .HasColumnName("notes");
+
+                entity.Property(e => e.Public).HasColumnName("public");
+
+                entity.Property(e => e.Status).HasColumnName("status");
+
+                entity.Property(e => e.Subid).HasColumnName("subid");
 
                 entity.Property(e => e.Title)
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("title");
 
-                entity.Property(e => e.UpdatedDate)
-                    .HasColumnType("date")
-                    .HasColumnName("updated_date")
-                    .HasDefaultValueSql("(getdate())");
-
-                entity.Property(e => e.UserId).HasColumnName("userId");
-
-                entity.HasOne(d => d.Category)
-                    .WithMany(p => p.Exams)
-                    .HasForeignKey(d => d.CategoryId)
-                    .HasConstraintName("FK_Exam_Category");
-
-                entity.HasOne(d => d.ExamType)
-                    .WithMany(p => p.Exams)
-                    .HasForeignKey(d => d.ExamTypeId)
-                    .HasConstraintName("FK_Exam_Exam_Type");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.Exams)
-                    .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK_Exam_User");
-            });
-
-            modelBuilder.Entity<ExamDetail>(entity =>
-            {
-                entity.HasKey(e => e.ExamId)
-                    .HasName("PK__Exam_Det__A56D125F7B25D96A");
-
-                entity.ToTable("Exam_Detail");
-
-                entity.Property(e => e.ExamId)
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("examId");
-
-                entity.Property(e => e.QuesId).HasColumnName("quesId");
-
-                entity.HasOne(d => d.Exam)
-                    .WithOne(p => p.ExamDetail)
-                    .HasForeignKey<ExamDetail>(d => d.ExamId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Exam_Detail_Exam");
-
-                entity.HasOne(d => d.Ques)
-                    .WithMany(p => p.ExamDetails)
-                    .HasForeignKey(d => d.QuesId)
-                    .HasConstraintName("FK_Exam_Detail_Question");
-            });
-
-            modelBuilder.Entity<ExamType>(entity =>
-            {
-                entity.ToTable("Exam_Type");
-
-                entity.Property(e => e.ExamTypeId)
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("exam_typeId");
-
-                entity.Property(e => e.ExamTypeName)
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("exam_typeName");
-            });
-
-            modelBuilder.Entity<Lesson>(entity =>
-            {
-                entity.ToTable("Lesson");
-
-                entity.Property(e => e.LessonId).HasColumnName("lessonId");
-
-                entity.Property(e => e.Content)
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("content");
-
-                entity.Property(e => e.Description)
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("description");
-
-                entity.Property(e => e.LessonName)
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("lessonName");
-
-                entity.Property(e => e.Order).HasColumnName("order");
-
-                entity.Property(e => e.Status).HasColumnName("status");
-
-                entity.Property(e => e.SubId).HasColumnName("subId");
-
-                entity.Property(e => e.TopicId).HasColumnName("topicId");
-
-                entity.Property(e => e.TypeId)
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("typeId");
-
-                entity.Property(e => e.VideoUrl)
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("video_url");
+                entity.HasOne(d => d.Chapter)
+                    .WithMany(p => p.Lesstions)
+                    .HasForeignKey(d => d.Chapterid)
+                    .HasConstraintName("FK_Lesstion_Chapter");
 
                 entity.HasOne(d => d.Sub)
-                    .WithMany(p => p.Lessons)
-                    .HasForeignKey(d => d.SubId)
-                    .HasConstraintName("FK_Lesson_Subject");
+                    .WithMany(p => p.Lesstions)
+                    .HasForeignKey(d => d.Subid)
+                    .HasConstraintName("FK_Lesstion_Subject");
             });
 
             modelBuilder.Entity<Post>(entity =>
@@ -492,8 +282,6 @@ namespace Quizpractice.Models
 
                 entity.Property(e => e.Price).HasColumnName("price");
 
-                entity.Property(e => e.SalePrice).HasColumnName("salePrice");
-
                 entity.Property(e => e.Status).HasColumnName("status");
             });
 
@@ -503,63 +291,31 @@ namespace Quizpractice.Models
 
                 entity.Property(e => e.QuestionId).HasColumnName("questionId");
 
+                entity.Property(e => e.ChapterId).HasColumnName("chapterId");
+
                 entity.Property(e => e.Content)
                     .HasMaxLength(255)
                     .HasColumnName("content");
 
-                entity.Property(e => e.DimmensionId).HasColumnName("dimmensionId");
-
                 entity.Property(e => e.IsMultipleChoice).HasColumnName("isMultipleChoice");
-
-                entity.Property(e => e.LessonId).HasColumnName("lessonId");
 
                 entity.Property(e => e.Level)
                     .HasMaxLength(255)
                     .HasColumnName("level");
 
-                entity.Property(e => e.QuizId).HasColumnName("quizId");
-
                 entity.Property(e => e.Status).HasColumnName("status");
 
                 entity.Property(e => e.SubjectId).HasColumnName("subjectId");
 
-                entity.Property(e => e.TopicId).HasColumnName("topicId");
-
-                entity.HasOne(d => d.Lesson)
+                entity.HasOne(d => d.Chapter)
                     .WithMany(p => p.Questions)
-                    .HasForeignKey(d => d.LessonId)
+                    .HasForeignKey(d => d.ChapterId)
                     .HasConstraintName("FK_Question_Lesson");
 
                 entity.HasOne(d => d.Subject)
                     .WithMany(p => p.Questions)
                     .HasForeignKey(d => d.SubjectId)
                     .HasConstraintName("FK_Question_Subject");
-
-                entity.HasOne(d => d.Topic)
-                    .WithMany(p => p.Questions)
-                    .HasForeignKey(d => d.TopicId)
-                    .HasConstraintName("FK_Question_Topic");
-            });
-
-            modelBuilder.Entity<QuestionDimension>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToTable("QuestionDimension");
-
-                entity.Property(e => e.DimId).HasColumnName("dimId");
-
-                entity.Property(e => e.QuestionId).HasColumnName("questionId");
-
-                entity.HasOne(d => d.Dim)
-                    .WithMany()
-                    .HasForeignKey(d => d.DimId)
-                    .HasConstraintName("FK_QuestionDimension_Dimension");
-
-                entity.HasOne(d => d.Question)
-                    .WithMany()
-                    .HasForeignKey(d => d.QuestionId)
-                    .HasConstraintName("FK_QuestionDimension_Question");
             });
 
             modelBuilder.Entity<QuestionQuiz>(entity =>
@@ -591,6 +347,8 @@ namespace Quizpractice.Models
 
                 entity.Property(e => e.QuizId).HasColumnName("quizId");
 
+                entity.Property(e => e.Active).HasColumnName("active");
+
                 entity.Property(e => e.Attempt).HasColumnName("attempt");
 
                 entity.Property(e => e.Description)
@@ -599,29 +357,24 @@ namespace Quizpractice.Models
 
                 entity.Property(e => e.Duration).HasColumnName("duration");
 
-                entity.Property(e => e.EndTime).HasColumnName("end_time");
-
-                entity.Property(e => e.HasJoin).HasColumnName("hasJoin");
-
-                entity.Property(e => e.ImgUrl)
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("img_url");
-
-                entity.Property(e => e.LessonId).HasColumnName("lessonId");
+                entity.Property(e => e.EndTime)
+                    .HasColumnType("datetime")
+                    .HasColumnName("end_time");
 
                 entity.Property(e => e.Level)
                     .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("level");
 
+                entity.Property(e => e.PassPercent).HasColumnName("pass_percent");
+
+                entity.Property(e => e.Public).HasColumnName("public");
+
                 entity.Property(e => e.QuesId).HasColumnName("quesId");
 
-                entity.Property(e => e.Rate).HasColumnName("rate");
-
-                entity.Property(e => e.StartTime).HasColumnName("start_time");
-
-                entity.Property(e => e.Status).HasColumnName("status");
+                entity.Property(e => e.StartTime)
+                    .HasColumnType("datetime")
+                    .HasColumnName("start_time");
 
                 entity.Property(e => e.SubId).HasColumnName("subId");
 
@@ -632,59 +385,86 @@ namespace Quizpractice.Models
 
                 entity.Property(e => e.TotalQues).HasColumnName("totalQues");
 
-                entity.Property(e => e.TypeId)
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("typeId");
-
-                entity.Property(e => e.UserId).HasColumnName("userId");
-
-                entity.HasOne(d => d.Lesson)
-                    .WithMany(p => p.Quizzes)
-                    .HasForeignKey(d => d.LessonId)
-                    .HasConstraintName("FK_Quiz_Lesson");
+                entity.Property(e => e.UserCreateId).HasColumnName("user_create_id");
 
                 entity.HasOne(d => d.Sub)
                     .WithMany(p => p.Quizzes)
                     .HasForeignKey(d => d.SubId)
                     .HasConstraintName("FK_Quiz_Subject");
 
-                entity.HasOne(d => d.Type)
+                entity.HasOne(d => d.UserCreate)
                     .WithMany(p => p.Quizzes)
-                    .HasForeignKey(d => d.TypeId)
-                    .HasConstraintName("FK_Quiz_Type");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.Quizzes)
-                    .HasForeignKey(d => d.UserId)
+                    .HasForeignKey(d => d.UserCreateId)
                     .HasConstraintName("FK_Quiz_User");
             });
 
-            modelBuilder.Entity<QuizPoint>(entity =>
+            modelBuilder.Entity<QuizAnswerDetail>(entity =>
             {
                 entity.HasNoKey();
 
-                entity.ToTable("QUIZ_POINT");
+                entity.ToTable("Quiz_Answer_Detail");
 
-                entity.Property(e => e.Attempt).HasColumnName("attempt");
+                entity.Property(e => e.IsCorrect).HasColumnName("isCorrect");
 
-                entity.Property(e => e.Id)
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("id");
+                entity.Property(e => e.QuestionId).HasColumnName("questionId");
 
-                entity.Property(e => e.NumQuesTrue).HasColumnName("numQuesTrue");
+                entity.Property(e => e.QuizDetailId).HasColumnName("quiz_detail_id");
 
-                entity.Property(e => e.Point).HasColumnName("point");
+                entity.Property(e => e.SelectedAnswerId).HasColumnName("selected_answer_id");
 
-                entity.Property(e => e.PointPercent).HasColumnName("pointPercent");
+                entity.Property(e => e.TrueAnswerId).HasColumnName("true_answer_id");
+
+                entity.HasOne(d => d.QuizDetail)
+                    .WithMany()
+                    .HasForeignKey(d => d.QuizDetailId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Quiz_Question_Detail_Quiz_Detail");
+            });
+
+            modelBuilder.Entity<QuizChapter>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("Quiz_Chapter");
+
+                entity.Property(e => e.Chapterid).HasColumnName("chapterid");
+
+                entity.Property(e => e.Quizid).HasColumnName("quizid");
+
+                entity.HasOne(d => d.Chapter)
+                    .WithMany()
+                    .HasForeignKey(d => d.Chapterid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Quiz_Chapter_Chapter");
+
+                entity.HasOne(d => d.Quiz)
+                    .WithMany()
+                    .HasForeignKey(d => d.Quizid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Quiz_Chapter_Quiz");
+            });
+
+            modelBuilder.Entity<QuizDetail>(entity =>
+            {
+                entity.ToTable("Quiz_Detail");
+
+                entity.Property(e => e.QuizDetailId).HasColumnName("quiz_detail_id");
 
                 entity.Property(e => e.QuizId).HasColumnName("quizId");
 
+                entity.Property(e => e.Score).HasColumnName("score");
+
                 entity.Property(e => e.TakenDate)
-                    .HasColumnType("date")
+                    .HasColumnType("datetime")
                     .HasColumnName("taken_date");
 
                 entity.Property(e => e.UserId).HasColumnName("userId");
+
+                entity.HasOne(d => d.Quiz)
+                    .WithMany(p => p.QuizDetails)
+                    .HasForeignKey(d => d.QuizId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Quiz_Detail_Quiz");
             });
 
             modelBuilder.Entity<RegistrationSubject>(entity =>
@@ -703,10 +483,7 @@ namespace Quizpractice.Models
                     .HasColumnName("regis_Date")
                     .HasDefaultValueSql("(getdate())");
 
-                entity.Property(e => e.Statis)
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("statis");
+                entity.Property(e => e.Status).HasColumnName("status");
 
                 entity.Property(e => e.SubId).HasColumnName("subId");
 
@@ -739,92 +516,11 @@ namespace Quizpractice.Models
                     .HasColumnName("roleName");
             });
 
-            modelBuilder.Entity<Setting>(entity =>
-            {
-                entity.ToTable("Setting");
-
-                entity.Property(e => e.SettingId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("settingId");
-
-                entity.Property(e => e.Description)
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("description");
-
-                entity.Property(e => e.Name)
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("name");
-
-                entity.Property(e => e.Status).HasColumnName("status");
-
-                entity.Property(e => e.TypeId)
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("typeId");
-
-                entity.Property(e => e.Value)
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("value");
-
-                entity.HasOne(d => d.Type)
-                    .WithMany(p => p.Settings)
-                    .HasForeignKey(d => d.TypeId)
-                    .HasConstraintName("FK_Setting_Type");
-            });
-
-            modelBuilder.Entity<Slider>(entity =>
-            {
-                entity.ToTable("Slider");
-
-                entity.Property(e => e.SliderId).HasColumnName("sliderId");
-
-                entity.Property(e => e.Backlink)
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("backlink");
-
-                entity.Property(e => e.Content)
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("content");
-
-                entity.Property(e => e.IsShow).HasColumnName("isShow");
-
-                entity.Property(e => e.Notes)
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("notes");
-
-                entity.Property(e => e.SliderUrl)
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("slider_url");
-
-                entity.Property(e => e.Status).HasColumnName("status");
-
-                entity.Property(e => e.SubId).HasColumnName("subId");
-
-                entity.Property(e => e.Title)
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("title");
-
-                entity.HasOne(d => d.Sub)
-                    .WithMany(p => p.Sliders)
-                    .HasForeignKey(d => d.SubId)
-                    .HasConstraintName("FK_Slider_Subject");
-            });
-
             modelBuilder.Entity<Subject>(entity =>
             {
                 entity.ToTable("Subject");
 
                 entity.Property(e => e.SubjectId).HasColumnName("subjectId");
-
-                entity.Property(e => e.CategoryId).HasColumnName("categoryId");
 
                 entity.Property(e => e.Description)
                     .HasMaxLength(255)
@@ -845,34 +541,6 @@ namespace Quizpractice.Models
                 entity.Property(e => e.Title)
                     .HasMaxLength(255)
                     .HasColumnName("title");
-
-                entity.HasOne(d => d.Category)
-                    .WithMany(p => p.Subjects)
-                    .HasForeignKey(d => d.CategoryId)
-                    .HasConstraintName("FK_Subject_Category");
-            });
-
-            modelBuilder.Entity<SubjectDimension>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToTable("SubjectDimension");
-
-                entity.Property(e => e.DimId).HasColumnName("dimId");
-
-                entity.Property(e => e.SubjectId).HasColumnName("subjectId");
-
-                entity.HasOne(d => d.Dim)
-                    .WithMany()
-                    .HasForeignKey(d => d.DimId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_SubjectDimension_Dimension");
-
-                entity.HasOne(d => d.Subject)
-                    .WithMany()
-                    .HasForeignKey(d => d.SubjectId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_SubjectDimension_Subject");
             });
 
             modelBuilder.Entity<SubjectPrice>(entity =>
@@ -894,22 +562,6 @@ namespace Quizpractice.Models
                     .WithMany()
                     .HasForeignKey(d => d.SubjectId)
                     .HasConstraintName("FK_SubjectPrice_Subject");
-            });
-
-            modelBuilder.Entity<Topic>(entity =>
-            {
-                entity.ToTable("Topic");
-
-                entity.Property(e => e.TopicId).HasColumnName("topicId");
-
-                entity.Property(e => e.Name)
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("name");
-
-                entity.Property(e => e.Status).HasColumnName("status");
-
-                entity.Property(e => e.SubId).HasColumnName("subId");
             });
 
             modelBuilder.Entity<Type>(entity =>

@@ -11,8 +11,7 @@ namespace Quizpractice.ViewModels
         public bool IsMultipleChoice { get; set; }
         public string? Status { get; set; }
         public string? SubjectName { get; set; }
-        public string? LessonName { get; set; }
-        public string? TopicName { get; set; }
+        public string? ChapterName { get; set; }
         public List<AnswerViewModel> Answers { get; set; }
     }
 }

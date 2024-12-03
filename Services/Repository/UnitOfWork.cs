@@ -6,7 +6,8 @@ namespace Quizpractice.Services.Repository
     public class UnitOfWork : IUnitOfWork
     {
         private readonly SWP391_DBContext _context;
-
+        public IQuestionRepository Questions { get; private set; }
+        public IAnswerRepository Answers { get; private set; }
         public UnitOfWork(SWP391_DBContext context)
         {
             _context = context;
@@ -14,8 +15,7 @@ namespace Quizpractice.Services.Repository
             Answers = new AnswerRepository(_context);
         }
 
-        public IQuestionRepository Questions { get; private set; }
-        public IAnswerRepository Answers { get; private set; }
+        
 
         public async Task SaveAsync()
         {
