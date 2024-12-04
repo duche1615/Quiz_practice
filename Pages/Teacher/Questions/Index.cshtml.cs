@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Quizpractice.Models;
@@ -8,6 +9,7 @@ using Quizpractice.ViewModels;
 
 namespace Quizpractice.Pages.Questions
 {
+    //[Authorize(Roles = "Teacher")]
     public class IndexModel : PageModel
     {
         private readonly IUnitOfWork _unitOfWork;
