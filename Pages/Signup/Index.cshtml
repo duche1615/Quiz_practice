@@ -1,0 +1,70 @@
+﻿@page
+@model Quizpractice.Pages.Signup.IndexModel
+@{
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng ký</title>
+    <link rel="stylesheet" href="~/css/styles.css" />
+</head>
+<body>
+    <div class="container">
+        <h2>Đăng ký tài khoản</h2>
+        <form method="post">
+            <div class="form-group">
+                <label for="Username">Tên người dùng</label>
+                <input type="text" id="Username" name="Username" class="form-control" required />
+            </div>
+
+            <div class="form-group">
+                <label for="Password">Mật khẩu</label>
+                <input type="password" id="Password" name="Password" class="form-control" required />
+            </div>
+
+            <div class="form-group">
+                <label for="ConfirmPassword">Xác nhận mật khẩu</label>
+                <input type="password" id="ConfirmPassword" name="ConfirmPassword" class="form-control" required />
+            </div>
+
+            <div class="form-group">
+                <label for="Email">Email</label>
+                <input type="email" id="Email" name="Email" class="form-control" required />
+            </div>
+
+            <div class="form-group">
+                <label for="Phone">Số điện thoại</label>
+                <input type="text" id="Phone" name="Phone" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label for="Fullname">Họ và tên</label>
+                <input type="text" id="Fullname" name="Fullname" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label for="Address">Địa chỉ</label>
+                <input type="text" id="Address" name="Address" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label>Giới tính</label><br />
+                <input type="radio" id="Male" name="Gender" value="true" /> Nam
+                <input type="radio" id="Female" name="Gender" value="false" /> Nữ
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Đăng ký</button>
+            </div>
+
+            @if (Model.ErrorMessage != null)
+            {
+                <div class="alert alert-danger">@Model.ErrorMessage</div>
+            }
+        </form>
+    </div>
+</body>
+</html>

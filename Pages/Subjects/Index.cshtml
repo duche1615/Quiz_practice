@@ -1,0 +1,69 @@
+﻿@page
+@model Quizpractice.Pages.Subjects.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Subject[0].SubjectName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Subject[0].Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Subject[0].Thumbnail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Subject[0].Chapters)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Subject[0].Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Subject[0].Status)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Subject)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SubjectName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    <img src="@item.Thumbnail"></img>
+                </td>
+                <td>
+                    <a style="align-items:center">@Model.Chapters.Where(c => c.SubId == item.SubjectId).ToList().Count</a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    <a>@(item.Status == true ? "Active" : "Inactive")</a>
+                </td>
+
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.SubjectId">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.SubjectId">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.SubjectId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

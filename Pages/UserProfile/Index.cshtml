@@ -1,0 +1,129 @@
+﻿@page
+@model Quizpractice.Pages.UserProfile.IndexModel
+@{
+    ViewData["Title"] = "User Profile";
+}
+
+<div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="profileModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="profileModalLabel">Chỉnh sửa thông tin cá nhân</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="Fullname">Tên đầy đủ</label>
+                        <input type="text" id="Fullname" name="Fullname" class="form-control" value="@Model.User.Fullname" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Phone">Số điện thoại</label>
+                        <input type="text" id="Phone" name="Phone" class="form-control" value="@Model.User.Phone" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Gender">Giới tính</label>
+                        @if (Model.User.Gender == true)
+                        {
+                            <select id="Gender" name="Gender" class="form-control" required>
+                                <option value="true" selected>Nam</option>
+                                <option value="false">Nữ</option>
+                            </select>
+                        }
+                        else
+                        {
+                            <select id="Gender" name="Gender" class="form-control" required>
+                                <option value="true">Nam</option>
+                                <option value="false" selected>Nữ</option>
+                            </select>
+                        }
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Address">Địa chỉ</label>
+                        <input type="text" id="Address" name="Address" class="form-control" value="@Model.User.Address" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Avatar">Avatar</label>
+                        <input type="file" id="Avatar" name="Avatar" class="form-control" />
+                        @if (!string.IsNullOrEmpty(Model.User.Avatar))
+                        {
+                            <img src="@Model.User.Avatar" alt="Avatar" class="img-thumbnail mt-2" style="max-width: 100px;" />
+                        }
+                    </div>
+
+                    <div class="form-group">
+                        <label for="Email">Email</label>
+                        <input type="email" id="Email" name="Email" class="form-control" value="@Model.User.Email" readonly />
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Cập nhật</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#profileModal">
+    Chỉnh sửa thông tin
+</button>
+
+<div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="changePasswordModalLabel">Đổi mật khẩu</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" asp-page-handler="ChangePassword">
+                    <div class="form-group">
+                        <label for="CurrentPassword">Mật khẩu hiện tại</label>
+                        <input type="password" id="CurrentPassword" name="CurrentPassword" class="form-control" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="NewPassword">Mật khẩu mới</label>
+                        <input type="password" id="NewPassword" name="NewPassword" class="form-control" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ConfirmNewPassword">Nhập lại mật khẩu mới</label>
+                        <input type="password" id="ConfirmNewPassword" name="ConfirmNewPassword" class="form-control" required />
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Đổi mật khẩu</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#changePasswordModal">
+    Đổi mật khẩu
+</button>
+
+@if (Model.ErrorMessage != null)
+{
+    <div class="alert alert-danger">@Model.ErrorMessage</div>
+}
+
+<script>
+    $(document).ready(function () {
+        var userExists = '@Model.User != null';
+        if (userExists === 'True') {
+            $('#profileModal').modal('show');
+        }
+    });
+</script>
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
