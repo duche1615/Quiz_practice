@@ -16,10 +16,14 @@ namespace Quizpractice.Pages
         // Thêm một thuộc tính để lưu tên người dùng
         public string? UserName { get; set; }
 
-        public void OnGet()
+        public IActionResult OnGet()
         {
-            // Lấy tên người dùng từ session
-            UserName = HttpContext.Session.GetString("Username");
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToPage("/Users/Login");  
+            }
+            UserName = "User";
+            return Page();
         }
     }
 }
