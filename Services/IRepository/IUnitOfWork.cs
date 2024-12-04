@@ -4,6 +4,7 @@
     {
         IQuestionRepository Questions { get; }
         IAnswerRepository Answers { get; }
+        ISubjectRepository Subjects { get; }
         Task SaveAsync();
     }
 }

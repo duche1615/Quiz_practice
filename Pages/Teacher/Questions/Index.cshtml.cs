@@ -11,37 +11,50 @@ namespace Quizpractice.Pages.Questions
     public class IndexModel : PageModel
     {
         private readonly IUnitOfWork _unitOfWork;
-        
 
         public IndexModel(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-        
+
         }
         [BindProperty(SupportsGet = true)]
-        public string SearchTerm { get; set; } = string.Empty;      
+        public string SearchTerm { get; set; } = string.Empty;
+        [BindProperty(SupportsGet = true)]
+        public int CurrentPage { get; set; } = 1;
 
+        [BindProperty(SupportsGet = true)]
+        public int PageSize { get; set; } = 10;
+
+        public int TotalPages { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public int? SelectedSubjectId { get; set; } 
+
+        public IEnumerable<Subject> Subjects { get; set; } 
         public IEnumerable<QuestionAnswerViewModel> Questions { get; set; }
         
         public async Task OnGetAsync()
         {
-            
+            Subjects = await _unitOfWork.Subjects.GetAllSubjects();
             IEnumerable<Question> questions;
-            if (!string.IsNullOrWhiteSpace(SearchTerm))
+
+            if (SelectedSubjectId.HasValue && SelectedSubjectId > 0)
             {
-                questions = await _unitOfWork.Questions.SearchQuestionsByContentAsync(SearchTerm);
+                var totalQuestions = await _unitOfWork.Questions.GetTotalQuestionsCountAsync(SelectedSubjectId.Value, SearchTerm);
+                TotalPages = (int)Math.Ceiling(totalQuestions / (double)PageSize);
+
+                questions = await _unitOfWork.Questions.GetAllQuestionsWithPaginationAsync(SelectedSubjectId.Value, CurrentPage, PageSize, SearchTerm);
             }
             else
             {
-                questions = await _unitOfWork.Questions.GetAllQuestionsAsync();
-            }
-            
-            // Tính toán tổng số trang
-            
+                var totalQuestions = await _unitOfWork.Questions.GetTotalQuestionsCountAsync(0,SearchTerm);
+                TotalPages = (int)Math.Ceiling(totalQuestions / (double)PageSize);
 
-            Questions = questions
-                
-                .Select(q => new QuestionAnswerViewModel
+                questions = await _unitOfWork.Questions.GetAllQuestionsWithPaginationAsync(0,CurrentPage, PageSize, SearchTerm);
+            }
+
+
+            Questions = questions.Select(q => new QuestionAnswerViewModel
             {
                 Id = q.QuestionId,
                 Content = q.Content,

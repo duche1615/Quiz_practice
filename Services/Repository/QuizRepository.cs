@@ -17,6 +17,50 @@ namespace Quizpractice.Services.Repository
             return await GetAllAsync();
         }
 
+        public async Task<IEnumerable<Quiz>> GetQuizzesWithPaginationAsync(int subjectId, int pageNumber, int pageSize, string searchTerm = "")
+        {
+            var query = _context.Quizzes.AsQueryable();
+
+           
+            if (subjectId > 0)
+            {
+                query = query.Where(q => q.SubId == subjectId);
+            }
+
+            
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                query = query.Where(q => q.Title.Contains(searchTerm) || q.Description.Contains(searchTerm));
+            }
+
+            
+            return await query
+                .Skip((pageNumber - 1) * pageSize)  
+                .Take(pageSize)                    
+                .Include(q => q.Sub)           
+                .ToListAsync();                     
+        }
+
+        
+        public async Task<int> GetTotalQuizzesCountAsync(int subjectId, string searchTerm = "")
+        {
+            var query = _context.Quizzes.AsQueryable();
+
+            
+            if (subjectId > 0)
+            {
+                query = query.Where(q => q.SubId == subjectId);
+            }
+
+            
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                query = query.Where(q => q.Title.Contains(searchTerm) || q.Description.Contains(searchTerm));
+            }
+
+            return await query.CountAsync(); 
+        }
+
         public async Task<Quiz> GetQuizByIdAsync(int quizId)
         {
             return await GetByIdAsync(quizId);
