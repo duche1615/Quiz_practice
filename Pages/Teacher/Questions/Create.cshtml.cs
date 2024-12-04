@@ -9,20 +9,24 @@ namespace Quizpractice.Pages.Questions
     public class CreateModel : PageModel
     {
         private readonly IUnitOfWork _unitOfWork;
+  
 
-        public CreateModel(IUnitOfWork unitOfWork)
+        public CreateModel(IUnitOfWork unitOfWork, ISubjectRepository subjectRepository)
         {
             _unitOfWork = unitOfWork;
+            
         }
 
         [BindProperty]
         public QuestionAnswerViewModel QuestionAnswer { get; set; }
 
-        public void OnGet()
+        public async void OnGet()
         {
+            
             // create answer mặc định
             QuestionAnswer = new QuestionAnswerViewModel
             {
+                
                 Answers = new List<AnswerViewModel>
             {
                 new AnswerViewModel(),
@@ -31,20 +35,29 @@ namespace Quizpractice.Pages.Questions
                 new AnswerViewModel()
             }
             };
+            QuestionAnswer.Subjects = await _unitOfWork.Subjects.GetAllSubjects();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
             {
+                QuestionAnswer.Subjects = await _unitOfWork.Subjects.GetAllSubjects();
                 return Page(); 
+            }
+            if (QuestionAnswer.SubjectId == null || QuestionAnswer.SubjectId <= 0)
+            {
+                ModelState.AddModelError(string.Empty, "Please select a subject for the question.");
+                QuestionAnswer.Subjects = await _unitOfWork.Subjects.GetAllSubjects();
+                return Page();
             }
             if (!QuestionAnswer.IsMultipleChoice)
             {
                 var correctAnswers = QuestionAnswer.Answers.Count(a => a.Correct);
                 if (correctAnswers != 1)
                 {
-                    ModelState.AddModelError(string.Empty, "chose one answer please");
+                    ModelState.AddModelError(string.Empty, "Please choose one correct answer.");
+                    QuestionAnswer.Subjects = await _unitOfWork.Subjects.GetAllSubjects();
                     return Page();
                 }
             }
@@ -53,7 +66,8 @@ namespace Quizpractice.Pages.Questions
                 var correctAnswers = QuestionAnswer.Answers.Count(a => a.Correct);
                 if (correctAnswers < 2)
                 {
-                    ModelState.AddModelError(string.Empty, "chose more two answer please");
+                    ModelState.AddModelError(string.Empty, "Please choose at least two correct answers.");
+                    QuestionAnswer.Subjects = await _unitOfWork.Subjects.GetAllSubjects();
                     return Page(); 
                 }
             }
@@ -61,11 +75,9 @@ namespace Quizpractice.Pages.Questions
             var question = new Question
             {
                 Content = QuestionAnswer.Content,
-                //SubjectId = QuestionAnswer.SubjectId,
-                //LessonId = QuestionAnswer.LessonId,
-                //TopicId = QuestionAnswer.TopicId,
                 Status =true,
                 Level = QuestionAnswer.Level,
+                SubjectId = QuestionAnswer.SubjectId.Value,
                 IsMultipleChoice = QuestionAnswer.IsMultipleChoice
             };
 

@@ -13,7 +13,19 @@
         </div>
     }
     <div class="mb-3">
-        <label class="form-label">Content</label>
+        <label class="form-label">Subject</label>
+        <select class="form-select" asp-for="QuestionAnswer.SubjectId">
+            <option value="">-- Select a Subject --</option>
+            @foreach (var subject in Model.QuestionAnswer.Subjects)
+            {
+                <option value="@subject.SubjectId">@subject.SubjectName</option>
+            }
+        </select>
+        <span asp-validation-for="QuestionAnswer.SubjectId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Content</label>        
         <textarea class="form-control" asp-for="QuestionAnswer.Content"></textarea>
         <span asp-validation-for="QuestionAnswer.Content" class="text-danger"></span>
     </div>
@@ -32,21 +44,18 @@
         <input type="checkbox" asp-for="QuestionAnswer.IsMultipleChoice" />
     </div>
 
-    <h3>Đáp án</h3>
+    <h3>Answers</h3>
     <div>
-        @if (Model.QuestionAnswer.Answers != null)
+        @for (int i = 0; i < Model.QuestionAnswer.Answers.Count; i++)
         {
-            @for (int i = 0; i < Model.QuestionAnswer.Answers.Count; i++)
-            {
-                <div class="mb-3">
-                    <label class="form-label">Đáp án @(i+1)</label>
-                    <input class="form-control" name="QuestionAnswer.Answers[@i].Content"/>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" name="QuestionAnswer.Answers[@i].Correct" value="true" />
-                        <label class="form-check-label">True</label>
-                    </div>
+            <div class="mb-3">
+                <label class="form-label">Answer @(i + 1)</label>
+                <input class="form-control" name="QuestionAnswer.Answers[@i].Content" />
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="QuestionAnswer.Answers[@i].Correct" value="true" />
+                    <label class="form-check-label">Correct</label>
                 </div>
-            }
+            </div>
         }
         
     </div>

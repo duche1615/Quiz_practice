@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Quizpractice.Models;
 using Quizpractice.Services.IRepository;
+using System.Drawing.Printing;
 
 namespace Quizpractice.Services.Repository
 {
@@ -11,12 +12,26 @@ namespace Quizpractice.Services.Repository
         {
             _context = context;
         }
-        public async Task<IEnumerable<Question>> GetAllQuestionsAsync()
+        public async Task<IEnumerable<Question>> GetAllQuestionsWithPaginationAsync(int subjectId,int pageNumber, int pageSize, string searchTerm = "")
         {
-            return await _context.Questions
+            
+            var query =  _context.Questions
                 .Include(q => q.Chapter)
-                .Include(q => q.Subject)
+                .Include(q => q.Subject)                
+                .AsQueryable();
+            if (subjectId > 0)
+            {
+                query = query.Where(q => q.SubjectId == subjectId);
+            }
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                query = query.Where(q => q.Content.Contains(searchTerm));
+            }
+            return await query
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
                 .ToListAsync();
+
         }
         public async Task<Question> GetQuestionWithAnswersAsync(int questionId)
         {
@@ -50,6 +65,23 @@ namespace Quizpractice.Services.Repository
                 question.Status = newStatus;
                 await _context.SaveChangesAsync();
             }
+        }
+
+        public async Task<int> GetTotalQuestionsCountAsync(int subjectId, string searchTerm = "")
+        {
+            var query = _context.Questions.AsQueryable();
+
+            if (subjectId > 0)
+            {
+                query = query.Where(q => q.SubjectId == subjectId);
+            }
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                query = query.Where(q => q.Content.Contains(searchTerm));
+            }
+
+            return await query.CountAsync();
         }
 
     }
