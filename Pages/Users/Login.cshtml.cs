@@ -54,7 +54,7 @@ namespace Quizpractice.Pages.Users
             }
             else if (user.RoleId == 2) // Learner
             {
-                return RedirectToPage("/Learner//Index");
+                return RedirectToPage("/Quizs/Index");
             }
             else if (user.RoleId == 3) // Teacher
             {
