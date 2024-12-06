@@ -82,9 +82,7 @@ namespace Quizpractice.Services.Repository
             }
 
             return await query.CountAsync();
-        }
+        }       
 
     }
-
-
 }

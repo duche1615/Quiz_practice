@@ -9,12 +9,14 @@ namespace Quizpractice.Services.Repository
         public IQuestionRepository Questions { get; private set; }
         public IAnswerRepository Answers { get; private set; }
         public ISubjectRepository Subjects { get; private set; }
+        public IChapterRepository Chapters { get; private set; }
         public UnitOfWork(SWP391_DBContext context)
         {
             _context = context;
             Questions = new QuestionRepository(_context);
             Answers = new AnswerRepository(_context);
             Subjects = new SubjectRepository(_context);
+            Chapters = new ChapterRepository(_context);
         }
 
         
