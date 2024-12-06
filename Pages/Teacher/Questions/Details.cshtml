@@ -3,32 +3,40 @@
 @{
     Layout = "~/Pages/Shared/_Layout_Teacher.cshtml";
 }
-<h1>Question Details</h1>
 
-<div>
-    <h2>Question Content</h2>
-    <p>@Model.Question.Content</p>
-</div>
+<h1 class="text-center mb-4">Question Details</h1>
 
-<div>
-    <h2>Detailed Information</h2>
-    <p><strong>Subject:</strong> @Model.Question.Subject?.SubjectName</p>
-    <p><strong>Chapter:</strong> @Model.Question.Chapter?.ChapterName</p>
-</div>
+<div class="container">
+    <div class="card shadow-lg p-4">
+        <div class="mb-4">
+            <h2>Question Content</h2>
+            <p>@Model.Question.Content</p>
+        </div>
 
-<div>
-    <h2>Answers</h2>
-    <ul>
-        @foreach (var answer in Model.Question.Answers)
-        {
-            <li>
-                @answer.Content @if (answer.Correct == true)
+        <div class="mb-4">
+            <h3>Detailed Information</h3>
+            <p><strong>Subject:</strong> @Model.Question.Subject?.SubjectName</p>
+            <p><strong>Chapter:</strong> @Model.Question.Chapter?.ChapterName</p>
+        </div>
+
+        <div class="mb-4">
+            <h3>Answers</h3>
+            <ul class="list-unstyled">
+                @foreach (var answer in Model.Question.Answers)
                 {
-                    <strong>(Correct)</strong>
+                    <li>
+                        @answer.Content
+                        @if (answer.Correct == true)
+                        {
+                            <strong class="text-success">(Correct)</strong>
+                        }
+                    </li>
                 }
-            </li>
-        }
-    </ul>
-</div>
+            </ul>
+        </div>
 
-<a class="btn btn-secondary" asp-page="Index">Back to List</a>
+        <div class="text-center">
+            <a class="btn btn-secondary" asp-page="Index">Back to List</a>
+        </div>
+    </div>
+</div>

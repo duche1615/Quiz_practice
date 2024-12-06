@@ -3,7 +3,7 @@ using Quizpractice.ViewModels;
 
 namespace Quizpractice.Services.IRepository
 {
-    public interface IUserRepository
+    public interface IUserRepository:IBaseRepository<User>
     {
         Task<User> FindById(int value);
         Task<List<User>> GetAllUsers();
