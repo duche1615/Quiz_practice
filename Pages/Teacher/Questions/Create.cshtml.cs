@@ -23,7 +23,10 @@ namespace Quizpractice.Pages.Questions
         public async Task OnGet()
         {
 
-            QuestionAnswer =  new QuestionAnswerViewModel();
+            if (QuestionAnswer == null)
+            {
+                QuestionAnswer = new QuestionAnswerViewModel();
+            }
 
             // Tạo câu trả lời mặc định
             QuestionAnswer.Answers = new List<AnswerViewModel>
@@ -39,7 +42,6 @@ namespace Quizpractice.Pages.Questions
 
         public async Task<IActionResult> OnPostAsync()
         {
-            QuestionAnswer = new QuestionAnswerViewModel();
             if (!ModelState.IsValid)
             {
                 ModelState.AddModelError(string.Empty, "Error");
