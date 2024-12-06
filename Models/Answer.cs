@@ -7,7 +7,7 @@ namespace Quizpractice.Models
     {
         public int AnswerId { get; set; }
         public string? Content { get; set; }
-        public bool? Correct { get; set; }
+        public bool Correct { get; set; }
         public int? QuesId { get; set; }
 
         public virtual Question? Ques { get; set; }

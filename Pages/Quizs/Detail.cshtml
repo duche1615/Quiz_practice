@@ -1,4 +1,4 @@
-﻿@* @page "{questionId:int}"
+﻿@page "{questionId:int}"
 @model Quizpractice.Pages.Quizs.DetailModel
 
 <h3>Câu hỏi @Model.Question.QuestionId</h3>
@@ -8,19 +8,30 @@
 
 <!-- Hiển thị các đáp án -->
 <div class="answers mt-4">
-    <form method="post" asp-action="SubmitAnswer">
+    <form method="post">
         @foreach (var answer in Model.Question.Answers)
         {
             <div class="answer-option mb-3 p-3 border rounded">
-                <input type="radio" class="form-check-input me-2" id="option_@answer.AnswerId" name="selectedAnswerId" value="@answer.AnswerId" />
+                <input type="radio" class="form-check-input me-2" id="option_@answer.AnswerId" name="SelectedAnswerId" value="@answer.AnswerId"
+                @if (answer.AnswerId == Model.SelectedAnswerId)
+                {
+                    <text>checked</text>
+                }
+                />
                 <label class="form-check-label" for="option_@answer.AnswerId">@answer.Content</label>
             </div>
         }
 
         <!-- Nút gửi câu trả lời -->
         <div class="text-center">
-            <button type="submit" class="btn btn-primary">Gửi Câu Trả Lời</button>
+            <button type="submit" class="btn btn-primary">Next question</button>
         </div>
     </form>
 </div>
- *@
+
+@if (TempData["Result"] != null)
+{
+    <div class="alert alert-info">
+        @TempData["Result"]
+    </div>
+}

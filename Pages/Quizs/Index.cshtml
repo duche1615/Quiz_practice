@@ -1,4 +1,4 @@
-﻿@* @page
+﻿@page
 @model Quizpractice.Pages.Quizs.IndexModel
 
 <!-- Hiển thị thông báo kết quả trả lời -->
@@ -9,36 +9,48 @@
     </div>
 }
 
-<!-- Hiển thị danh sách câu hỏi -->
-<div class="quiz-container">
-    @foreach (var question in Model.Questions)
-    {
-        <div class="question mb-4 p-3 border rounded shadow">
-            <div class="question-header">
-                <a href="/Quizs/Detail/@question.QuestionId">
-                    <strong>Câu hỏi @question.QuestionId</strong>
-                </a>
-            </div>
-            <div class="question-content mb-3">
-                @question.Content
-            </div>
-
-            <!-- Hiển thị các đáp án -->
-            <div class="answers">
-                @foreach (var answer in question.Answers)
-                {
-                    <div class="answer-option mb-3 p-3 border rounded">
-                        <input type="radio" class="form-check-input me-2" id="option_@answer.AnswerId" name="answer_@question.QuestionId" value="@answer.AnswerId" />
-                        <label class="form-check-label" for="option_@answer.AnswerId">@answer.Content</label>
-                    </div>
-                }
-            </div>
+<div class="review-progress-container">
+    <div class="review-progress-header">
+        <h2>Progress</h2>
+        <span class="close-btn">X</span>
+    </div>
+    <div class="review-progress-content">
+        <p>Review before scoring exam..</p>
+        <div class="progress-options">
+            <div class="option unanswered">UNANSWERED</div>
+            <div class="option marked">MARKED</div>
+            <div class="option answered">ANSWERED</div>
+            <div class="option all-questions">ALL QUESTIONS</div>
         </div>
-    }
+        <div class="progress-numbers">
+            @for (int i = 1; i <= Model.Questions.Count; i++)
+            {
+                var questionId = Model.Questions[i - 1].QuestionId;
+                var answerStatus = HttpContext.Session.GetInt32($"Answer_{questionId}");
+
+                <a href="/Quizs/Detail/@Model.Questions[i-1].QuestionId">
+                    <div class="number 
+                        @(answerStatus.HasValue ? "answered" : "unanswered")">
+                        @i
+                    </div>
+                </a>
+            }
+        </div>
+        <div class="score-exam-btn">
+            <button class="btn btn-primary">SCORE EXAM NOW</button>
+        </div>
+    </div>
 </div>
 
-<!-- Thêm nút submit để gửi câu trả lời -->
-<div class="text-center mt-4">
-    <button type="submit" class="btn btn-primary">Gửi Câu Trả Lời</button>
-</div>
- *@
+<style>
+    /* Thêm style để thay đổi màu nền cho câu đã trả lời */
+    .number.answered {
+        background-color: #28a745; /* Màu xanh cho câu đã trả lời */
+        color: white;
+    }
+
+    .number.unanswered {
+        background-color: white;
+        color: black;
+    }
+</style>
