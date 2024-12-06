@@ -1,4 +1,5 @@
-﻿using Quizpractice.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Quizpractice.Models;
 using Quizpractice.Services.IRepository;
 
 namespace Quizpractice.Services.Repository
@@ -16,6 +17,12 @@ namespace Quizpractice.Services.Repository
         public async Task AddAnswerAsync(Answer answer)
         {
             await AddAsync(answer);
+        }
+        public async Task<IEnumerable<Answer>> GetAnswersByQuestionIdAsync(int questionId)
+        {
+            return await _context.Answers
+                .Where(a => a.QuesId == questionId)
+                .ToListAsync();
         }
     }
 }
