@@ -19,5 +19,23 @@ namespace Quizpractice.Services.Repository
         {
             return await _dbContext.Subjects.FirstAsync(s => s.SubjectId == id);
         }
+
+        public bool Update(Subject subject)
+        {
+            try
+            {
+                if (subject == null)
+                {
+                    throw new Exception();
+                }
+                _dbContext.Subjects.Update(subject);
+                _dbContext.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
     }
 }

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 
 namespace Quizpractice.Models
 {
-    public partial class Lesstion
+    public partial class Lession
     {
-        public int LesstionId { get; set; }
-        public string? LesstionUrl { get; set; }
+        public int LessionId { get; set; }
+        public string? LessionUrl { get; set; }
         public bool? Status { get; set; }
         public string? Title { get; set; }
         public string Content { get; set; } = null!;

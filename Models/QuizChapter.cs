@@ -5,6 +5,7 @@ namespace Quizpractice.Models
 {
     public partial class QuizChapter
     {
+        public int QuizChapterId { get; set; }
         public int Quizid { get; set; }
         public int Chapterid { get; set; }
 

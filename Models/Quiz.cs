@@ -7,6 +7,8 @@ namespace Quizpractice.Models
     {
         public Quiz()
         {
+            QuestionQuizzes = new HashSet<QuestionQuiz>();
+            QuizChapters = new HashSet<QuizChapter>();
             QuizDetails = new HashSet<QuizDetail>();
         }
 
@@ -28,6 +30,8 @@ namespace Quizpractice.Models
 
         public virtual Subject? Sub { get; set; }
         public virtual User? UserCreate { get; set; }
+        public virtual ICollection<QuestionQuiz> QuestionQuizzes { get; set; }
+        public virtual ICollection<QuizChapter> QuizChapters { get; set; }
         public virtual ICollection<QuizDetail> QuizDetails { get; set; }
     }
 }
