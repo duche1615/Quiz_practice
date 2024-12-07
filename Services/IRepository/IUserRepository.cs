@@ -10,5 +10,7 @@ namespace Quizpractice.Services.IRepository
         Task<User> LoginAsync(LoginViewModel loginModel);
         Task<User> RegisterUserAsync(RegisterViewModel registerModel);
         bool UpdateUser(User user);
+        Task<bool> ValidatePassword(User user, string password);
+        Task<bool> UpdatePasswordAsync(User user, string newPassword);
     }
 }

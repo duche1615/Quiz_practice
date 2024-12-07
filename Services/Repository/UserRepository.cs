@@ -78,5 +78,19 @@ namespace Quizpractice.Services.Repository
 
             return null; 
         }
+
+        public async Task<bool> ValidatePassword(User user, string password)
+        {
+            return user.Password == password;
+        }
+
+        // Cập nhật mật khẩu người dùng (không sử dụng mã hóa)
+        public async Task<bool> UpdatePasswordAsync(User user, string newPassword)
+        {
+            user.Password = newPassword;
+            _dbContext.Users.Update(user);
+            await _dbContext.SaveChangesAsync();
+            return true;
+        }
     }
 }
