@@ -7,15 +7,15 @@ namespace Quizpractice.Pages.Teacher.Quizzes
 {
     public class DetailsModel : PageModel
     {
-        private readonly IQuizRepository _quizRepository;
-        public DetailsModel(IQuizRepository quizRepository)
+        private readonly IUnitOfWork _unitOfWork;
+        public DetailsModel(IUnitOfWork unitOfWork)
         {
-            _quizRepository = quizRepository;
+            _unitOfWork = unitOfWork;
         }
         public Quiz Quiz { get; set; }
         public async Task<IActionResult> OnGet(int id)
         {
-            Quiz = await _quizRepository.GetQuizByIdAsync(id);
+            Quiz = await _unitOfWork.Quizzes.GetQuizByIdAsync(id);
             if (Quiz == null)
             {
                return NotFound();

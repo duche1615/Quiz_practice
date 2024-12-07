@@ -76,5 +76,11 @@ namespace Quizpractice.Services.Repository
             }
         }
 
+        public async Task AddQuestionToQuizAsync(QuestionQuiz quizQuestion)
+        {
+            await _context.QuestionQuizzes.AddAsync(quizQuestion);
+            await _context.SaveChangesAsync();
+        }
+
     }
 }
