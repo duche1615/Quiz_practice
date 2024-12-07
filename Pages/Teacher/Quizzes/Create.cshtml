@@ -13,15 +13,15 @@
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         </div>
     }
-    <input type="hidden" asp-for="Quiz.QuizId" />
+    <input type="hidden" asp-for="QuizModel.QuizId" />
     <div class="mb-3">
         <label for="Title" class="form-label">Quiz Title</label>
-        <input type="text" class="form-control" asp-for="Quiz.Title" />
+        <input type="text" class="form-control" asp-for="QuizModel.Title" />
     </div>
 
     <div class="mb-3">
         <label class="form-label">level</label>
-        <select class="form-select" asp-for="Quiz.Level">
+        <select class="form-select" asp-for="QuizModel.Level">
             <option value="Easy">Easy</option>
             <option value="Medium">Medium</option>
             <option value="Hard">Hard</option>
@@ -30,28 +30,28 @@
 
     <div class="mb-3">
         <label for="Description" class="form-label">Description</label>
-        <textarea class="form-control" asp-for="Quiz.Description"></textarea>
+        <textarea class="form-control" asp-for="QuizModel.Description"></textarea>
     </div>
 
     <div class="mb-3">
         <label for="Duration" class="form-label">Duration (minutes)</label>
-        <input type="number" class="form-control" asp-for="Quiz.Duration" />
+        <input type="number" class="form-control" asp-for="QuizModel.Duration" />
     </div>
 
     <div class="mb-3">
         <label for="Subject" class="form-label">Subject</label>
-        <select class="form-select" asp-for="Quiz.SubjectId">
+        <select class="form-select" asp-for="QuizModel.SubjectId">
             <option value="">-- Select Subject --</option>
             @foreach (var subject in Model.Subjects)
             {
                 <option value="@subject.SubjectId">@subject.SubjectName</option>
             }
         </select>
-        <span asp-validation-for="Quiz.SubjectId" class="text-danger"></span>
+        <span asp-validation-for="QuizModel.SubjectId" class="text-danger"></span>
     </div>
     <div class="mb-3">
         <label for="Chapter" class="form-label">Chapter</label>
-        <select id="ChapterDropdown" class="form-select" asp-for="Quiz.ChapterId">
+        <select id="ChapterDropdown" class="form-select" asp-for="QuizModel.ChapterId">
             <option value="">-- Select Chapter --</option>
             @foreach (var chapter in Model.Chapters)
             {
@@ -61,18 +61,18 @@
     </div>
     <div class="mb-3">
         <label for="StartTime" class="form-label">Start Time</label>
-        <input asp-for="Quiz.StartTime" type="datetime-local" class="form-control" id="StartTime" />
-        <span asp-validation-for="Quiz.StartTime" class="text-danger"></span>
+        <input asp-for="QuizModel.StartTime" type="datetime-local" class="form-control" id="StartTime" />
+        <span asp-validation-for="QuizModel.StartTime" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
         <label for="EndTime" class="form-label">End Time</label>
-        <input asp-for="Quiz.EndTime" type="datetime-local" class="form-control" id="EndTime" />
-        <span asp-validation-for="Quiz.EndTime" class="text-danger"></span>
+        <input asp-for="QuizModel.EndTime" type="datetime-local" class="form-control" id="EndTime" />
+        <span asp-validation-for="QuizModel.EndTime" class="text-danger"></span>
     </div>
     <div class="mb-3">
         <label for="TotalQuestions" class="form-label">Total Questions</label>
-        <input type="number" class="form-control" asp-for="Quiz.TotalQuestions" />
+        <input type="number" class="form-control" asp-for="QuizModel.TotalQuestions" />
     </div>
 
     <button type="submit" class="btn btn-primary">Create Quiz</button>

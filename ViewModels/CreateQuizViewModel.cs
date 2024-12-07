@@ -13,7 +13,7 @@ namespace Quizpractice.ViewModels
         public int? ChapterId { get; set; } 
         public int TotalQuestions { get; set; }
         public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
+        public DateTime EndTime { get; set; }       
         public IEnumerable<Subject> Subjects { get; set; }
         public IEnumerable<Chapter> Chapters { get; set; }
     }

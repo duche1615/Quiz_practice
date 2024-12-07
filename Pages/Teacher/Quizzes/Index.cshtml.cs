@@ -58,7 +58,7 @@ namespace Quizpractice.Pages.Teacher.Quizzes
                 Level = q.Level,
                 Description = q.Description,
                 SubjectName = q.Sub.SubjectName,
-                Duration = (int)q.Duration,
+                Duration = q.Duration ?? 0,
                 Status = q.Active == true ? "Active" : "Inactive", 
                 TotalQues = q.TotalQues,              
             }).ToList();

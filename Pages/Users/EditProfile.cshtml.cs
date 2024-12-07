@@ -50,8 +50,9 @@ namespace Quizpractice.Pages.Users
         {
             var userIdString = HttpContext.Session.GetString("UserId");
 
-            if (string.IsNullOrEmpty(userIdString))
+            if (userIdString == null)
             {
+                ModelState.AddModelError("", "Error.");
                 return RedirectToPage("/Users/Login");
             }
 
@@ -59,7 +60,8 @@ namespace Quizpractice.Pages.Users
                 Users = await _userRepository.FindById(Convert.ToInt32(userIdString));
                 if (Users == null)
                 {
-                    return RedirectToPage("/Users/Login");
+                ModelState.AddModelError("", "Error.");
+                return Page();
                 }
 
                 // Update user profile fields
