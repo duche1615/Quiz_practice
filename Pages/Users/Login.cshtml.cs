@@ -44,6 +44,7 @@ namespace Quizpractice.Pages.Users
                 ErrorMessage = "Invalid email or password.";
                 return Page();
             }
+            HttpContext.Session.SetString("UserId", user.UserId.ToString());
             HttpContext.Session.SetString("Role", user.RoleId.ToString());
             ViewData["Role"] = user.RoleId.ToString();
 
@@ -54,7 +55,7 @@ namespace Quizpractice.Pages.Users
             }
             else if (user.RoleId == 2) // Learner
             {
-                return RedirectToPage("/Learner//Index");
+                return RedirectToPage("/Quizs/Index");
             }
             else if (user.RoleId == 3) // Teacher
             {

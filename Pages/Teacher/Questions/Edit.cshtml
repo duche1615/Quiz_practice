@@ -1,11 +1,12 @@
 ﻿@page
-@model Quizpractice.Pages.Questions.CreateModel
+@model Quizpractice.Pages.Teacher.Questions.EditModel
 @{
     Layout = "~/Pages/Shared/_Layout_Teacher.cshtml";
 }
-<h1>Create new question</h1>
+<h1>Edit Question</h1>
 
 <form method="post">
+    <input type="hidden" asp-for="QuestionAnswer.Id" />
     
     <div class="mb-3">
         <label class="form-label">Subject</label>
@@ -13,7 +14,7 @@
             <option value="">-- Select a Subject --</option>
             @foreach (var subject in Model.QuestionAnswer.Subjects)
             {
-                <option value="@subject.SubjectId">@subject.SubjectName</option>
+                <option value="@subject.SubjectId" selected="@(subject.SubjectId == Model.QuestionAnswer.SubjectId)">@subject.SubjectName</option>
             }
         </select>
         <span asp-validation-for="QuestionAnswer.SubjectId" class="text-danger"></span>
@@ -24,36 +25,37 @@
             <option value="">-- Select a Chapter --</option>
             @foreach (var chapter in Model.QuestionAnswer.Chapters)
             {
-                <option value="@chapter.ChapterId">@chapter.ChapterName</option>
+                <option value="@chapter.ChapterId" selected="@(chapter.ChapterId == Model.QuestionAnswer.ChapterId)">@chapter.ChapterName</option>
             }
         </select>
         <span asp-validation-for="QuestionAnswer.ChapterId" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
-        <label class="form-label">Content</label>        
-        <textarea class="form-control" asp-for="QuestionAnswer.Content"></textarea>
+        <label class="form-label">Content</label>
+        <textarea class="form-control" asp-for="QuestionAnswer.Content">@Model.QuestionAnswer.Content</textarea>
         <span asp-validation-for="QuestionAnswer.Content" class="text-danger"></span>
     </div>
-    
+
     <div class="mb-3">
-        <label class="form-label">level</label>
+        <label class="form-label">Level</label>
         <select class="form-select" asp-for="QuestionAnswer.Level">
-            <option value="Easy">Easy</option>
-            <option value="Medium">Medium</option>
-            <option value="Hard">Hard</option>
+            <option value="Easy" selected = "@(Model.QuestionAnswer.Level == "Easy")">Easy</option>
+            <option value="Medium" selected="@(Model.QuestionAnswer.Level == "Medium")">Medium</option>
+            <option value="Hard" selected="@(Model.QuestionAnswer.Level == "Hard")">Hard</option>
         </select>
     </div>
 
     <div class="mb-3">
-        <label class="form-label">Multiplechoice</label>
-        <input type="checkbox" asp-for="QuestionAnswer.IsMultipleChoice" />
+        <label class="form-label">Multiple Choice</label>
+        <input type="checkbox" asp-for="QuestionAnswer.IsMultipleChoice" asp-checked="@Model.QuestionAnswer.IsMultipleChoice" />
     </div>
 
     <h3>Answers</h3>
     <div>
         @for (int i = 0; i < Model.QuestionAnswer.Answers.Count; i++)
         {
+            <input class="form-control" name="QuestionAnswer.Answers[@i].Id" value="@Model.QuestionAnswer.Answers[i].Id" hidden/>
             <div class="mb-3">
                 <label class="form-label">Answer @(i + 1)</label>
                 <input class="form-control" name="QuestionAnswer.Answers[@i].Content" value="@Model.QuestionAnswer.Answers[i].Content" />
@@ -63,14 +65,15 @@
                 </div>
             </div>
         }
-        
     </div>
+
     @if (!ModelState.IsValid)
     {
         <div class="alert alert-danger">
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         </div>
     }
+
     <button type="submit" class="btn btn-primary">Save</button>
     <a asp-page="Index" class="btn btn-secondary">Cancel</a>
 </form>

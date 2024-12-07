@@ -17,72 +17,65 @@ body {
   margin-bottom: 60px;
 }
 
-/* Bố cục quiz-container */
-.quiz-container {
-    max-width: 800px;
-    margin: 0 auto;
+.review-progress-container {
+    border: 1px solid #ccc;
+    padding: 20px;
 }
 
-/* Câu hỏi */
-.question {
-    background-color: #f8f9fa;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    padding: 15px;
-}
-
-/* Tiêu đề câu hỏi */
-.question-header {
-    font-size: 18px;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-/* Nội dung câu hỏi */
-.question-content {
-    font-size: 16px;
-    margin-bottom: 15px;
-}
-
-/* Các đáp án */
-.answers {
-    margin-top: 10px;
-}
-
-/* Tùy chỉnh mỗi đáp án */
-.answer-option {
-    background-color: #ffffff;
-    border: 2px solid #ddd;
-    border-radius: 5px;
-    padding: 10px;
+.review-progress-header {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    transition: background-color 0.3s ease;
+    margin-bottom: 20px;
 }
 
-    /* Khi hover qua một đáp án */
-    .answer-option:hover {
-        background-color: #f1f1f1;
-        border-color: #ccc;
+.review-progress-content p {
+    margin-bottom: 20px;
+}
+
+.progress-options {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+    .progress-options .option {
+        padding: 5px 10px;
+        border: 1px solid #ccc;
+        margin-right: 10px;
+        cursor: pointer;
     }
 
-/* Tùy chỉnh radio button */
-.form-check-input {
-    margin-right: 10px;
+        .progress-options .option.unanswered {
+            background-color: #f1f1f1;
+        }
+
+        .progress-options .option.marked {
+            background-color: #ffeeba;
+        }
+
+        .progress-options .option.answered {
+            background-color: #d4edda;
+        }
+
+        .progress-options .option.all-questions {
+            background-color: #e9ecef;
+        }
+
+.progress-numbers {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 10px;
 }
 
-/* Nút gửi câu trả lời */
-.btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 5px;
-}
-
-    .btn-primary:hover {
-        background-color: #0056b3;
-        border-color: #004085;
+    .progress-numbers .number {
+        border: 1px solid #ccc;
+        padding: 5px 10px;
+        text-align: center;
+        cursor: pointer;
     }
+
+.score-exam-btn {
+    text-align: right;
+}
+
 

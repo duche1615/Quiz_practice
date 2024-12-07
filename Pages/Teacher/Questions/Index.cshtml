@@ -61,7 +61,7 @@
                     <td>@question.ChapterName</td>
                     <td>
                         <a class="btn btn-info btn-sm" asp-page="Details" asp-route-id="@question.Id">Details</a>
-                        <a class="btn btn-warning btn-sm">Edit</a>
+                        <a class="btn btn-warning btn-sm" asp-page="Edit" asp-route-id="@question.Id">Edit</a>
                         <form method="post" asp-page-handler="ChangeStatus" asp-route-questionId="@question.Id" class="d-inline">
                             <button type="submit" class="btn btn-danger btn-sm">
                                 changeStatus

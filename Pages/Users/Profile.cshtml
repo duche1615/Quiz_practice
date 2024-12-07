@@ -1,0 +1,62 @@
+﻿@page
+@model Quizpractice.Pages.Users.ProfileModel
+@{
+    Layout = Model.Layout;
+}
+
+<h2 class="text-center mb-4">User Profile</h2>
+
+<div class="container">
+    @if (Model.Users != null)
+    {
+        <div class="card shadow-lg p-4">
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <strong>Full Name:</strong>
+                </div>
+                <div class="col-md-8">
+                    <p>@Model.Users.Fullname</p>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <strong>Email:</strong>
+                </div>
+                <div class="col-md-8">
+                    <p>@Model.Users.Email</p>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <strong>Phone:</strong>
+                </div>
+                <div class="col-md-8">
+                    <p>@Model.Users.Phone</p>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <strong>Address:</strong>
+                </div>
+                <div class="col-md-8">
+                    <p>@Model.Users.Address</p>
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <strong>Gender:</strong>
+                </div>
+                <div class="col-md-8">
+                    <p>@(Model.Users.Gender.Value ? "Male" : "Female")</p>
+                </div>
+            </div>
+            <div class="text-center">
+                <a asp-page="EditProfile" class="btn btn-success">Edit Profile</a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <p class="text-center text-danger">No user details available.</p>
+    }
+</div>

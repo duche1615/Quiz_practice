@@ -3,12 +3,12 @@ using Quizpractice.ViewModels;
 
 namespace Quizpractice.Services.IRepository
 {
-    public interface IUserRepository
+    public interface IUserRepository:IBaseRepository<User>
     {
+        Task<User> FindById(int value);
         Task<List<User>> GetAllUsers();
-        Task<User> FindById(int id);
-        bool UpdateUser(User user);
-        Task<User> RegisterUserAsync(RegisterViewModel registerModel);
         Task<User> LoginAsync(LoginViewModel loginModel);
+        Task<User> RegisterUserAsync(RegisterViewModel registerModel);
+        bool UpdateUser(User user);
     }
 }
