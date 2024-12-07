@@ -18,7 +18,7 @@ namespace Quizpractice.Pages.Teacher.Quizzes
         }
 
         [BindProperty]
-        public CreateQuizViewModel Quiz { get; set; }
+        public CreateQuizViewModel QuizModel { get; set; }
         public IEnumerable<Chapter> Chapters { get; set; }
         public IEnumerable<Subject> Subjects { get; set; }
         public async Task OnGetAsync()
@@ -29,7 +29,7 @@ namespace Quizpractice.Pages.Teacher.Quizzes
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (Quiz.SubjectId == null)
+            if (QuizModel.SubjectId == null)
             {
                 ModelState.AddModelError("", "Subject is required.");
                 Subjects = await _unitOfWork.Subjects.GetAllSubjects();
@@ -37,14 +37,14 @@ namespace Quizpractice.Pages.Teacher.Quizzes
                 return Page();
             }
             // get all questions by subject id
-            var questions = await _unitOfWork.Questions.GetQuestionsBySubjectIdAsync(Quiz.SubjectId.Value);
+            var questions = await _unitOfWork.Questions.GetQuestionsBySubjectIdAsync(QuizModel.SubjectId.Value);
             //check if chapter id is selected
-            if (Quiz.ChapterId.HasValue)
+            if (QuizModel.ChapterId.HasValue)
             {
-                questions = questions.Where(q => q.ChapterId == Quiz.ChapterId.Value).ToList();
+                questions = questions.Where(q => q.ChapterId == QuizModel.ChapterId.Value).ToList();
             }
             // check if start time is greater than end time
-            if (Quiz.EndTime <= Quiz.StartTime)
+            if (QuizModel.EndTime <= QuizModel.StartTime)
             {
                 ModelState.AddModelError("", "End time must be greater than start time.");
                 Subjects = await _unitOfWork.Subjects.GetAllSubjects();
@@ -52,14 +52,14 @@ namespace Quizpractice.Pages.Teacher.Quizzes
                 return Page();
             }
             // check if total questions is greater than the number of questions
-            if (questions.Count() < Quiz.TotalQuestions)
+            if (questions.Count() < QuizModel.TotalQuestions)
             {
                 ModelState.AddModelError("", "Not enough questions for quiz.");
                 Subjects = await _unitOfWork.Subjects.GetAllSubjects();
                 Chapters = await _unitOfWork.Chapters.GetAllChapters();
                 return Page();
             }                 
-            var totalQuestions = Quiz.TotalQuestions;
+            var totalQuestions = QuizModel.TotalQuestions;
 
             // check if total questions is greater than 0
             if (totalQuestions > 0)
@@ -68,18 +68,26 @@ namespace Quizpractice.Pages.Teacher.Quizzes
                 var random = new Random();
                 var selectedQuestions = questions.OrderBy(q => random.Next()).Take(totalQuestions).ToList();
 
+                var userId = HttpContext.Session.GetString("UserId");
                 
+                if (userId == null)
+                {
+                    ModelState.AddModelError("", "User is not logged in.");
+                    return Page();
+                }
+
                 var quiz = new Quiz
                 {
-                    Title = Quiz.Title,
-                    Level = Quiz.Level,
-                    Description = Quiz.Description,
-                    Duration = Quiz.Duration,
-                    SubId = Quiz.SubjectId,
+                    Title = QuizModel.Title,
+                    Level = QuizModel.Level,
+                    Description = QuizModel.Description,
+                    Duration = QuizModel.Duration,
+                    SubId = QuizModel.SubjectId,
                     TotalQues = totalQuestions,
-                    StartTime = Quiz.StartTime, 
-                    EndTime = Quiz.EndTime,
-                    Active = true 
+                    StartTime = QuizModel.StartTime, 
+                    EndTime = QuizModel.EndTime,
+                    Active = true,
+                    UserCreateId = Convert.ToInt32(userId)
                 };
 
                 

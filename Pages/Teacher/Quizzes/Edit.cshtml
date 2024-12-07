@@ -1,0 +1,50 @@
+﻿@page
+@model Quizpractice.Pages.Teacher.Quizzes.EditModel
+@{
+    Layout = "~/Pages/Shared/_Layout_Teacher.cshtml";
+}
+
+<h1>Edit Quiz</h1>
+
+<form method="post">
+    <input type="hidden" asp-for="QuizVM.QuizId" />
+    
+    <div class="mb-3">
+        <label for="Title" class="form-label">Quiz Title</label>
+        <input asp-for="QuizVM.Title" class="form-control" />
+        <span asp-validation-for="QuizVM.Title" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label for="Level" class="form-label">Level</label>
+        <select asp-for="QuizVM.Level" class="form-select">
+            <option value="Easy">Easy</option>
+            <option value="Medium">Medium</option>
+            <option value="Hard">Hard</option>
+        </select>
+        <span asp-validation-for="QuizVM.Level" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label for="Description" class="form-label">Description</label>
+        <textarea class="form-control" asp-for="QuizVM.Description"></textarea>
+    </div>
+
+    <div class="mb-3">
+        <label for="Duration" class="form-label">Duration (minutes)</label>
+        <input type="number" class="form-control" asp-for="QuizVM.Duration" />
+    </div>
+    <div class="mb-3">
+        <label for="StartTime" class="form-label">Start Time</label>
+        <input asp-for="QuizVM.StartTime" type="datetime-local" class="form-control" />
+        <span asp-validation-for="QuizVM.StartTime" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label for="EndTime" class="form-label">End Time</label>
+        <input asp-for="QuizVM.EndTime" type="datetime-local" class="form-control" />
+        <span asp-validation-for="QuizVM.EndTime" class="text-danger"></span>
+    </div>
+
+
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+</form>
