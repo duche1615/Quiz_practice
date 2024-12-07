@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [SWP391_DB]    Script Date: 12/3/2024 2:12:32 PM ******/
+/****** Object:  Database [SWP391_DB]    Script Date: 12/7/2024 8:52:54 PM ******/
 CREATE DATABASE [SWP391_DB]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -82,7 +82,7 @@ ALTER DATABASE [SWP391_DB] SET QUERY_STORE (OPERATION_MODE = READ_WRITE, CLEANUP
 GO
 USE [SWP391_DB]
 GO
-/****** Object:  Table [dbo].[Answer]    Script Date: 12/3/2024 2:12:32 PM ******/
+/****** Object:  Table [dbo].[Answer]    Script Date: 12/7/2024 8:52:54 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -98,7 +98,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Blog]    Script Date: 12/3/2024 2:12:32 PM ******/
+/****** Object:  Table [dbo].[Blog]    Script Date: 12/7/2024 8:52:55 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -115,7 +115,7 @@ CREATE TABLE [dbo].[Blog](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Chapter]    Script Date: 12/3/2024 2:12:32 PM ******/
+/****** Object:  Table [dbo].[Chapter]    Script Date: 12/7/2024 8:52:55 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -134,14 +134,14 @@ CREATE TABLE [dbo].[Chapter](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Lesstion]    Script Date: 12/3/2024 2:12:32 PM ******/
+/****** Object:  Table [dbo].[Lession]    Script Date: 12/7/2024 8:52:55 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [dbo].[Lesstion](
-	[lesstionId] [int] IDENTITY(1,1) NOT NULL,
-	[lesstion_url] [varchar](255) NULL,
+CREATE TABLE [dbo].[Lession](
+	[lessionId] [int] IDENTITY(1,1) NOT NULL,
+	[lessionURL] [varchar](255) NULL,
 	[status] [bit] NULL,
 	[title] [varchar](255) NULL,
 	[content] [varchar](255) NOT NULL,
@@ -152,11 +152,11 @@ CREATE TABLE [dbo].[Lesstion](
 	[chapterid] [int] NULL,
  CONSTRAINT [PK__Slider__14564CBEC251D15F] PRIMARY KEY CLUSTERED 
 (
-	[lesstionId] ASC
+	[lessionId] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Post]    Script Date: 12/3/2024 2:12:32 PM ******/
+/****** Object:  Table [dbo].[Post]    Script Date: 12/7/2024 8:52:55 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -179,7 +179,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Post_File]    Script Date: 12/3/2024 2:12:32 PM ******/
+/****** Object:  Table [dbo].[Post_File]    Script Date: 12/7/2024 8:52:55 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -195,7 +195,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[PricePackage]    Script Date: 12/3/2024 2:12:32 PM ******/
+/****** Object:  Table [dbo].[PricePackage]    Script Date: 12/7/2024 8:52:55 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -213,7 +213,7 @@ CREATE TABLE [dbo].[PricePackage](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Question]    Script Date: 12/3/2024 2:12:32 PM ******/
+/****** Object:  Table [dbo].[Question]    Script Date: 12/7/2024 8:52:55 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -232,17 +232,22 @@ CREATE TABLE [dbo].[Question](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Question_Quiz]    Script Date: 12/3/2024 2:12:32 PM ******/
+/****** Object:  Table [dbo].[Question_Quiz]    Script Date: 12/7/2024 8:52:55 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Question_Quiz](
+	[quiz_question_id] [int] IDENTITY(1,1) NOT NULL,
 	[quesId] [int] NOT NULL,
-	[quizId] [int] NOT NULL
+	[quizId] [int] NOT NULL,
+ CONSTRAINT [PK_Question_Quiz] PRIMARY KEY CLUSTERED 
+(
+	[quiz_question_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Quiz]    Script Date: 12/3/2024 2:12:32 PM ******/
+/****** Object:  Table [dbo].[Quiz]    Script Date: 12/7/2024 8:52:55 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -269,7 +274,7 @@ CREATE TABLE [dbo].[Quiz](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Quiz_Answer_Detail]    Script Date: 12/3/2024 2:12:32 PM ******/
+/****** Object:  Table [dbo].[Quiz_Answer_Detail]    Script Date: 12/7/2024 8:52:55 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -282,17 +287,22 @@ CREATE TABLE [dbo].[Quiz_Answer_Detail](
 	[isCorrect] [bit] NOT NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Quiz_Chapter]    Script Date: 12/3/2024 2:12:32 PM ******/
+/****** Object:  Table [dbo].[Quiz_Chapter]    Script Date: 12/7/2024 8:52:55 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Quiz_Chapter](
+	[quiz_chapter_id] [int] IDENTITY(1,1) NOT NULL,
 	[quizid] [int] NOT NULL,
-	[chapterid] [int] NOT NULL
+	[chapterid] [int] NOT NULL,
+ CONSTRAINT [PK_Quiz_Chapter] PRIMARY KEY CLUSTERED 
+(
+	[quiz_chapter_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Quiz_Detail]    Script Date: 12/3/2024 2:12:32 PM ******/
+/****** Object:  Table [dbo].[Quiz_Detail]    Script Date: 12/7/2024 8:52:55 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -309,7 +319,7 @@ CREATE TABLE [dbo].[Quiz_Detail](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Registration_Subject]    Script Date: 12/3/2024 2:12:32 PM ******/
+/****** Object:  Table [dbo].[Registration_Subject]    Script Date: 12/7/2024 8:52:55 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -327,7 +337,7 @@ CREATE TABLE [dbo].[Registration_Subject](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Role]    Script Date: 12/3/2024 2:12:32 PM ******/
+/****** Object:  Table [dbo].[Role]    Script Date: 12/7/2024 8:52:55 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -341,7 +351,7 @@ CREATE TABLE [dbo].[Role](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Subject]    Script Date: 12/3/2024 2:12:32 PM ******/
+/****** Object:  Table [dbo].[Subject]    Script Date: 12/7/2024 8:52:55 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -360,7 +370,7 @@ CREATE TABLE [dbo].[Subject](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[SubjectPrice]    Script Date: 12/3/2024 2:12:32 PM ******/
+/****** Object:  Table [dbo].[SubjectPrice]    Script Date: 12/7/2024 8:52:55 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -370,7 +380,7 @@ CREATE TABLE [dbo].[SubjectPrice](
 	[subjectId] [int] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Type]    Script Date: 12/3/2024 2:12:32 PM ******/
+/****** Object:  Table [dbo].[Type]    Script Date: 12/7/2024 8:52:55 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -384,7 +394,7 @@ CREATE TABLE [dbo].[Type](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[User]    Script Date: 12/3/2024 2:12:32 PM ******/
+/****** Object:  Table [dbo].[User]    Script Date: 12/7/2024 8:52:55 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -937,21 +947,21 @@ INSERT [dbo].[Chapter] ([chapterId], [chapterName], [content], [active], [public
 GO
 SET IDENTITY_INSERT [dbo].[Chapter] OFF
 GO
-SET IDENTITY_INSERT [dbo].[Lesstion] ON 
+SET IDENTITY_INSERT [dbo].[Lession] ON 
 GO
-INSERT [dbo].[Lesstion] ([lesstionId], [lesstion_url], [status], [title], [content], [backlink], [notes], [public], [subid], [chapterid]) VALUES (2, N'img/2.png', 1, N'Math Class', N'About this Specialization For a lot of higher level courses in Machine Learning and Data Science, you find you need to freshen up on the basics in mathematics - stuff you may have studied before in school or university.', N'', N'Sale for Math', 1, 1, NULL)
+INSERT [dbo].[Lession] ([lessionId], [lessionURL], [status], [title], [content], [backlink], [notes], [public], [subid], [chapterid]) VALUES (2, N'img/2.png', 1, N'Math Class', N'About this Specialization For a lot of higher level courses in Machine Learning and Data Science, you find you need to freshen up on the basics in mathematics - stuff you may have studied before in school or university.', N'', N'Sale for Math', 1, 1, NULL)
 GO
-INSERT [dbo].[Lesstion] ([lesstionId], [lesstion_url], [status], [title], [content], [backlink], [notes], [public], [subid], [chapterid]) VALUES (3, N'img/3.png', 1, N'English Class', N'This Specialization helps you improve your professional communication in English for successful business interactions. Each course focuses on a particular area of communication in English.', N'', N'Sale for English', 1, 2, NULL)
+INSERT [dbo].[Lession] ([lessionId], [lessionURL], [status], [title], [content], [backlink], [notes], [public], [subid], [chapterid]) VALUES (3, N'img/3.png', 1, N'English Class', N'This Specialization helps you improve your professional communication in English for successful business interactions. Each course focuses on a particular area of communication in English.', N'', N'Sale for English', 1, 2, NULL)
 GO
-INSERT [dbo].[Lesstion] ([lesstionId], [lesstion_url], [status], [title], [content], [backlink], [notes], [public], [subid], [chapterid]) VALUES (4, N'img/4.png', 1, N'Health & Physical Education', N'The vital signs – heart rate, blood pressure, body temperature, respiration rate, and pain – communicate important information about the physiological status of the human body.', N'', N'Sale for Health', 1, 9, NULL)
+INSERT [dbo].[Lession] ([lessionId], [lessionURL], [status], [title], [content], [backlink], [notes], [public], [subid], [chapterid]) VALUES (4, N'img/4.png', 1, N'Health & Physical Education', N'The vital signs – heart rate, blood pressure, body temperature, respiration rate, and pain – communicate important information about the physiological status of the human body.', N'', N'Sale for Health', 1, 9, NULL)
 GO
-INSERT [dbo].[Lesstion] ([lesstionId], [lesstion_url], [status], [title], [content], [backlink], [notes], [public], [subid], [chapterid]) VALUES (5, N'img/5.png', 1, N'History Class', N'This course is the first of a series that aims to prepare you for a role as an entry-level IT Support Specialist. In this course, you’ll be introduced to the world of Information Technology, or IT.', N'', N'Sale for Technical', 1, 7, NULL)
+INSERT [dbo].[Lession] ([lessionId], [lessionURL], [status], [title], [content], [backlink], [notes], [public], [subid], [chapterid]) VALUES (5, N'img/5.png', 1, N'History Class', N'This course is the first of a series that aims to prepare you for a role as an entry-level IT Support Specialist. In this course, you’ll be introduced to the world of Information Technology, or IT.', N'', N'Sale for Technical', 1, 7, NULL)
 GO
-INSERT [dbo].[Lesstion] ([lesstionId], [lesstion_url], [status], [title], [content], [backlink], [notes], [public], [subid], [chapterid]) VALUES (6, N'img/6.png', 1, N'Computer Class', N'This Specialization is intended for anyone seeking to learn basic computer skills. Through 3 courses, you will study computer hardware, software, and data safety. ', N'', N'Sale for Computer', 1, 6, NULL)
+INSERT [dbo].[Lession] ([lessionId], [lessionURL], [status], [title], [content], [backlink], [notes], [public], [subid], [chapterid]) VALUES (6, N'img/6.png', 1, N'Computer Class', N'This Specialization is intended for anyone seeking to learn basic computer skills. Through 3 courses, you will study computer hardware, software, and data safety. ', N'', N'Sale for Computer', 1, 6, NULL)
 GO
-INSERT [dbo].[Lesstion] ([lesstionId], [lesstion_url], [status], [title], [content], [backlink], [notes], [public], [subid], [chapterid]) VALUES (7, N'img/7.png', 1, N'Art Class', N'Graphic design is all around us, in a myriad of forms, both on screen and in print, yet it is always made up of images and words to create a communication goal. ', N'', N'Sale for Arts', 1, 8, NULL)
+INSERT [dbo].[Lession] ([lessionId], [lessionURL], [status], [title], [content], [backlink], [notes], [public], [subid], [chapterid]) VALUES (7, N'img/7.png', 1, N'Art Class', N'Graphic design is all around us, in a myriad of forms, both on screen and in print, yet it is always made up of images and words to create a communication goal. ', N'', N'Sale for Arts', 1, 8, NULL)
 GO
-SET IDENTITY_INSERT [dbo].[Lesstion] OFF
+SET IDENTITY_INSERT [dbo].[Lession] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Post] ON 
 GO
@@ -1008,8 +1018,6 @@ GO
 INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (11, N'Which adverb tells where?', 1, 6, N'medium', 1, 0)
 GO
 INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (12, N'TestMutiple', 1, 6, N'medium', 1, 1)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (13, N'Which adverb tells where?', 2, 1, N'medium', 1, 0)
 GO
 INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (14, N'Which adverb tells where?', 2, 1, N'medium', 1, 0)
 GO
@@ -1104,128 +1112,6 @@ GO
 INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (59, N'Which adverb tells where?', 5, 3, N'medium', 1, 0)
 GO
 INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (60, N'Which adverb tells where?', 5, 2, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (61, N'Which crew member’s body does Agent Smith infiltrate?', 5, 2, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (62, N'How many steps are there to construct the IFE matrix?', 6, 1, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (63, N'Which religion is referenced in The Matrix trilogy?', 6, 1, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (64, N'How does the Nebuchadnezzar initially contact Neo?', 6, 1, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (65, N' Who persistently refers to Neo as Mr. Anderson?', 6, 1, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (66, N'What proverb is written in Latin over the Oracle’s kitchen door?', 6, 2, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (67, N'Why do Morpheus, Trinity, and Neo initially visit the Merovingian?', 6, 1, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (68, N'Which crew member’s body does Agent Smith infiltrate?', 6, 1, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (69, N'Which adverb best completes the sentence?She __ laid the baby in the crib.**the adverb needs to tell how', 6, 6, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (70, N'Which adverb best completes the sentence?_____, I baked brownies.**The adverb needs to tell when.', 6, 6, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (71, N'Which adverb best completes the sentence?Derek took his wagon __.**The adverb needs to tell where.', 6, 6, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (72, N'Which adverb tells where?', 6, 3, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (73, N'TestMutiple', 6, 3, N'medium', 1, 1)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (74, N'Which adverb tells where?', 6, 3, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (75, N'Which adverb tells where?', 6, 2, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (76, N'Which crew member’s body does Agent Smith infiltrate?', 6, 2, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (77, N'How many steps are there to construct the IFE matrix?', 7, 1, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (78, N'Which religion is referenced in The Matrix trilogy?', 7, 1, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (79, N'How does the Nebuchadnezzar initially contact Neo?', 7, 1, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (80, N' Who persistently refers to Neo as Mr. Anderson?', 7, 1, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (81, N'What proverb is written in Latin over the Oracle’s kitchen door?', 7, 2, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (82, N'Why do Morpheus, Trinity, and Neo initially visit the Merovingian?', 7, 1, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (83, N'Which crew member’s body does Agent Smith infiltrate?', 7, 1, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (84, N'Which adverb best completes the sentence?She __ laid the baby in the crib.**the adverb needs to tell how', 7, 6, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (85, N'Which adverb best completes the sentence?_____, I baked brownies.**The adverb needs to tell when.', 7, 6, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (86, N'Which adverb best completes the sentence?Derek took his wagon __.**The adverb needs to tell where.', 7, 6, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (87, N'Which adverb tells where?', 7, 3, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (88, N'TestMutiple', 7, 3, N'medium', 1, 1)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (89, N'Which adverb tells where?', 7, 3, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (90, N'Which adverb tells where?', 7, 2, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (91, N'Which crew member’s body does Agent Smith infiltrate?', 7, 2, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (92, N'How many steps are there to construct the IFE matrix?', 8, 1, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (93, N'Which religion is referenced in The Matrix trilogy?', 8, 1, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (94, N'How does the Nebuchadnezzar initially contact Neo?', 8, 1, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (95, N' Who persistently refers to Neo as Mr. Anderson?', 8, 1, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (96, N'What proverb is written in Latin over the Oracle’s kitchen door?', 8, 2, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (97, N'Why do Morpheus, Trinity, and Neo initially visit the Merovingian?', 8, 1, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (98, N'Which crew member’s body does Agent Smith infiltrate?', 8, 1, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (99, N'Which adverb best completes the sentence?She __ laid the baby in the crib.**the adverb needs to tell how', 8, 6, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (100, N'Which adverb best completes the sentence?_____, I baked brownies.**The adverb needs to tell when.', 8, 6, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (101, N'Which adverb best completes the sentence?Derek took his wagon __.**The adverb needs to tell where.', 8, 6, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (102, N'Which adverb tells where?', 8, 3, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (103, N'TestMutiple', 8, 3, N'medium', 1, 1)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (104, N'Which adverb tells where?', 8, 3, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (105, N'Which adverb tells where?', 8, 2, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (106, N'Which crew member’s body does Agent Smith infiltrate?', 8, 2, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (107, N'How many steps are there to construct the IFE matrix?', 9, 1, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (108, N'Which religion is referenced in The Matrix trilogy?', 9, 1, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (109, N'How does the Nebuchadnezzar initially contact Neo?', 9, 1, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (110, N' Who persistently refers to Neo as Mr. Anderson?', 9, 1, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (111, N'What proverb is written in Latin over the Oracle’s kitchen door?', 9, 2, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (112, N'Why do Morpheus, Trinity, and Neo initially visit the Merovingian?', 9, 1, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (113, N'Which crew member’s body does Agent Smith infiltrate?', 9, 1, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (114, N'Which adverb best completes the sentence?She __ laid the baby in the crib.**the adverb needs to tell how', 9, 6, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (115, N'Which adverb best completes the sentence?_____, I baked brownies.**The adverb needs to tell when.', 9, 6, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (116, N'Which adverb best completes the sentence?Derek took his wagon __.**The adverb needs to tell where.', 9, 6, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (117, N'Which adverb tells where?', 9, 3, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (118, N'TestMutiple', 9, 3, N'medium', 1, 1)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (119, N'Which adverb tells where?', 9, 3, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (120, N'Which adverb tells where?', 9, 2, N'medium', 1, 0)
-GO
-INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [level], [status], [isMultipleChoice]) VALUES (121, N'Which crew member’s body does Agent Smith infiltrate?', 9, 2, N'medium', 1, 0)
 GO
 SET IDENTITY_INSERT [dbo].[Question] OFF
 GO
@@ -1369,7 +1255,7 @@ INSERT [dbo].[Type] ([typeId], [typeName]) VALUES (N'Q2', N'Exam')
 GO
 SET IDENTITY_INSERT [dbo].[User] ON 
 GO
-INSERT [dbo].[User] ([userId], [username], [password], [status], [email], [phone], [fullname], [address], [gender], [avatar], [roleId], [created_date], [modify_date], [password_token]) VALUES (1, N'admin', N'123456', 1, N'admin123@gmail.com', N'09123456', N'Nguyễn Văn An', N'Hà Nội', 1, N'', 2, CAST(N'1900-01-01T00:00:00.000' AS DateTime), CAST(N'2024-12-02T14:02:51.493' AS DateTime), N'')
+INSERT [dbo].[User] ([userId], [username], [password], [status], [email], [phone], [fullname], [address], [gender], [avatar], [roleId], [created_date], [modify_date], [password_token]) VALUES (1, N'admin', N'123456', 1, N'admin123@gmail.com', N'09123456', N'Nguyễn Văn An', N'Hà Nội', 1, N'', 1, CAST(N'1900-01-01T00:00:00.000' AS DateTime), CAST(N'2024-12-05T13:25:06.097' AS DateTime), N'')
 GO
 INSERT [dbo].[User] ([userId], [username], [password], [status], [email], [phone], [fullname], [address], [gender], [avatar], [roleId], [created_date], [modify_date], [password_token]) VALUES (2, N'customer', N'123456', 1, N'customer123@gmail.com', N'09123456', N'Nguyễn Văn B', N'Hà Nội', 1, N'', 2, CAST(N'1900-01-01T00:00:00.000' AS DateTime), CAST(N'2024-12-02T09:45:38.713' AS DateTime), N'')
 GO
@@ -1407,15 +1293,15 @@ REFERENCES [dbo].[Subject] ([subjectId])
 GO
 ALTER TABLE [dbo].[Chapter] CHECK CONSTRAINT [FK_Lesson_Subject]
 GO
-ALTER TABLE [dbo].[Lesstion]  WITH CHECK ADD  CONSTRAINT [FK_Lesstion_Chapter] FOREIGN KEY([chapterid])
+ALTER TABLE [dbo].[Lession]  WITH CHECK ADD  CONSTRAINT [FK_Lesstion_Chapter] FOREIGN KEY([chapterid])
 REFERENCES [dbo].[Chapter] ([chapterId])
 GO
-ALTER TABLE [dbo].[Lesstion] CHECK CONSTRAINT [FK_Lesstion_Chapter]
+ALTER TABLE [dbo].[Lession] CHECK CONSTRAINT [FK_Lesstion_Chapter]
 GO
-ALTER TABLE [dbo].[Lesstion]  WITH CHECK ADD  CONSTRAINT [FK_Lesstion_Subject] FOREIGN KEY([subid])
+ALTER TABLE [dbo].[Lession]  WITH CHECK ADD  CONSTRAINT [FK_Lesstion_Subject] FOREIGN KEY([subid])
 REFERENCES [dbo].[Subject] ([subjectId])
 GO
-ALTER TABLE [dbo].[Lesstion] CHECK CONSTRAINT [FK_Lesstion_Subject]
+ALTER TABLE [dbo].[Lession] CHECK CONSTRAINT [FK_Lesstion_Subject]
 GO
 ALTER TABLE [dbo].[Post]  WITH CHECK ADD  CONSTRAINT [FK_Post_Blog] FOREIGN KEY([categoryBlogId])
 REFERENCES [dbo].[Blog] ([blogId])

@@ -8,7 +8,7 @@ namespace Quizpractice.Models
         public Subject()
         {
             Chapters = new HashSet<Chapter>();
-            Lesstions = new HashSet<Lesstion>();
+            Lessions = new HashSet<Lession>();
             Questions = new HashSet<Question>();
             Quizzes = new HashSet<Quiz>();
             RegistrationSubjects = new HashSet<RegistrationSubject>();
@@ -23,7 +23,7 @@ namespace Quizpractice.Models
         public string? Description { get; set; }
 
         public virtual ICollection<Chapter> Chapters { get; set; }
-        public virtual ICollection<Lesstion> Lesstions { get; set; }
+        public virtual ICollection<Lession> Lessions { get; set; }
         public virtual ICollection<Question> Questions { get; set; }
         public virtual ICollection<Quiz> Quizzes { get; set; }
         public virtual ICollection<RegistrationSubject> RegistrationSubjects { get; set; }
