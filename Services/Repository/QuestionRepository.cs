@@ -82,7 +82,14 @@ namespace Quizpractice.Services.Repository
             }
 
             return await query.CountAsync();
-        }       
+        }
+
+        public async Task<IEnumerable<Question>> GetQuestionsBySubjectIdAsync(int subjectId)
+        {
+            return await _context.Questions
+                                 .Where(q => q.SubjectId == subjectId)
+                                 .ToListAsync();
+        }
 
     }
 }

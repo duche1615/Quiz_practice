@@ -42,13 +42,6 @@ namespace Quizpractice.Pages.Questions
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
-            {
-                ModelState.AddModelError(string.Empty, "Error");
-                QuestionAnswer.Subjects = await _unitOfWork.Subjects.GetAllSubjects();
-                QuestionAnswer.Chapters = await _unitOfWork.Chapters.GetAllChapters();
-                return Page(); 
-            }
             if (QuestionAnswer.SubjectId == null || QuestionAnswer.SubjectId <= 0|| QuestionAnswer.ChapterId == null || QuestionAnswer.ChapterId <= 0)
             {
                 ModelState.AddModelError(string.Empty, "Please select a subject and chapter for the question.");
