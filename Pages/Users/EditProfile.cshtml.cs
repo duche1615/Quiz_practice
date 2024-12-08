@@ -31,7 +31,7 @@ namespace Quizpractice.Pages.Users
             {
                 return RedirectToPage("/Users/Login");
             }
-            if (Users.Role.RoleName == "Lecture")
+            if (Users.Role.RoleName == "Lecturer")
             {
                 Layout = "_Layout_Teacher";
             }

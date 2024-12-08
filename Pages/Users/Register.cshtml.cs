@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Quizpractice.Services.IRepository;
 using Quizpractice.ViewModels;
@@ -29,17 +29,23 @@ namespace Quizpractice.Pages.Users
                 ModelState.AddModelError("", "Email, Password, and Full Name are required.");
                 return Page();
             }
-
+            // check if email exists
+            var emailExists = await _userRepository.CheckEmailExistAsync(RegisterViewModel.Email);
+            if (emailExists)
+            {
+                ModelState.AddModelError("", "This email is already taken.");
+                return Page();
+            }
             if (RegisterViewModel.Password != RegisterViewModel.RePassword)
             {
                 ModelState.AddModelError("", "Passwords do not match.");
                 return Page();
             }
-
+            // register user
             var user = await _userRepository.RegisterUserAsync(RegisterViewModel);
             if (user == null)
             {
-                ModelState.AddModelError("", "This email is already taken.");
+                ModelState.AddModelError("", "Failed to register user.");
                 return Page();
             }
 
