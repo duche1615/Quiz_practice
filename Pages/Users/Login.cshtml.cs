@@ -44,6 +44,7 @@ namespace Quizpractice.Pages.Users
                 ErrorMessage = "Invalid email or password.";
                 return Page();
             }
+            HttpContext.Session.SetString("UserId", user.UserId.ToString());
             HttpContext.Session.SetString("Role", user.RoleId.ToString());
             ViewData["Role"] = user.RoleId.ToString();
 

@@ -1,39 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Quizpractice.Models;
+using Quizpractice.Services.IRepository;
 
 namespace Quizpractice.Pages.Subjects
 {
     public class DetailsModel : PageModel
     {
-        private readonly Quizpractice.Models.SWP391_DBContext _context;
-
-        public DetailsModel(Quizpractice.Models.SWP391_DBContext context)
+        private readonly ISubjectRepository _subjectRepository;
+        private readonly IChapterRepository _chapterRepository;
+        public DetailsModel(ISubjectRepository subjectRepository, IChapterRepository chapterRepository)
         {
-            _context = context;
+            _subjectRepository = subjectRepository;
+            _chapterRepository = chapterRepository;
         }
-
-      public Subject Subject { get; set; } = default!; 
+        public Subject Subject { get; set; } = default!;
+        public List<Chapter> Chapters { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Subjects == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            var subject = await _context.Subjects.FirstOrDefaultAsync(m => m.SubjectId == id);
+            var subject = await _subjectRepository.GetById(id.Value);
             if (subject == null)
             {
                 return NotFound();
             }
-            else 
+            else
             {
+                var chapters = await _chapterRepository.GetAllChaptersBySubjectId(id.Value);
+                if (chapters == null)
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    Chapters= chapters;
+                }
                 Subject = subject;
             }
             return Page();

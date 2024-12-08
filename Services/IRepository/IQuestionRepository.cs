@@ -11,6 +11,8 @@ namespace Quizpractice.Services.IRepository
         Task<IEnumerable<Question>> SearchQuestionsByContentAsync(string searchTerm);
         Task UpdateQuestionStatusAsync(int questionId, bool newStatus);
         Task<int> GetTotalQuestionsCountAsync(int subjectId, string searchTerm = "");
+        Task<IEnumerable<Question>> GetQuestionsBySubjectIdAsync(int subjectId);
+
 
     }
 

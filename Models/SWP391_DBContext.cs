@@ -19,7 +19,7 @@ namespace Quizpractice.Models
         public virtual DbSet<Answer> Answers { get; set; } = null!;
         public virtual DbSet<Blog> Blogs { get; set; } = null!;
         public virtual DbSet<Chapter> Chapters { get; set; } = null!;
-        public virtual DbSet<Lesstion> Lesstions { get; set; } = null!;
+        public virtual DbSet<Lession> Lessions { get; set; } = null!;
         public virtual DbSet<Post> Posts { get; set; } = null!;
         public virtual DbSet<PostFile> PostFiles { get; set; } = null!;
         public virtual DbSet<PricePackage> PricePackages { get; set; } = null!;
@@ -127,11 +127,11 @@ namespace Quizpractice.Models
                     .HasConstraintName("FK_Lesson_Subject");
             });
 
-            modelBuilder.Entity<Lesstion>(entity =>
+            modelBuilder.Entity<Lession>(entity =>
             {
-                entity.ToTable("Lesstion");
+                entity.ToTable("Lession");
 
-                entity.Property(e => e.LesstionId).HasColumnName("lesstionId");
+                entity.Property(e => e.LessionId).HasColumnName("lessionId");
 
                 entity.Property(e => e.Backlink)
                     .HasMaxLength(255)
@@ -145,10 +145,10 @@ namespace Quizpractice.Models
                     .IsUnicode(false)
                     .HasColumnName("content");
 
-                entity.Property(e => e.LesstionUrl)
+                entity.Property(e => e.LessionUrl)
                     .HasMaxLength(255)
                     .IsUnicode(false)
-                    .HasColumnName("lesstion_url");
+                    .HasColumnName("lessionURL");
 
                 entity.Property(e => e.Notes)
                     .HasMaxLength(255)
@@ -167,12 +167,12 @@ namespace Quizpractice.Models
                     .HasColumnName("title");
 
                 entity.HasOne(d => d.Chapter)
-                    .WithMany(p => p.Lesstions)
+                    .WithMany(p => p.Lessions)
                     .HasForeignKey(d => d.Chapterid)
                     .HasConstraintName("FK_Lesstion_Chapter");
 
                 entity.HasOne(d => d.Sub)
-                    .WithMany(p => p.Lesstions)
+                    .WithMany(p => p.Lessions)
                     .HasForeignKey(d => d.Subid)
                     .HasConstraintName("FK_Lesstion_Subject");
             });
@@ -320,22 +320,24 @@ namespace Quizpractice.Models
 
             modelBuilder.Entity<QuestionQuiz>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.QuizQuestionId);
 
                 entity.ToTable("Question_Quiz");
+
+                entity.Property(e => e.QuizQuestionId).HasColumnName("quiz_question_id");
 
                 entity.Property(e => e.QuesId).HasColumnName("quesId");
 
                 entity.Property(e => e.QuizId).HasColumnName("quizId");
 
                 entity.HasOne(d => d.Ques)
-                    .WithMany()
+                    .WithMany(p => p.QuestionQuizzes)
                     .HasForeignKey(d => d.QuesId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Question_Quiz_Question");
 
                 entity.HasOne(d => d.Quiz)
-                    .WithMany()
+                    .WithMany(p => p.QuestionQuizzes)
                     .HasForeignKey(d => d.QuizId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Question_Quiz_Quiz");
@@ -423,22 +425,22 @@ namespace Quizpractice.Models
 
             modelBuilder.Entity<QuizChapter>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("Quiz_Chapter");
+
+                entity.Property(e => e.QuizChapterId).HasColumnName("quiz_chapter_id");
 
                 entity.Property(e => e.Chapterid).HasColumnName("chapterid");
 
                 entity.Property(e => e.Quizid).HasColumnName("quizid");
 
                 entity.HasOne(d => d.Chapter)
-                    .WithMany()
+                    .WithMany(p => p.QuizChapters)
                     .HasForeignKey(d => d.Chapterid)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Quiz_Chapter_Chapter");
 
                 entity.HasOne(d => d.Quiz)
-                    .WithMany()
+                    .WithMany(p => p.QuizChapters)
                     .HasForeignKey(d => d.Quizid)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Quiz_Chapter_Quiz");

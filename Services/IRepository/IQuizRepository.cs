@@ -10,5 +10,6 @@ namespace Quizpractice.Services.IRepository
         Task<int> GetTotalQuizzesCountAsync(int subjectId, string searchTerm = "");
         Task<Quiz> GetQuizByIdAsync(int quizId);
         Task UpdateQuizStatusAsync(int quizId, bool newStatus);
+        Task AddQuestionToQuizAsync(QuestionQuiz quizQuestion);
     }
 }

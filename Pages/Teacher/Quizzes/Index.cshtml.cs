@@ -9,13 +9,10 @@ namespace Quizpractice.Pages.Teacher.Quizzes
 {
     public class IndexModel : PageModel
     {
-        private readonly IQuizRepository _quizRepository;
-        private readonly ISubjectRepository _subjectRepository;
-
-        public IndexModel(IQuizRepository quizRepository, ISubjectRepository subjectRepository)
+        private readonly IUnitOfWork _unitOfWork;
+        public IndexModel(IUnitOfWork unitOfWork)
         {
-            _quizRepository = quizRepository;
-            _subjectRepository = subjectRepository;
+            _unitOfWork = unitOfWork;
         }
         [BindProperty(SupportsGet = true)]
         public string SearchTerm { get; set; } = string.Empty;
@@ -34,22 +31,22 @@ namespace Quizpractice.Pages.Teacher.Quizzes
         public IEnumerable<QuizViewModel> Quizzes { get; set; }
         public async Task OnGetAsync()
         {
-            Subjects = await _subjectRepository.GetAllSubjects();
+            Subjects = await _unitOfWork.Subjects.GetAllSubjects();
 
             // Initialize the queries
             IEnumerable<Quiz> quizzes;
             if (SelectedSubjectId.HasValue && SelectedSubjectId > 0)
             {
                 
-                var totalQuizzes = await _quizRepository.GetTotalQuizzesCountAsync(SelectedSubjectId.Value, SearchTerm);
+                var totalQuizzes = await _unitOfWork.Quizzes.GetTotalQuizzesCountAsync(SelectedSubjectId.Value, SearchTerm);
                 TotalPages = (int)Math.Ceiling(totalQuizzes / (double)PageSize);
-                quizzes = await _quizRepository.GetQuizzesWithPaginationAsync(SelectedSubjectId.Value, CurrentPage, PageSize, SearchTerm);               
+                quizzes = await _unitOfWork.Quizzes.GetQuizzesWithPaginationAsync(SelectedSubjectId.Value, CurrentPage, PageSize, SearchTerm);               
             }
             else
             {               
-                var totalQuizzes = await _quizRepository.GetTotalQuizzesCountAsync(0, SearchTerm);
+                var totalQuizzes = await _unitOfWork.Quizzes.GetTotalQuizzesCountAsync(0, SearchTerm);
                 TotalPages = (int)Math.Ceiling(totalQuizzes / (double)PageSize);
-                quizzes = await _quizRepository.GetQuizzesWithPaginationAsync(0, CurrentPage, PageSize, SearchTerm);                
+                quizzes = await _unitOfWork.Quizzes.GetQuizzesWithPaginationAsync(0, CurrentPage, PageSize, SearchTerm);                
             }
 
 
@@ -61,7 +58,7 @@ namespace Quizpractice.Pages.Teacher.Quizzes
                 Level = q.Level,
                 Description = q.Description,
                 SubjectName = q.Sub.SubjectName,
-                Duration = (int)q.Duration,
+                Duration = q.Duration ?? 0,
                 Status = q.Active == true ? "Active" : "Inactive", 
                 TotalQues = q.TotalQues,              
             }).ToList();
@@ -70,7 +67,7 @@ namespace Quizpractice.Pages.Teacher.Quizzes
 
         public async Task<IActionResult> OnPostChangeQuizStatusAsync(int quizId)
         {
-            var quiz = await _quizRepository.GetQuizByIdAsync(quizId);
+            var quiz = await _unitOfWork.Quizzes.GetQuizByIdAsync(quizId);
 
             if (quiz != null)
             {
@@ -80,7 +77,7 @@ namespace Quizpractice.Pages.Teacher.Quizzes
                 
                 quiz.Active = !quiz.Active;
 
-                await _quizRepository.UpdateQuizStatusAsync(quizId,quiz.Active.Value); 
+                await _unitOfWork.Quizzes.UpdateQuizStatusAsync(quizId,quiz.Active.Value); 
             }
 
             return RedirectToPage(); 

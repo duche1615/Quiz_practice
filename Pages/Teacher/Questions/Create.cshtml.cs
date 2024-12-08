@@ -20,35 +20,33 @@ namespace Quizpractice.Pages.Questions
         [BindProperty]
         public QuestionAnswerViewModel QuestionAnswer { get; set; }
 
-        public async void OnGet()
+        public async Task OnGet()
         {
-            
-            // create answer mặc định
-            QuestionAnswer = new QuestionAnswerViewModel
+
+            if (QuestionAnswer == null)
             {
-                
-                Answers = new List<AnswerViewModel>
+                QuestionAnswer = new QuestionAnswerViewModel();
+            }
+
+            // Tạo câu trả lời mặc định
+            QuestionAnswer.Answers = new List<AnswerViewModel>
             {
                 new AnswerViewModel(),
                 new AnswerViewModel(),
                 new AnswerViewModel(),
                 new AnswerViewModel()
-            }
             };
             QuestionAnswer.Subjects = await _unitOfWork.Subjects.GetAllSubjects();
+            QuestionAnswer.Chapters = await _unitOfWork.Chapters.GetAllChapters();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+            if (QuestionAnswer.SubjectId == null || QuestionAnswer.SubjectId <= 0|| QuestionAnswer.ChapterId == null || QuestionAnswer.ChapterId <= 0)
             {
+                ModelState.AddModelError(string.Empty, "Please select a subject and chapter for the question.");
                 QuestionAnswer.Subjects = await _unitOfWork.Subjects.GetAllSubjects();
-                return Page(); 
-            }
-            if (QuestionAnswer.SubjectId == null || QuestionAnswer.SubjectId <= 0)
-            {
-                ModelState.AddModelError(string.Empty, "Please select a subject for the question.");
-                QuestionAnswer.Subjects = await _unitOfWork.Subjects.GetAllSubjects();
+                QuestionAnswer.Chapters = await _unitOfWork.Chapters.GetAllChapters();
                 return Page();
             }
             if (!QuestionAnswer.IsMultipleChoice)
@@ -58,6 +56,7 @@ namespace Quizpractice.Pages.Questions
                 {
                     ModelState.AddModelError(string.Empty, "Please choose one correct answer.");
                     QuestionAnswer.Subjects = await _unitOfWork.Subjects.GetAllSubjects();
+                    QuestionAnswer.Chapters = await _unitOfWork.Chapters.GetAllChapters();
                     return Page();
                 }
             }
@@ -68,6 +67,7 @@ namespace Quizpractice.Pages.Questions
                 {
                     ModelState.AddModelError(string.Empty, "Please choose at least two correct answers.");
                     QuestionAnswer.Subjects = await _unitOfWork.Subjects.GetAllSubjects();
+                    QuestionAnswer.Chapters = await _unitOfWork.Chapters.GetAllChapters();
                     return Page(); 
                 }
             }
@@ -78,6 +78,7 @@ namespace Quizpractice.Pages.Questions
                 Status =true,
                 Level = QuestionAnswer.Level,
                 SubjectId = QuestionAnswer.SubjectId.Value,
+                ChapterId = QuestionAnswer.ChapterId.Value,
                 IsMultipleChoice = QuestionAnswer.IsMultipleChoice
             };
 
@@ -101,7 +102,8 @@ namespace Quizpractice.Pages.Questions
             
             await _unitOfWork.SaveAsync();
 
-            
+            QuestionAnswer.Subjects = await _unitOfWork.Subjects.GetAllSubjects();
+            QuestionAnswer.Chapters = await _unitOfWork.Chapters.GetAllChapters();
             return RedirectToPage("Index");
         }
     }

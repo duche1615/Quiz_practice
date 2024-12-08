@@ -6,6 +6,7 @@ namespace Quizpractice.Services.IRepository
     {
         Task<List<Chapter>> GetAllChapters();
         Task<Chapter> GetChapterById(int id);
+        Task<List<Chapter>> GetAllChaptersBySubjectId(int id);
 
     }
 }
