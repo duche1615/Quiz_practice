@@ -15,35 +15,26 @@ namespace Quizpractice.Pages.Users
         }
 
         [BindProperty]
-        public string Email { get; set; }
-
-        [BindProperty]
-        public string Password { get; set; }
-
-        public string ErrorMessage { get; set; }
+        public LoginViewModel LoginViewModel { get; set; } = new();
 
         public async Task<IActionResult> OnPostAsync()
         {
             // Validate inputs
-            if (string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password))
+            if (string.IsNullOrEmpty(LoginViewModel.Email) || string.IsNullOrEmpty(LoginViewModel.Password))
             {
-                ErrorMessage = "Email and Password are required.";
+                ModelState.AddModelError("", "Email and Password are required.");
                 return Page();
             }
 
-            var loginModel = new LoginViewModel
-            {
-                Email = Email,
-                Password = Password
-            };
-
-            var user = await _userRepository.LoginAsync(loginModel);
+            var user = await _userRepository.LoginAsync(LoginViewModel);
 
             if (user == null)
             {
-                ErrorMessage = "Invalid email or password.";
+                ModelState.AddModelError("", "Invalid email or password.");
                 return Page();
             }
+
+            
             HttpContext.Session.SetString("UserId", user.UserId.ToString());
             HttpContext.Session.SetString("Role", user.RoleId.ToString());
             ViewData["Role"] = user.RoleId.ToString();
