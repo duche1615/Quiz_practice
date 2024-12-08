@@ -1,0 +1,64 @@
+﻿@page
+@model Quizpractice.Pages.Quizs.ListModel
+@{
+    ViewData["Title"] = "Quiz List";
+}
+
+<h1>Quiz List</h1>
+
+<!-- Dropdown để chọn môn học -->
+<form method="get">
+    <div class="form-group">
+        <label for="subject">Select Subject</label>
+        <select id="subject" name="subjectId" class="form-control" onchange="this.form.submit()">
+            <option value="">-- Select Subject --</option>
+            @foreach (var subject in Model.SubjectList)
+            {
+                <option value="@subject.SubjectId"
+                        selected="@(subject.SubjectId == Model.SelectedSubjectId ? "selected" : "")">
+                    @subject.SubjectName
+                </option>
+            }
+        </select>
+    </div>
+</form>
+
+@if (Model.SelectedSubjectId.HasValue)
+{
+    <h3>Quizzes for @Model.SelectedSubjectName</h3>
+}
+
+<!-- Hiển thị danh sách quiz -->
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Exam Name</th>
+            <th>Level</th>
+            <th>Subject</th>
+            <th>Total questions</th>
+            <th>Duration</th>
+            <th>Pass Rate</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.QuizList)
+        {
+            <tr>
+                <td>@item.QuizId</td>
+                <td>@item.Title</td>
+                <td>@item.Level</td>
+                <td>@item.SubjectName</td>
+                <td>@item.TotalQues</td>
+                <td>@item.Duration</td>
+                <td>@item.PassPercent</td>
+                <td>
+                    <!-- Thêm asp-route-subjectId để truyền subjectId khi người dùng chọn quiz -->
+                    <a asp-page="./Take_Quiz" asp-route-quizId="@item.QuizId" asp-route-subjectId="@item.SubId" class="btn btn-primary">Do Quiz</a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

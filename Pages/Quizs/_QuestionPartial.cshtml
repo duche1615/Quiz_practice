@@ -1,0 +1,27 @@
+﻿@model Quizpractice.Models.Question
+
+@if (!string.IsNullOrEmpty(Model.Content))
+{
+    <div class="review-question-details">
+        <h3>@Model.Content</h3> <!-- Nội dung câu hỏi -->
+
+        <form method="post" action="/Quizs/Take_Quiz">
+            @foreach (var answer in Model.Answers)
+            {
+                @if (!string.IsNullOrEmpty(answer.Content))
+                {
+                    <div>
+                        <input type="radio" name="selectedAnswer" value="@answer.AnswerId" id="answer_@answer.AnswerId" />
+                        <label for="answer_@answer.AnswerId">@answer.Content</label>
+                    </div>
+                }
+            }
+
+            
+        </form>
+    </div>
+}
+else
+{
+    <p>No content available for this question.</p>
+}
