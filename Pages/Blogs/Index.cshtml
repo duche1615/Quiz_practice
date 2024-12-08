@@ -29,7 +29,7 @@
                     <div class="card-body">
                         <h5 class="card-title text-primary">@blog.BlogName</h5>
                         <p class="card-text text-muted">Ngày đăng: @(blog.BlogDate?.ToString("yyyy-MM-dd") ?? "N/A")</p>
-                        <a href="/Blogs/BlogDetail?blogId=@blog.BlogId" class="btn btn-info">View Details</a>
+                        <a href="/Blogs/BlogDetail/@blog.BlogId" class="btn btn-info">View Details</a>
                     </div>
                 </div>
             </div>
