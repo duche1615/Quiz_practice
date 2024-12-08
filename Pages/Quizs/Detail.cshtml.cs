@@ -51,10 +51,10 @@ namespace Quizpractice.Pages.Quizs
                 return NotFound();
             }
 
-            // Lấy câu hỏi và đáp án từ cơ sở dữ liệu
+
             Question = _context.Questions
-                .Include(q => q.Answers)
-                .FirstOrDefault(q => q.QuestionId == questionId);
+                               .Include(q => q.Answers)  
+                               .FirstOrDefault(q => q.QuestionId == currentQuestion.QuestionId);
 
             // Lấy đáp án đã chọn (nếu có) từ session
             SelectedAnswerId = HttpContext.Session.GetInt32($"Answer_{questionId}") ?? 0;
@@ -62,13 +62,38 @@ namespace Quizpractice.Pages.Quizs
             return Page();
         }
 
-        public IActionResult OnPostAnswer(int questionId)
+        public IActionResult OnPost(int questionId, int subjectId)
         {
-            // Lưu đáp án người dùng đã chọn vào session
-            HttpContext.Session.SetInt32($"Answer_{questionId}", SelectedAnswerId);
+            // Lấy danh sách câu hỏi từ session
+            string sessionKey = $"QuestionList_{subjectId}";
+            var questions = JsonConvert.DeserializeObject<List<Question>>(HttpContext.Session.GetString(sessionKey));
 
-            // Chuyển sang câu hỏi tiếp theo
-            return RedirectToPage(new { questionId = questionId + 1 });
+            if (questions == null || !questions.Any())
+            {
+                // Nếu không có câu hỏi trong session, chuyển hướng về trang câu hỏi đầu tiên
+                return RedirectToPage("/Quizs/Detail", new { questionId = questions?.FirstOrDefault()?.QuestionId ?? 0, subjectId });
+            }
+
+            // Kiểm tra nếu người dùng có chọn đáp án không
+            if (SelectedAnswerId != 0)
+            {
+                // Lưu câu trả lời đã chọn vào session nếu có lựa chọn
+                HttpContext.Session.SetInt32($"Answer_{questionId}", SelectedAnswerId);
+            }
+
+            // Tìm câu hỏi tiếp theo trong danh sách
+            var currentQuestionIndex = questions.FindIndex(q => q.QuestionId == questionId);
+            if (currentQuestionIndex >= 0 && currentQuestionIndex < questions.Count - 1)
+            {
+                // Chuyển đến câu hỏi tiếp theo
+                var nextQuestionId = questions[currentQuestionIndex + 1].QuestionId;
+                return RedirectToPage("/Quizs/Detail", new { questionId = nextQuestionId, subjectId });
+            }
+            else
+            {
+                // Nếu không có câu hỏi tiếp theo, có thể hoàn thành bài quiz hoặc làm gì đó khác
+                return RedirectToPage("/Quizs/Completion"); // Chuyển hướng đến trang hoàn thành quiz
+            }
         }
     }
 }
