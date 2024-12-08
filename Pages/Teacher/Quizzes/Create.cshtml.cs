@@ -90,7 +90,7 @@ namespace Quizpractice.Pages.Teacher.Quizzes
                     UserCreateId = Convert.ToInt32(userId)
                 };
 
-                
+                //add quiz
                 await _unitOfWork.Quizzes.AddAsync(quiz);
 
                 // add questions to quiz

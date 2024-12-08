@@ -56,6 +56,6 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapRazorPages();
+app.MapRazorPages().WithMetadata(new RouteNameMetadata("HomePage/Index"));
 
 app.Run();

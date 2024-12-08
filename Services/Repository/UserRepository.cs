@@ -34,37 +34,33 @@ namespace Quizpractice.Services.Repository
             }
             return false;
         }
-        
+        public async Task<bool> CheckEmailExistAsync(string email)
+        {
+            return await _dbContext.Users.AnyAsync(u => u.Email == email);
+        }
+
         public async Task<User> RegisterUserAsync(RegisterViewModel registerModel)
         {
-            
-            var existingUser = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == registerModel.Email);
-            if (existingUser != null)
-            {
-                return null; 
-            }
-
-           
             var newUser = new User
             {
                 Email = registerModel.Email,
-                Password = registerModel.Password,  
+                Password = registerModel.Password,
                 Fullname = registerModel.Fullname,
                 Phone = registerModel.Phone,
                 Gender = registerModel.Gender,
                 Address = registerModel.Address,
                 CreatedDate = DateTime.Now,
                 ModifyDate = DateTime.Now,
-                Status = true,  
-                RoleId = 2
+                Status = true, 
+                RoleId = 2 
             };
 
-            // Save the new user to the database
             _dbContext.Users.Add(newUser);
             await _dbContext.SaveChangesAsync();
 
             return newUser;
         }
+
 
         public async Task<User> LoginAsync(LoginViewModel loginModel)
         {
@@ -77,6 +73,20 @@ namespace Quizpractice.Services.Repository
             }
 
             return null; 
+        }
+
+        public async Task<bool> ValidatePassword(User user, string password)
+        {
+            return user.Password == password;
+        }
+
+        
+        public async Task<bool> UpdatePasswordAsync(User user, string newPassword)
+        {
+            user.Password = newPassword;
+            _dbContext.Users.Update(user);
+            await _dbContext.SaveChangesAsync();
+            return true;
         }
     }
 }

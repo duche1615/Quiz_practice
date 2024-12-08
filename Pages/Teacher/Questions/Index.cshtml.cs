@@ -34,11 +34,11 @@ namespace Quizpractice.Pages.Questions
 
         public IEnumerable<Subject> Subjects { get; set; } 
         public IEnumerable<QuestionAnswerViewModel> Questions { get; set; }
-        
+        public IEnumerable<Question> questions { get; set; }
         public async Task OnGetAsync()
         {
             Subjects = await _unitOfWork.Subjects.GetAllSubjects();
-            IEnumerable<Question> questions;
+           
 
             if (SelectedSubjectId.HasValue && SelectedSubjectId > 0)
             {
