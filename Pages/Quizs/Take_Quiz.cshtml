@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{quizId:int}/{subjectId:int}"
 @model Quizpractice.Pages.Quizs.IndexModel
 
 <!-- Hiển thị thông báo kết quả trả lời -->
@@ -28,7 +28,7 @@
                 var questionId = Model.Questions[i - 1].QuestionId;
                 var answerStatus = HttpContext.Session.GetInt32($"Answer_{questionId}");
 
-                <a href="/Quizs/Detail/@Model.Questions[i-1].QuestionId">
+                <a href="/Quizs/Detail/@Model.Questions[i-1].QuestionId/@Model.Question.SubjectId">
                     <div class="number 
                         @(answerStatus.HasValue ? "answered" : "unanswered")">
                         @i

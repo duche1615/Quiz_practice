@@ -29,5 +29,7 @@ namespace Quizpractice.Models
         public virtual Subject? Sub { get; set; }
         public virtual User? UserCreate { get; set; }
         public virtual ICollection<QuizDetail> QuizDetails { get; set; }
+
+        public string? SubjectName => Sub?.SubjectName;
     }
 }
