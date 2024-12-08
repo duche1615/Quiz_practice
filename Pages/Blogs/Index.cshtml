@@ -1,0 +1,64 @@
+﻿@page
+@model QuizletApp.Pages.Blogs.IndexModel
+@{
+    ViewData["Title"] = "Blogs";
+}
+
+<div class="container mt-4">
+    <h1>Quizlet Blogs</h1>
+
+    <!-- Phần Tìm kiếm -->
+    <div class="row mb-4">
+        <div class="col-12 text-center">
+            <div class="input-group">
+                <input type="text" class="form-control" id="searchInput" placeholder="Search blogs..." aria-label="Search" value="@Model.SearchQuery">
+                <button class="btn btn-warning" id="search-addon">
+                    <i class="fas fa-search"></i> Search
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Danh sách các Blog -->
+    <div class="row" id="blog-list">
+        @foreach (var blog in Model.Blogs)
+        {
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-sm h-100">
+                    <img src="@blog.Img" class="card-img-top" alt="@blog.BlogName">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary">@blog.BlogName</h5>
+                        <p class="card-text text-muted">Ngày đăng: @(blog.BlogDate?.ToString("yyyy-MM-dd") ?? "N/A")</p>
+                        <a href="/Blogs/BlogDetail?blogId=@blog.BlogId" class="btn btn-info">View Details</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        // Tìm kiếm
+        $(document).ready(function () {
+            $("#search-addon").click(function () {
+                var searchQuery = $("#searchInput").val();
+
+                $.ajax({
+                    url: '@Url.Page("Index")',
+                    type: 'GET',
+                    data: {
+                        searchQuery: searchQuery
+                    },
+                    success: function (result) {
+                        $("#blog-list").html($(result).find("#blog-list").html());
+                    },
+                    error: function () {
+                        alert('Error occurred while searching.');
+                    }
+                });
+            });
+        });
+    </script>
+}
