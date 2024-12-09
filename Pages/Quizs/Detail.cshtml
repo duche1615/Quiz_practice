@@ -9,7 +9,7 @@
 <!-- Hiển thị các đáp án -->
 <div class="answers mt-4">
     <form method="post">
-        @foreach (var answer in Model.Question.Answers)
+        @foreach (var answer in Model.Question.Answers.Where(a => !string.IsNullOrEmpty(a.Content)))
         {
             <div class="answer-option mb-3 p-3 border rounded">
                 <input type="radio" class="form-check-input me-2" id="option_@answer.AnswerId" name="SelectedAnswerId" value="@answer.AnswerId"

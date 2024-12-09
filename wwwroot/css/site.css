@@ -78,4 +78,123 @@ body {
     text-align: right;
 }
 
+/* Định dạng phần câu hỏi */
+.review-question-details {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+    /* Tiêu đề câu hỏi */
+    .review-question-details h3 {
+        font-size: 1.5rem;
+        color: #333;
+        margin-bottom: 15px;
+        font-weight: bold;
+    }
+
+    /* Các đáp án */
+    .review-question-details .answer-option {
+        margin-top: 10px;
+        padding: 8px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .review-question-details .answer-option:hover {
+            background-color: #f0f0f0;
+        }
+
+        /* Đáp án đã chọn */
+        .review-question-details .answer-option input:checked + label {
+            font-weight: bold;
+            color: #4caf50;
+        }
+
+    /* Nút "Next Question" */
+    .review-question-details .btn-primary {
+        margin-top: 20px;
+    }
+
+<style >
+/* Khung cho các thẻ Card */
+.card {
+    border-radius: 15px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Khung tìm kiếm */
+.input-group {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Sửa lại kích thước ảnh trong Card */
+.card-img-top {
+    object-fit: cover;
+    height: 200px;
+    border-bottom: 5px solid #f0f0f0;
+}
+
+/* Sửa phần card-body */
+.card-body {
+    padding: 20px;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: #5a2d8c; /* Màu tím */
+}
+
+.card-text {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* Thêm hiệu ứng hover vào Button */
+.btn-warning {
+    background-color: #f4b400;
+    color: white;
+    font-size: 1rem;
+    padding: 10px 20px;
+    border-radius: 25px;
+    transition: background-color 0.3s ease;
+}
+
+    .btn-warning:hover {
+        background-color: #e39f00;
+    }
+
+/* Thêm hiệu ứng cho các nút tìm kiếm */
+.fa-search {
+    font-size: 1.2rem;
+}
+
+/* Cải thiện khoảng cách giữa các hàng */
+.row {
+    margin-bottom: 15px;
+}
+
+/* Chỉnh sửa giao diện cho h1 */
+h1 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: #5a2d8c;
+}
+
+</style >
+
 

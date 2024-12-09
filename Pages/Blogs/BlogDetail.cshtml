@@ -1,0 +1,23 @@
+﻿@page "{blogId:int}"
+@model QuizletApp.Pages.Blogs.BlogDetailModel
+@{
+    ViewData["Title"] = "Blog Details";
+}
+
+<div class="container mt-4">
+    <h1>@Model.Blog.BlogName</h1>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <img src="@Model.Blog.Img" class="card-img-top" alt="@Model.Blog.BlogName">
+                <div class="card-body">
+                    <p><strong>Ngày đăng:</strong> @(Model.Blog.BlogDate?.ToString("yyyy-MM-dd") ?? "N/A")</p>
+                    <p>@Model.Blog.BlogDetail</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a href="/Blogs" class="btn btn-primary mt-4">Back to Blogs</a>
+</div>
