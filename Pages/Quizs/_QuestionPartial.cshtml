@@ -2,7 +2,7 @@
 
 @if (!string.IsNullOrEmpty(Model.Content))
 {
-    <div class="review-question-details">
+    <div class="review-question-details" data-question-id="@Model.QuestionId">
         <h3>@Model.Content</h3> <!-- Nội dung câu hỏi -->
 
         <form method="post" action="/Quizs/Take_Quiz">
@@ -11,13 +11,12 @@
                 @if (!string.IsNullOrEmpty(answer.Content))
                 {
                     <div>
-                        <input type="radio" name="selectedAnswer" value="@answer.AnswerId" id="answer_@answer.AnswerId" />
+                        <input type="radio" name="selectedAnswer" value="@answer.AnswerId" id="answer_@answer.AnswerId"
+                        @(ViewData["SelectedAnswer"] != null && (int)ViewData["SelectedAnswer"] == answer.AnswerId ? "checked" : "") />
                         <label for="answer_@answer.AnswerId">@answer.Content</label>
                     </div>
                 }
             }
-
-            
         </form>
     </div>
 }
@@ -25,3 +24,28 @@ else
 {
     <p>No content available for this question.</p>
 }
+
+@section Scripts {
+    <script>
+        $(document).on('change', 'input[name="selectedAnswer"]', function () {
+            const selectedAnswer = $(this).val();
+            const questionId = $(this).closest('.review-question-details').data('question-id');
+
+            $.ajax({
+                url: '/Quizs/_QuestionPartial?handler=SaveAnswer',  // URL đúng đến phương thức OnPostSaveAnswer
+                type: 'POST',
+                data: {
+                    questionId: questionId,
+                    selectedAnswer: selectedAnswer
+                },
+                success: function () {
+                    console.log("Answer saved successfully!");
+                },
+                error: function () {
+                    alert("Error saving the answer.");
+                }
+            });
+        });
+    </script>
+}
+
