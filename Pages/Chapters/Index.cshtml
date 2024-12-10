@@ -29,38 +29,39 @@
                 @Html.DisplayNameFor(model => model.Chapter[0].Description)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Chapter[0].Sub)
+                <a>Subject</a>
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Chapter) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ChapterName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Content)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Active)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Public)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Sub.SubjectId)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.ChapterId">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.ChapterId">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.ChapterId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.Chapter)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ChapterName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Content)
+                </td>
+                <td>
+                    @(item.Active.Value ? "Active" : "Deactive")
+                </td>
+                <td>
+                    @(item.Public==true ? "Public" : "Private")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @(Model.Subject.First(s=>s.SubjectId==item.SubId).SubjectName)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.ChapterId">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.ChapterId">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.ChapterId">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

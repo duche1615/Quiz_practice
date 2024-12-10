@@ -6,40 +6,70 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Quizpractice.Models;
+using Quizpractice.Services.IRepository;
 
 namespace Quizpractice.Pages.Chapters
 {
     public class CreateModel : PageModel
     {
-        private readonly Quizpractice.Models.SWP391_DBContext _context;
-
-        public CreateModel(Quizpractice.Models.SWP391_DBContext context)
+        private readonly IChapterRepository _chapterRepository;
+        private readonly ISubjectRepository _subjectRepository;
+        public CreateModel(IChapterRepository chapterRepository, ISubjectRepository subjectRepository)
         {
-            _context = context;
-        }
-
-        public IActionResult OnGet()
-        {
-        ViewData["SubId"] = new SelectList(_context.Subjects, "SubjectId", "SubjectId");
-            return Page();
+            _chapterRepository = chapterRepository;
+            _subjectRepository = subjectRepository;
         }
 
         [BindProperty]
         public Chapter Chapter { get; set; } = default!;
-        
+        public IList<Subject> Subjects { get; set; } = default!;
+
+        [BindProperty]
+        public int ChapterId { get; set; } = default!;
+        [BindProperty]
+        public string ChapterName { get; set; } = default!;
+        [BindProperty]
+        public string Content { get; set; } = default!;
+        [BindProperty]
+        public bool Active { get; set; } = default!;
+        [BindProperty]
+        public bool Public { get; set; } = default!;
+        [BindProperty]
+        public int SubId { get; set; } = default!;
+        [BindProperty]
+        public string Description { get; set; } = default!;
+
+
+        public async Task<IActionResult> OnGet()
+        {
+            Subjects = await _subjectRepository.GetAllSubjects();
+            if (Subjects == null)
+            {
+                return NotFound();
+            }
+            ViewData["Subid"] = new SelectList(Subjects, "SubjectId", "SubjectName");
+            return Page();
+        }
+
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.Chapters == null || Chapter == null)
+            Chapter rawChapter = new Chapter()
             {
-                return Page();
+                ChapterId = ChapterId,
+                Active = Active,
+                Public = Public,
+                ChapterName = ChapterName,
+                Content = Content,
+                Description = Description,
+                SubId = SubId,
+            };
+            if (_chapterRepository.CreateChapter(rawChapter))
+            {
+                return RedirectToPage("./Index");
             }
-
-            _context.Chapters.Add(Chapter);
-            await _context.SaveChangesAsync();
-
-            return RedirectToPage("./Index");
+            return Page();
         }
     }
 }

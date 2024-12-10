@@ -1,0 +1,75 @@
+﻿@page
+@model Quizpractice.Pages.Lessions.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Lession</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Lession.LessionId" />
+            <div class="form-group">
+                <label asp-for="Lession.LessionUrl" class="control-label"></label>
+                <input asp-for="Lession.LessionUrl" class="form-control" />
+                <span asp-validation-for="Lession.LessionUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Lession.Status" class="control-label"></label>
+                <input asp-for="Lession.Status" class="form-control" />
+                <span asp-validation-for="Lession.Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Lession.Title" class="control-label"></label>
+                <input asp-for="Lession.Title" class="form-control" />
+                <span asp-validation-for="Lession.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Lession.Content" class="control-label"></label>
+                <input asp-for="Lession.Content" class="form-control" />
+                <span asp-validation-for="Lession.Content" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Lession.Backlink" class="control-label"></label>
+                <input asp-for="Lession.Backlink" class="form-control" />
+                <span asp-validation-for="Lession.Backlink" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Lession.Notes" class="control-label"></label>
+                <input asp-for="Lession.Notes" class="form-control" />
+                <span asp-validation-for="Lession.Notes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Lession.Public" class="control-label"></label>
+                <input asp-for="Lession.Public" class="form-control" />
+                <span asp-validation-for="Lession.Public" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Lession.Subid" class="control-label"></label>
+                <select asp-for="Lession.Subid" class="form-control" asp-items="ViewBag.Subid"></select>
+                <span asp-validation-for="Lession.Subid" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Lession.Chapterid" class="control-label"></label>
+                <select asp-for="Lession.Chapterid" class="form-control" asp-items="ViewBag.Chapterid"></select>
+                <span asp-validation-for="Lession.Chapterid" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
