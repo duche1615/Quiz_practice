@@ -6,35 +6,40 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Quizpractice.Models;
+using Quizpractice.Services.IRepository;
 
 namespace Quizpractice.Pages.Lessions
 {
     public class DetailsModel : PageModel
     {
-        private readonly Quizpractice.Models.SWP391_DBContext _context;
-
-        public DetailsModel(Quizpractice.Models.SWP391_DBContext context)
+        private readonly ILessionRepository _lessionRepository;
+        private readonly ISubjectRepository _subjectRepository;
+        private readonly IChapterRepository _chapterRepository;
+        public DetailsModel(ILessionRepository lessionRepository, ISubjectRepository subjectRepository, IChapterRepository chapterRepository)
         {
-            _context = context;
+            _lessionRepository = lessionRepository;
+            _subjectRepository = subjectRepository;
+            _chapterRepository = chapterRepository;
         }
+        [BindProperty]
+        public Lession Lession { get; set; }
+        [BindProperty]
+        public IList<Subject> Subject { get; set; }
+        [BindProperty]
+        public IList<Chapter> Chapter { get; set; }
 
-      public Lession Lession { get; set; } = default!; 
-
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public IActionResult OnGetAsync(int? id)
         {
-            if (id == null || _context.Lessions == null)
+            if (id == null)
             {
                 return NotFound();
             }
-
-            var lession = await _context.Lessions.FirstOrDefaultAsync(m => m.LessionId == id);
-            if (lession == null)
+            Lession = _lessionRepository.GetLessionById(id.Value).Result;
+            Subject = _subjectRepository.GetAllSubjects().Result;
+            Chapter = _chapterRepository.GetAllChapters().Result;
+            if (Lession == null || Subject == null || Chapter == null)
             {
                 return NotFound();
-            }
-            else 
-            {
-                Lession = lession;
             }
             return Page();
         }

@@ -1,33 +1,38 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using Quizpractice.Models;
+using Quizpractice.Services.IRepository;
 
 namespace Quizpractice.Pages.Lessions
 {
     public class IndexModel : PageModel
     {
-        private readonly Quizpractice.Models.SWP391_DBContext _context;
-
-        public IndexModel(Quizpractice.Models.SWP391_DBContext context)
+        private readonly ILessionRepository _lessionRepository;
+        private readonly ISubjectRepository _subjectRepository;
+        private readonly IChapterRepository _chapterRepository;
+        public IndexModel(ILessionRepository lessionRepository, ISubjectRepository subjectRepository, IChapterRepository chapterRepository)
         {
-            _context = context;
+            _lessionRepository = lessionRepository;
+            _subjectRepository = subjectRepository;
+            _chapterRepository = chapterRepository;
         }
+        [BindProperty]
+        public IList<Lession> Lession { get; set; }
+        [BindProperty]
+        public IList<Subject> Subject { get; set; }
+        [BindProperty]
+        public IList<Chapter> Chapter { get; set; }
 
-        public IList<Lession> Lession { get;set; } = default!;
-
-        public async Task OnGetAsync()
+        public IActionResult OnGetAsync()
         {
-            if (_context.Lessions != null)
+            Lession = _lessionRepository.GetAllLessions().Result;
+            Subject = _subjectRepository.GetAllSubjects().Result;
+            Chapter = _chapterRepository.GetAllChapters().Result;
+            if (Lession == null || Subject == null || Chapter == null)
             {
-                Lession = await _context.Lessions
-                .Include(l => l.Chapter)
-                .Include(l => l.Sub).ToListAsync();
+                return NotFound();
             }
+            return Page();
         }
     }
 }

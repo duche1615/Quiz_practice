@@ -44,41 +44,42 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Lession) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.LessionUrl)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Content)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Backlink)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Notes)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Public)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Chapter.ChapterId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Sub.SubjectId)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.LessionId">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.LessionId">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.LessionId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.Lession)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LessionUrl)
+                </td>
+                <td>
+                    @(item.Status.Value ? "Active" : "Inactive")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Content)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Backlink)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Notes)
+                </td>
+                <td>
+                    @(item.Public == true ? "Public" : "Private")
+                </td>
+                <td>
+                    @(Model.Chapter.First(c => c.ChapterId == item.Chapterid).ChapterName)
+                </td>
+                <td>
+                    @(Model.Subject.First(s=>s.SubjectId==item.Subid).SubjectName)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.LessionId">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.LessionId">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.LessionId">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

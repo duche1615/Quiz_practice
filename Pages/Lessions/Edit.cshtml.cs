@@ -1,42 +1,69 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using Quizpractice.Models;
+using Quizpractice.Services.IRepository;
 
 namespace Quizpractice.Pages.Lessions
 {
     public class EditModel : PageModel
     {
-        private readonly Quizpractice.Models.SWP391_DBContext _context;
-
-        public EditModel(Quizpractice.Models.SWP391_DBContext context)
+        private readonly ILessionRepository _lessionRepository;
+        private readonly ISubjectRepository _subjectRepository;
+        private readonly IChapterRepository _chapterRepository;
+        public EditModel(ILessionRepository lessionRepository, ISubjectRepository subjectRepository, IChapterRepository chapterRepository)
         {
-            _context = context;
+            _lessionRepository = lessionRepository;
+            _subjectRepository = subjectRepository;
+            _chapterRepository = chapterRepository;
         }
 
+
         [BindProperty]
-        public Lession Lession { get; set; } = default!;
+        public Lession Lession { get; set; }
+        [BindProperty]
+        public IList<Subject> Subject { get; set; }
+        [BindProperty]
+        public IList<Chapter> Chapter { get; set; }
 
-        public async Task<IActionResult> OnGetAsync(int? id)
+
+        [BindProperty]
+        public int LessionId { get; set; }
+        [BindProperty]
+        public int Subid { get; set; }
+        [BindProperty]
+        public int Chapterid { get; set; }
+        [BindProperty]
+        public string LessionUrl { get; set; }
+        [BindProperty]
+        public bool Status { get; set; }
+        [BindProperty]
+        public bool Public { get; set; }
+        [BindProperty]
+        public String Title { get; set; }
+        [BindProperty]
+        public String Content { get; set; }
+        [BindProperty]
+        public String Backlink { get; set; }
+        [BindProperty]
+        public String Notes { get; set; }
+
+
+        public IActionResult OnGetAsync(int? id)
         {
-            if (id == null || _context.Lessions == null)
+            if (id == null)
             {
                 return NotFound();
             }
-
-            var lession =  await _context.Lessions.FirstOrDefaultAsync(m => m.LessionId == id);
-            if (lession == null)
+            Lession = _lessionRepository.GetLessionById(id.Value).Result;
+            Subject = _subjectRepository.GetAllSubjects().Result;
+            Chapter = _chapterRepository.GetAllChapters().Result;
+            if (Lession == null || Subject == null || Chapter == null)
             {
                 return NotFound();
             }
-            Lession = lession;
-           ViewData["Chapterid"] = new SelectList(_context.Chapters, "ChapterId", "ChapterId");
-           ViewData["Subid"] = new SelectList(_context.Subjects, "SubjectId", "SubjectId");
+            ViewData["Subjects"] = Subject;
+            ViewData["Chapters"] = Chapter;
             return Page();
         }
 
@@ -44,35 +71,26 @@ namespace Quizpractice.Pages.Lessions
         // For more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid)
+            Lession editedLession = new Lession()
             {
-                return Page();
-            }
-
-            _context.Attach(Lession).State = EntityState.Modified;
-
-            try
+                LessionId = LessionId,
+                LessionUrl = LessionUrl,
+                Status = Status,
+                Title = Title,
+                Content = Content,
+                Backlink = Backlink,
+                Notes = Notes,
+                Public = Public,
+                Chapterid = Chapterid,
+                Subid = Subid
+            };
+            if (_lessionRepository.UpdateLession(editedLession))
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!LessionExists(Lession.LessionId))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+                return RedirectToPage("./Index");
 
-            return RedirectToPage("./Index");
+            }
+            return Page();
         }
 
-        private bool LessionExists(int id)
-        {
-          return (_context.Lessions?.Any(e => e.LessionId == id)).GetValueOrDefault();
-        }
     }
 }

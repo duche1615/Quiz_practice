@@ -21,7 +21,7 @@
             @Html.DisplayNameFor(model => model.Lession.Status)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Lession.Status)
+            @(Model.Lession.Status.Value ? "Acive" : "Inactive")
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Lession.Title)
@@ -51,19 +51,19 @@
             @Html.DisplayNameFor(model => model.Lession.Public)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Lession.Public)
+            @(Model.Lession.Public==true?"Public":"Private")
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Lession.Chapter)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Lession.Chapter.ChapterId)
+            @(Model.Chapter.First(c=>c.ChapterId==Model.Lession.Chapterid).ChapterName)
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Lession.Sub)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Lession.Sub.SubjectId)
+            @(Model.Subject.First(s=>s.SubjectId==Model.Lession.Subid).SubjectName)
         </dd>
     </dl>
 </div>
