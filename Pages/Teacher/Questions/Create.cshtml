@@ -9,7 +9,7 @@
     
     <div class="mb-3">
         <label class="form-label">Subject</label>
-        <select class="form-select" asp-for="QuestionAnswer.SubjectId">
+        <select class="form-select" asp-for="QuestionAnswer.SubjectId" id="SubjectDropdown" onchange="loadChapters()">
             <option value="">-- Select a Subject --</option>
             @foreach (var subject in Model.QuestionAnswer.Subjects)
             {
@@ -18,14 +18,11 @@
         </select>
         <span asp-validation-for="QuestionAnswer.SubjectId" class="text-danger"></span>
     </div>
+
     <div class="mb-3">
         <label class="form-label">Chapter</label>
-        <select class="form-select" asp-for="QuestionAnswer.ChapterId">
+        <select class="form-select" asp-for="QuestionAnswer.ChapterId" id="ChapterDropdown" >
             <option value="">-- Select a Chapter --</option>
-            @foreach (var chapter in Model.QuestionAnswer.Chapters)
-            {
-                <option value="@chapter.ChapterId">@chapter.ChapterName</option>
-            }
         </select>
         <span asp-validation-for="QuestionAnswer.ChapterId" class="text-danger"></span>
     </div>

@@ -48,14 +48,11 @@ namespace Quizpractice.Pages.Users
             {
                 return RedirectToPage("/Quizs/List");
             }
-            else if (user.RoleId == 3) // Teacher
+            else if (user.RoleId == 3) // Lecturer
             {
                 return RedirectToPage("/Teacher/Questions/Index");
             }
-            else if (user.RoleId == 4) // Sale
-            {
-                return RedirectToPage("/Sale/Index");
-            }
+            
             // Login is successful, redirect to home page or dashboard
             return RedirectToPage("/Index");
         }

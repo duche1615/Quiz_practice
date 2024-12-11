@@ -19,8 +19,8 @@ namespace Quizpractice.Pages.Questions
 
         [BindProperty]
         public QuestionAnswerViewModel QuestionAnswer { get; set; }
-
-        public async Task OnGet()
+        public List<Chapter> Chapters { get; set; }
+        public async Task OnGet(int? subjectId = null)
         {
 
             if (QuestionAnswer == null)
@@ -37,16 +37,30 @@ namespace Quizpractice.Pages.Questions
                 new AnswerViewModel()
             };
             QuestionAnswer.Subjects = await _unitOfWork.Subjects.GetAllSubjects();
-            QuestionAnswer.Chapters = await _unitOfWork.Chapters.GetAllChapters();
+            if (subjectId.HasValue)
+            {
+                Chapters = await _unitOfWork.Chapters.GetAllChaptersBySubjectId(subjectId.Value);
+            }
+            else
+            {
+                Chapters = new List<Chapter>();
+            }
         }
-
+        
         public async Task<IActionResult> OnPostAsync()
         {
             if (QuestionAnswer.SubjectId == null || QuestionAnswer.SubjectId <= 0|| QuestionAnswer.ChapterId == null || QuestionAnswer.ChapterId <= 0)
             {
                 ModelState.AddModelError(string.Empty, "Please select a subject and chapter for the question.");
                 QuestionAnswer.Subjects = await _unitOfWork.Subjects.GetAllSubjects();
-                QuestionAnswer.Chapters = await _unitOfWork.Chapters.GetAllChapters();
+                if (QuestionAnswer.SubjectId.HasValue && QuestionAnswer.SubjectId.Value > 0)
+                {
+                    Chapters = await _unitOfWork.Chapters.GetAllChaptersBySubjectId(QuestionAnswer.SubjectId.Value);
+                }
+                else
+                {
+                    Chapters = new List<Chapter>();
+                }
                 return Page();
             }
             if (!QuestionAnswer.IsMultipleChoice)
@@ -56,7 +70,14 @@ namespace Quizpractice.Pages.Questions
                 {
                     ModelState.AddModelError(string.Empty, "Please choose one correct answer.");
                     QuestionAnswer.Subjects = await _unitOfWork.Subjects.GetAllSubjects();
-                    QuestionAnswer.Chapters = await _unitOfWork.Chapters.GetAllChapters();
+                    if (QuestionAnswer.SubjectId.HasValue && QuestionAnswer.SubjectId.Value > 0)
+                    {
+                        Chapters = await _unitOfWork.Chapters.GetAllChaptersBySubjectId(QuestionAnswer.SubjectId.Value);
+                    }
+                    else
+                    {
+                        Chapters = new List<Chapter>();
+                    }
                     return Page();
                 }
             }
@@ -67,8 +88,14 @@ namespace Quizpractice.Pages.Questions
                 {
                     ModelState.AddModelError(string.Empty, "Please choose at least two correct answers.");
                     QuestionAnswer.Subjects = await _unitOfWork.Subjects.GetAllSubjects();
-                    QuestionAnswer.Chapters = await _unitOfWork.Chapters.GetAllChapters();
-                    return Page(); 
+                    if (QuestionAnswer.SubjectId.HasValue && QuestionAnswer.SubjectId.Value > 0)
+                    {
+                        Chapters = await _unitOfWork.Chapters.GetAllChaptersBySubjectId(QuestionAnswer.SubjectId.Value);
+                    }
+                    else
+                    {
+                        Chapters = new List<Chapter>();
+                    }
                 }
             }
             // create question
@@ -103,7 +130,14 @@ namespace Quizpractice.Pages.Questions
             await _unitOfWork.SaveAsync();
 
             QuestionAnswer.Subjects = await _unitOfWork.Subjects.GetAllSubjects();
-            QuestionAnswer.Chapters = await _unitOfWork.Chapters.GetAllChapters();
+            if (QuestionAnswer.SubjectId.HasValue && QuestionAnswer.SubjectId.Value > 0)
+            {
+                Chapters = await _unitOfWork.Chapters.GetAllChaptersBySubjectId(QuestionAnswer.SubjectId.Value);
+            }
+            else
+            {
+                Chapters = new List<Chapter>();
+            }
             return RedirectToPage("Index");
         }
     }

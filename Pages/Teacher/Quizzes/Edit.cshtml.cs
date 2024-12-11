@@ -18,8 +18,6 @@ namespace Quizpractice.Pages.Teacher.Quizzes
         [BindProperty]
         public EditQuizViewModel QuizVM { get; set; } = new();
 
-        public IEnumerable<Subject> Subjects { get; set; } = Enumerable.Empty<Subject>();
-        public IEnumerable<Chapter> Chapters { get; set; } = Enumerable.Empty<Chapter>();
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
@@ -42,9 +40,6 @@ namespace Quizpractice.Pages.Teacher.Quizzes
                 EndTime = quiz.EndTime,
             };
 
-            // Load Subjects and Chapters for dropdowns
-            Subjects = await _unitOfWork.Subjects.GetAllSubjects();
-            Chapters = await _unitOfWork.Chapters.GetAllChapters();
 
             return Page();
         }
