@@ -7,9 +7,23 @@ namespace Quizpractice.Services.Repository
     public class LessionRepository : ILessionRepository
     {
         private readonly SWP391_DBContext _dbContext;
-        public LessionRepository( SWP391_DBContext dbContext )
+        public LessionRepository(SWP391_DBContext dbContext)
         {
             _dbContext = dbContext;
+        }
+
+        public bool CreateLession(Lession lession)
+        {
+            try
+            {
+                _dbContext.Lessions.Add(lession);
+                _dbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+            return true;
         }
 
         public async Task<List<Lession>> GetAllLessions()
@@ -19,12 +33,12 @@ namespace Quizpractice.Services.Repository
 
         public async Task<List<Lession>> GetAllLessionsByChapterId(int id)
         {
-            return await _dbContext.Lessions.Where(c=>c.Chapterid==id).ToListAsync();
+            return await _dbContext.Lessions.Where(c => c.Chapterid == id).ToListAsync();
         }
 
         public async Task<Lession> GetLessionById(int id)
         {
-            return await _dbContext.Lessions.FirstAsync(l=>l.LessionId==id);
+            return await _dbContext.Lessions.FirstAsync(l => l.LessionId == id);
         }
 
         public bool UpdateLession(Lession lession)
@@ -33,7 +47,8 @@ namespace Quizpractice.Services.Repository
             {
                 _dbContext.Lessions.Update(lession);
                 _dbContext.SaveChanges();
-            }catch (Exception ex)
+            }
+            catch (Exception ex)
             {
                 return false;
             }

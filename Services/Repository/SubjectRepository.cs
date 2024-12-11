@@ -11,6 +11,21 @@ namespace Quizpractice.Services.Repository
         {
             _dbContext = dbContext;
         }
+
+        public bool CreateSubject(Subject subject)
+        {
+            try
+            {
+                _dbContext.Subjects.Add(subject);
+                _dbContext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+            return true;
+        }
+
         public async Task<List<Subject>> GetAllSubjects()
         {
             return await _dbContext.Subjects.ToListAsync();

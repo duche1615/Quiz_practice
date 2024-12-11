@@ -7,5 +7,6 @@ namespace Quizpractice.Services.IRepository
         Task<List<Subject>> GetAllSubjects();
         Task<Subject> GetById(int id);
         bool Update(Subject subject);
+        bool CreateSubject(Subject subject);
     }
 }

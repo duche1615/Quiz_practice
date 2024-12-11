@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Quizpractice.Models;
 
 namespace Quizpractice.Pages.Lessions
 {
@@ -18,9 +13,7 @@ namespace Quizpractice.Pages.Lessions
             _context = context;
         }
 
-        [BindProperty]
-      public Lession Lession { get; set; } = default!;
-
+        
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null || _context.Lessions == null)
@@ -36,27 +29,12 @@ namespace Quizpractice.Pages.Lessions
             }
             else 
             {
-                Lession = lession;
+                lession.Status = !lession.Status;
+                _context.Lessions.Update(lession);
+                _context.SaveChanges();
             }
-            return Page();
-        }
-
-        public async Task<IActionResult> OnPostAsync(int? id)
-        {
-            if (id == null || _context.Lessions == null)
-            {
-                return NotFound();
-            }
-            var lession = await _context.Lessions.FindAsync(id);
-
-            if (lession != null)
-            {
-                Lession = lession;
-                _context.Lessions.Remove(Lession);
-                await _context.SaveChangesAsync();
-            }
-
             return RedirectToPage("./Index");
         }
+
     }
 }
