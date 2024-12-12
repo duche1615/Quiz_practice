@@ -1,0 +1,26 @@
+﻿@page
+@model Quizpractice.Pages.ListLession.DetailsModel
+
+<div class="container">
+    <h2>Lession Details</h2>
+    <div class="card">
+        <div class="card-header">
+            <h3>@Model.Lession.Title</h3>
+        </div>
+        <div class="card-body">
+            <p><strong>Lession ID:</strong> @Model.Lession.LessionId</p>
+            <p><strong>Title:</strong> @Model.Lession.Title</p>
+            <p><strong>Content:</strong></p>
+            <p>@Model.Lession.Content</p>
+            <p><strong>URL:</strong> <a href="@Model.Lession.LessionUrl" target="_blank">@Model.Lession.LessionUrl</a></p>
+            <p><strong>Backlink:</strong> <a href="@Model.Lession.Backlink" target="_blank">@Model.Lession.Backlink</a></p>
+            <p><strong>Notes:</strong> @Model.Lession.Notes</p>
+            <p><strong>Status:</strong> @(Model.Lession.Status == true ? "Active" : "Inactive")</p>
+            <p><strong>Public:</strong> @(Model.Lession.Public == true ? "Yes" : "No")</p>
+            <p><strong>Subject:</strong> @Model.Lession.Sub?.SubjectName</p>
+            <p><strong>Chapter:</strong> @Model.Lession.Chapter?.ChapterName</p>
+        </div>
+    </div>
+
+    <a class="btn btn-primary mt-3" href="./Index">Back to List</a>
+</div>
