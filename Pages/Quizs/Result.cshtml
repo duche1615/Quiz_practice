@@ -1,16 +1,59 @@
-﻿@* @page "{subjectId:int}/{quizId:int}"
+﻿@page
 @model Quizpractice.Pages.Quizs.ResultModel
-
-<h2>Quiz Results</h2>
-
-@if (TempData["Score"] != null)
-{
-    <div class="alert alert-success">
-        You scored @TempData["Score"] out of @TempData["TotalQuestions"]!
-    </div>
+@{
+    ViewData["Title"] = "Result";
 }
 
-<a href="@Url.Page("/Quizs/Index", new { subjectId = Model.SubjectId, quizId = Model.QuizId })" class="btn btn-secondary">
-    Back to Quiz
-</a>
- *@
+<div style="font-family: Arial, sans-serif; margin: 20px; text-align: center;">
+    <h2>Quiz Results</h2>
+    <p style="font-size: 18px;">Your attempt: <strong>1</strong></p>
+    <p style="font-size: 18px;">Your Score: <strong>@ViewData["Score"]</strong></p>
+    <p style="font-size: 18px;">Number of correct answers: <strong>@ViewData["CorrectAnswers"]</strong></p>
+
+    <div style="margin-top: 20px;">
+        <a href="/Quizs/List" class="btn btn-danger" style="margin-right: 10px;">Back</a>
+        <a href="/Quizs/Take_Quiz/@ViewData["SubjectId"]/@ViewData["QuizId"]"
+           class="btn btn-warning" style="margin-right: 10px;">Do Again</a>
+        <button class="btn btn-success" style="margin-right: 10px;" onclick="toggleReview()">Review</button>
+    </div>
+
+    <!-- Hidden Review Section -->
+    <div id="reviewSection" style="display: none; margin-top: 30px;">
+        <h3>Review</h3>
+        <table style="margin: 0 auto; border-collapse: collapse; width: 80%; font-size: 16px;">
+            <thead>
+                <tr style="border-bottom: 2px solid #ddd;">
+                    <th style="padding: 10px; text-align: left;">Question</th>
+                    <th style="padding: 10px; text-align: left;">Your Answer</th>
+                    <th style="padding: 10px; text-align: left;">Correct Answer</th>
+                    <th style="padding: 10px; text-align: left;">Result</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var detail in (List<Quizpractice.Pages.Quizs.ResultModel.AnswerDetail>)ViewData["AnswerDetails"])
+                {
+                    <tr style="border-bottom: 1px solid #ddd;">
+                        <td style="padding: 10px;">@detail.QuestionContent</td>
+                        <td style="padding: 10px;">@detail.SelectedAnswer</td>
+                        <td style="padding: 10px;">@detail.CorrectAnswer</td>
+                        <td style="padding: 10px; color: @(detail.IsCorrect ? "green" : "red");">
+                            @(detail.IsCorrect ? "Correct" : "Incorrect")
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    // JavaScript function to toggle the review section
+    function toggleReview() {
+        const reviewSection = document.getElementById("reviewSection");
+        if (reviewSection.style.display === "none" || reviewSection.style.display === "") {
+            reviewSection.style.display = "block"; // Show the review section
+        } else {
+            reviewSection.style.display = "none"; // Hide the review section
+        }
+    }
+</script>

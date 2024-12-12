@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Quizpractice.Models;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 
 namespace Quizpractice.Pages.Quizs
 {
@@ -14,64 +15,77 @@ namespace Quizpractice.Pages.Quizs
         public ResultModel(SWP391_DBContext context)
         {
             _context = context;
+            AnswerDetails = new List<AnswerDetail>(); // Initialize the list
         }
 
-        // Các biến để lưu trữ điểm số và chi tiết câu trả lời
+        // Variables to store quiz results
         public bool QuizFinished { get; set; }
         public int Score { get; set; }
         public List<AnswerDetail> AnswerDetails { get; set; }
 
-        public IActionResult OnGet()
+        public IActionResult OnGet(int subjectId, int quizId)
         {
-            // Kiểm tra xem bài kiểm tra đã hoàn thành chưa
-            var questionList = HttpContext.Session.GetString("QuestionList");
+            string sessionKey = $"QuestionList_{subjectId}";
+            var questionList = HttpContext.Session.GetString(sessionKey);
+
             if (string.IsNullOrEmpty(questionList))
             {
-                // Nếu không có danh sách câu hỏi trong session, người dùng chưa bắt đầu bài kiểm tra
-                return RedirectToPage("/Index");
+                return RedirectToPage("./List");
             }
 
-            // Deserialize câu hỏi và kiểm tra câu trả lời của người dùng
-            var questions = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Question>>(questionList);
-            AnswerDetails = new List<AnswerDetail>();
-            Score = 0;
+            var questions = JsonConvert.DeserializeObject<List<Question>>(questionList);
+            int correctAnswers = 0;
+            List<AnswerDetail> answerDetails = new List<AnswerDetail>();
 
             foreach (var question in questions)
             {
                 var selectedAnswerId = HttpContext.Session.GetInt32($"Answer_{question.QuestionId}");
+                string selectedAnswerContent = "No Answer";
+                bool isCorrect = false;
+
                 if (selectedAnswerId.HasValue)
                 {
-                    // Tìm đáp án được chọn
                     var selectedAnswer = question.Answers.FirstOrDefault(a => a.AnswerId == selectedAnswerId.Value);
-                    bool isCorrect = selectedAnswer?.Correct ?? false;
+                    selectedAnswerContent = selectedAnswer?.Content ?? "No Answer";
+                    isCorrect = selectedAnswer?.Correct ?? false;
 
-                    // Tạo đối tượng AnswerDetail để lưu thông tin trả lời
-                    AnswerDetails.Add(new AnswerDetail
-                    {
-                        QuestionId = question.QuestionId,
-                        SelectedAnswer = selectedAnswer?.Content,
-                        IsCorrect = isCorrect
-                    });
-
-                    // Tính điểm
                     if (isCorrect)
                     {
-                        Score++;
+                        correctAnswers++;
                     }
                 }
+
+                answerDetails.Add(new AnswerDetail
+                {
+                    QuestionId = question.QuestionId,
+                    QuestionContent = question.Content,
+                    SelectedAnswer = selectedAnswerContent,
+                    IsCorrect = isCorrect,
+                    CorrectAnswer = question.Answers.FirstOrDefault(a => a.Correct)?.Content ?? "N/A"
+                });
             }
 
-            // Nếu không có câu trả lời nào được chọn, thông báo chưa hoàn thành
-            QuizFinished = Score > 0;
+            double totalQuestions = questions.Count;
+            double score = totalQuestions > 0 ? (correctAnswers / totalQuestions) * 10 : 0;
+
+            // Pass data to the view
+            ViewData["Score"] = score.ToString("F1");
+            ViewData["CorrectAnswers"] = correctAnswers;
+            ViewData["SubjectId"] = subjectId;
+            ViewData["QuizId"] = quizId;
+            ViewData["AnswerDetails"] = answerDetails;
 
             return Page();
         }
-    }
 
-    public class AnswerDetail
-    {
-        public int QuestionId { get; set; }
-        public string SelectedAnswer { get; set; }
-        public bool IsCorrect { get; set; }
+        public class AnswerDetail
+        {
+            public int QuestionId { get; set; }
+            public string QuestionContent { get; set; }
+            public string SelectedAnswer { get; set; }
+            public string CorrectAnswer { get; set; }
+            public bool IsCorrect { get; set; }
+        }
+
     }
 }

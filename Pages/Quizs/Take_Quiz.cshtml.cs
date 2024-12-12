@@ -22,6 +22,7 @@ namespace Quizpractice.Pages.Quizs
         public Question Question { get; private set; }
         public int SubjectId { get; set; } // Lưu subjectId để truyền vào JavaScript
         public int QuizId { get; set; } // Lưu quizId để truyền vào JavaScript
+        public int CurrentQuestionIndex { get; private set; }
 
         // Lấy câu hỏi từ session hoặc từ cơ sở dữ liệu
         public IActionResult OnGet(int subjectId, int quizId, int? questionId)
@@ -95,18 +96,46 @@ namespace Quizpractice.Pages.Quizs
             // Cập nhật câu hỏi hiện tại
             Question = Questions[CurrentQuestionIndex];
             TempData["Result"] = "Answer saved successfully!";
-            return RedirectToPage("Index", new { subjectId, quizId });
+            return RedirectToPage("Result", new { subjectId, quizId });
         }
 
 
         public IActionResult OnPostScoreExam(int subjectId, int quizId)
         {
-            // Your logic to score the exam and calculate the result
-            TempData["Result"] = "Exam submitted successfully!";
+            // Retrieve the question list from session
+            string sessionKey = $"QuestionList_{subjectId}";
+            var questionList = HttpContext.Session.GetString(sessionKey);
+            if (string.IsNullOrEmpty(questionList))
+            {
+                return RedirectToPage("./List");
+            }
 
-            // Redirect to the result page
+            var questions = JsonConvert.DeserializeObject<List<Question>>(questionList);
+            int correctAnswers = 0;
+
+            foreach (var question in questions)
+            {
+                var selectedAnswerId = HttpContext.Session.GetInt32($"Answer_{question.QuestionId}");
+                if (selectedAnswerId.HasValue)
+                {
+                    var selectedAnswer = question.Answers.FirstOrDefault(a => a.AnswerId == selectedAnswerId.Value);
+                    if (selectedAnswer?.Correct == true)
+                    {
+                        correctAnswers++;
+                    }
+                }
+            }
+
+            // Calculate score on a scale of 10
+            double totalQuestions = questions.Count;
+            double score = (correctAnswers / totalQuestions) * 10;
+
+            // Store the score as a string in TempData
+            TempData["Score"] = score.ToString("F2"); // Format to 2 decimal places
+
             return RedirectToPage("Result", new { subjectId, quizId });
         }
+
 
     }
 }
