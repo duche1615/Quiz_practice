@@ -1,0 +1,40 @@
+﻿@page
+@model Quizpractice.Pages.ListSubject.IndexModel
+@{
+    Layout = "~/Pages/Shared/_Layout_Learner.cshtml";
+    
+}
+<div class="container">
+    <h2>Subject List</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>SubjectName</th>
+                <th>Title</th>
+                <th>Thumbnail</th>
+                <th>Chapters</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var subject in Model.Subjects)
+            {
+                <tr>
+                    <td>@subject.SubjectName</td>
+                    <td>@subject.Title</td>
+                    <td>
+                        <img src="@subject.Thumbnail" alt="Thumbnail" style="width:100px; height:100px;" />
+                    </td>
+                    <td>@subject.TagLine</td>
+                    <td>@subject.Description</td>
+                    <td>@(subject.Status == true ? "Active" : "Inactive")</td>
+                    <td>                     
+                        <a href="./Details?id=@subject.SubjectId" class="btn btn-info">Details</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
