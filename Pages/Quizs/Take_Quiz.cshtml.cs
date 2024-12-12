@@ -19,36 +19,33 @@ namespace Quizpractice.Pages.Quizs
 
         public Quiz Quiz { get; set; }
         public List<Question> Questions { get; set; }
-        public int CurrentQuestionIndex { get; set; }
         public Question Question { get; private set; }
-        public int SelectedAnswerId { get; set; }
-
         public int SubjectId { get; set; } // Lưu subjectId để truyền vào JavaScript
         public int QuizId { get; set; } // Lưu quizId để truyền vào JavaScript
 
+        // Lấy câu hỏi từ session hoặc từ cơ sở dữ liệu
         public IActionResult OnGet(int subjectId, int quizId, int? questionId)
         {
             SubjectId = subjectId;
             QuizId = quizId;
 
-            // Lấy câu hỏi theo quizId và subjectId từ session hoặc cơ sở dữ liệu
+            // Kiểm tra xem danh sách câu hỏi đã có trong session chưa
             string sessionKey = $"QuestionList_{subjectId}";
-
-            // Kiểm tra session, nếu chưa có câu hỏi thì lấy từ cơ sở dữ liệu
             if (HttpContext.Session.GetString(sessionKey) == null)
             {
+                // Lấy câu hỏi ngẫu nhiên từ database
                 var randomQuestions = _context.Questions
                                               .Where(q => q.SubjectId == subjectId)
-                                              .OrderBy(q => Guid.NewGuid()) // Sắp xếp ngẫu nhiên
-                                              .Take(20)
+                                              .OrderBy(q => Guid.NewGuid())
+                                              .Take(10)
                                               .Include(q => q.Answers)
                                               .ToList();
 
+                // Lưu danh sách câu hỏi vào session
                 var settings = new JsonSerializerSettings
                 {
                     ReferenceLoopHandling = ReferenceLoopHandling.Ignore
                 };
-
                 HttpContext.Session.SetString(sessionKey, JsonConvert.SerializeObject(randomQuestions, settings));
             }
 
@@ -78,29 +75,20 @@ namespace Quizpractice.Pages.Quizs
         }
 
 
-
-
-
-        public IActionResult OnPostAnswer(int answerId)
+        [HttpPost]
+        public IActionResult OnPostSaveAnswer(int questionId, int selectedAnswerId)
         {
-            // Lưu đáp án đã chọn vào session
-            var currentQuestion = Questions[CurrentQuestionIndex];
-            HttpContext.Session.SetInt32($"Answer_{currentQuestion.QuestionId}", answerId);
+            // Lưu đáp án vào session
+            HttpContext.Session.SetInt32($"Answer_{questionId}", selectedAnswerId);
 
-            // Chuyển sang câu hỏi tiếp theo
-            CurrentQuestionIndex++;
-            HttpContext.Session.SetInt32("CurrentQuestionIndex", CurrentQuestionIndex);
+            // Lấy câu hỏi tiếp theo
+            var currentIndex = Questions.FindIndex(q => q.QuestionId == questionId);
+            var nextQuestion = (currentIndex + 1 < Questions.Count)
+                                ? Questions[currentIndex + 1]
+                                : Questions[0]; // Quay lại câu đầu tiên nếu hết câu
 
-            // Kiểm tra nếu hết câu hỏi, có thể hiển thị kết quả
-            if (CurrentQuestionIndex >= Questions.Count)
-            {
-                TempData["Result"] = "You have finished the quiz!";
-                return RedirectToPage("Result"); // Điều hướng đến trang kết quả
-            }
-
-            // Cập nhật câu hỏi hiện tại
-            Question = Questions[CurrentQuestionIndex];
-            return Page();  // Quay lại trang hiện tại
+            // Trả về câu hỏi tiếp theo dưới dạng Partial View
+            return Partial("_QuestionPartial", nextQuestion);
         }
     }
 }

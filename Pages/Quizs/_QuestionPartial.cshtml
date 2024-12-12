@@ -2,26 +2,84 @@
 
 @if (!string.IsNullOrEmpty(Model.Content))
 {
-    <div class="review-question-details">
-        <h3>@Model.Content</h3> <!-- Nội dung câu hỏi -->
+    <div class="review-question-details" id="question_@Model.QuestionId">
+        <h3>@Model.Content</h3>
 
-        <form method="post" action="/Quizs/Take_Quiz">
+        <form id="answerForm">
             @foreach (var answer in Model.Answers)
             {
                 @if (!string.IsNullOrEmpty(answer.Content))
                 {
+                    bool isChecked = answer.AnswerId == (int?)ViewData["SelectedAnswerId"];
+
                     <div>
-                        <input type="radio" name="selectedAnswer" value="@answer.AnswerId" id="answer_@answer.AnswerId" />
+                        <input type="radio"
+                               name="selectedAnswer"
+                               value="@answer.AnswerId"
+                               id="answer_@answer.AnswerId"
+                        @if (isChecked)
+                        {
+                            <text>checked</text>
+                        } />
                         <label for="answer_@answer.AnswerId">@answer.Content</label>
                     </div>
                 }
             }
-
-            
         </form>
     </div>
 }
 else
 {
     <p>No content available for this question.</p>
+}
+
+@section Scripts {
+    <script type="text/javascript">
+        var isRequesting = false; // Biến kiểm tra xem yêu cầu đang xử lý hay chưa
+
+        // Lắng nghe sự kiện thay đổi trên các radio button
+        $("input[name='selectedAnswer']").on('change', function () {
+            if (isRequesting) return; // Kiểm tra xem có yêu cầu đang xử lý không
+            isRequesting = true;
+
+            var selectedAnswerId = $("input[name='selectedAnswer']:checked").val();
+            var questionId = @Model.QuestionId;
+
+            if (!selectedAnswerId) {
+                alert("Please select an answer first.");
+                isRequesting = false;
+                return;
+            }
+
+            // Gửi đáp án lên server
+            $.ajax({
+                url: '/Quizs/Take_Quiz/SaveAnswer',  // Đảm bảo URL này đúng
+                type: 'POST',
+                data: {
+                    questionId: questionId,
+                    selectedAnswerId: selectedAnswerId
+                },
+                success: function (response) {
+                    console.log("Answer submitted successfully.");
+                    // Sau khi gửi đáp án thành công, lấy câu hỏi tiếp theo
+                    $.ajax({
+                        url: '/Quizs/Take_Quiz/' + @ViewData["SubjectId"] + '/' + @ViewData["QuizId"] + '/' + questionId,
+                        type: 'GET',
+                        success: function (data) {
+                            $(".review-question-details").html(data);  // Cập nhật câu hỏi mới
+                            isRequesting = false;
+                        },
+                        error: function () {
+                            alert("Error while fetching the question.");
+                            isRequesting = false;
+                        }
+                    });
+                },
+                error: function () {
+                    alert("Error while submitting answer.");
+                    isRequesting = false;
+                }
+            });
+        });
+    </script>
 }

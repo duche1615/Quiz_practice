@@ -29,7 +29,7 @@
                 var answerStatus = HttpContext.Session.GetInt32($"Answer_{questionId}");
 
                 <a href="javascript:void(0);" onclick="goToQuestion(@Model.Questions[i-1].QuestionId)">
-                    <div class="number @(answerStatus.HasValue ? "answered" : "unanswered")">
+                    <div class="number @(HttpContext.Session.GetInt32($"Answer_{Model.Questions[i - 1].QuestionId}") != null ? "answered" : "unanswered")">
                         @i
                     </div>
                 </a>
@@ -53,29 +53,48 @@
     <script type="text/javascript">
         var isRequesting = false; // Biến kiểm tra xem yêu cầu đang xử lý hay chưa
 
+        // Hàm lưu đáp án vào session và chuyển câu hỏi
         function goToQuestion(questionId) {
-            if (isRequesting) {
-                return; // Nếu có yêu cầu đang xử lý, không làm gì
+            if (isRequesting) return;
+
+            // Lấy đáp án đã chọn
+            var selectedAnswerId = $("input[name='selectedAnswer']:checked").val();
+
+            if (!selectedAnswerId) {
+                alert("Please select an answer first.");
+                return;
             }
 
-            isRequesting = true; // Đánh dấu yêu cầu đang xử lý
+            isRequesting = true;
 
-            // Gửi yêu cầu AJAX để lấy câu hỏi mới
+            // Gửi đáp án lên session
             $.ajax({
-                url: '/Quizs/Take_Quiz/' + @Model.SubjectId + '/' + @Model.QuizId + '?questionId=' + questionId,
-                type: 'GET',
-                success: function (data) {
-                    // Cập nhật nội dung câu hỏi mới vào review-question-details
-                    $(".review-question-details").html(data);  // Cập nhật câu hỏi mới
-
-                    isRequesting = false; // Đánh dấu yêu cầu hoàn thành
+                url: '/Quizs/Take_Quiz/SaveAnswer',  // Đảm bảo URL này đúng
+                type: 'POST',
+                data: {
+                    questionId: questionId,
+                    selectedAnswerId: selectedAnswerId
+                },
+                success: function (response) {
+                    // Sau khi gửi đáp án, lấy câu hỏi tiếp theo
+                    $.ajax({
+                        url: `/Quizs/Take_Quiz/${@Model.SubjectId}/${@Model.QuizId}?questionId=${questionId}`,
+                        type: 'GET',
+                        success: function (data) {
+                            $(".review-question-details").html(data);  // Cập nhật câu hỏi mới
+                            isRequesting = false;
+                        },
+                        error: function () {
+                            alert("Error while fetching the question.");
+                            isRequesting = false;
+                        }
+                    });
                 },
                 error: function () {
-                    alert("Error while fetching the question.");
-                    isRequesting = false; // Đánh dấu yêu cầu hoàn thành khi có lỗi
+                    alert("Error while saving answer.");
+                    isRequesting = false;
                 }
             });
         }
-
     </script>
 }
