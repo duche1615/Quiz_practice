@@ -1,42 +1,57 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Quizpractice.Models;
+using Quizpractice.Services.IRepository;
 
 namespace Quizpractice.Pages.Subjects
 {
     public class CreateModel : PageModel
     {
-        private readonly Quizpractice.Models.SWP391_DBContext _context;
-
-        public CreateModel(Quizpractice.Models.SWP391_DBContext context)
+        private readonly ISubjectRepository _subjectRepository;
+        public CreateModel(ISubjectRepository subjectRepository)
         {
-            _context = context;
-        }
-
-        public IActionResult OnGet()
-        {
-            return Page();
+            _subjectRepository = subjectRepository;
         }
 
         [BindProperty]
         public Subject Subject { get; set; } = default!;
-        
+        [BindProperty]
+        public int Id { get; set; } = default;
+        [BindProperty]
+        public string SubjectName { get; set; } = default!;
+        [BindProperty]
+        public bool Status { get; set; } = default;
+        [BindProperty]
+        public string Title { get; set; } = default!;
+        [BindProperty]
+        public string Thumbnail { get; set; } = default!;
+        [BindProperty]
+        public string Description { get; set; } = default!;
+
+
+        public IActionResult OnGetAsync()
+        {
+            return Page();
+        }
+
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
-        public async Task<IActionResult> OnPostAsync()
+        public IActionResult OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.Subjects == null || Subject == null)
+            Subject = new Subject()
+            {
+                SubjectId = 0,
+                SubjectName = SubjectName,
+                Status = Status,
+                TagLine = null,
+                Thumbnail = Thumbnail,
+                Description = Description,
+                Title = Title,
+            };
+            if (!_subjectRepository.CreateSubject(Subject))
             {
                 return Page();
             }
-
-            _context.Subjects.Add(Subject);
-            await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");
         }

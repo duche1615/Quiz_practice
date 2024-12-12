@@ -3,30 +3,38 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Quizpractice.Models;
+using Quizpractice.Services.IRepository;
 
 namespace Quizpractice.Pages.Chapters
 {
     public class IndexModel : PageModel
     {
-        private readonly Quizpractice.Models.SWP391_DBContext _context;
-
-        public IndexModel(Quizpractice.Models.SWP391_DBContext context)
+        private readonly IChapterRepository _chapterRepository;
+        private readonly ISubjectRepository _subjectRepository;
+        public IndexModel(IChapterRepository chapterRepository, ISubjectRepository subjectRepository)
         {
-            _context = context;
+            _chapterRepository = chapterRepository;
+            _subjectRepository = subjectRepository;
         }
 
-        public IList<Chapter> Chapter { get;set; } = default!;
+        public IList<Chapter> Chapter { get; set; } = default!;
+        public IList<Subject> Subject { get; set; } = default!;
 
-        public async Task OnGetAsync()
+        public async Task<IActionResult> OnGetAsync()
         {
-            if (_context.Chapters != null)
+            Chapter = await _chapterRepository.GetAllChapters();
+            Subject = await _subjectRepository.GetAllSubjects();
+            if (Chapter == null || Subject == null)
             {
-                Chapter = await _context.Chapters
-                .Include(c => c.Sub).ToListAsync();
+                return NotFound();
             }
+
+            return Page();
+
         }
     }
 }

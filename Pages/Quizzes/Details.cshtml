@@ -1,0 +1,29 @@
+﻿@page
+@model Quizpractice.Pages.Quizzes.DetailsModel
+@{
+    Layout = "~/Pages/Shared/_Layout_Teacher.cshtml";
+}
+
+<h1 class="text-center mb-4">Quiz Details</h1>
+
+<div class="container">
+    <div class="card shadow-lg p-4">
+        <div class="mb-4">
+            <h3>@Model.Quiz.Title</h3>
+            <p><strong>Level:</strong> @Model.Quiz.Level</p>
+            <p><strong>Description:</strong> @Model.Quiz.Description</p>
+            <p><strong>Status:</strong> @(Model.Quiz.Active.HasValue ? (Model.Quiz.Active.Value ? "Active" : "Inactive") : "Unknown")</p>
+            <p><strong>TotalQuestion:</strong>@(Model.Quiz.TotalQues)</p>
+            <p><strong>Start Time:</strong> @Model.Quiz.StartTime</p>
+            <p><strong>End Time:</strong> @Model.Quiz.EndTime</p>
+            <p><strong>Rate:</strong> @Model.Quiz.PassPercent %</p>
+            <p><strong>Duration:</strong> @Model.Quiz.Duration minutes</p>
+            <p><strong>Total:</strong> @Model.total </p>
+            <p><strong>Pass:</strong> @Model.count</p>
+        </div>
+
+        <div class="text-center">
+            <a class="btn btn-secondary" asp-page="Index">Back to List</a>
+        </div>
+    </div>
+</div>

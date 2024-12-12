@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Quizpractice.Models;
 
-namespace Quizpractice.Pages.Chapters
+namespace Quizpractice.Pages.Lessions
 {
     public class DeleteModel : PageModel
     {
@@ -18,23 +13,24 @@ namespace Quizpractice.Pages.Chapters
             _context = context;
         }
 
+        
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.Chapters == null)
+            if (id == null || _context.Lessions == null)
             {
                 return NotFound();
             }
 
-            var chapter = await _context.Chapters.FirstOrDefaultAsync(m => m.ChapterId == id);
+            var lession = await _context.Lessions.FirstOrDefaultAsync(m => m.LessionId == id);
 
-            if (chapter == null)
+            if (lession == null)
             {
                 return NotFound();
             }
             else 
             {
-                chapter.Active = !chapter.Active;
-                _context.Chapters.Update(chapter);
+                lession.Status = !lession.Status;
+                _context.Lessions.Update(lession);
                 _context.SaveChanges();
             }
             return RedirectToPage("./Index");

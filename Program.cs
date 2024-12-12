@@ -30,7 +30,8 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
 builder.Services.AddScoped<IChapterRepository, ChapterRepository>();
-
+builder.Services.AddScoped<ILessionRepository, LessionRepository>();
+builder.Services.AddScoped<IQuizDetailRepository, QuizDetailRepository>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
