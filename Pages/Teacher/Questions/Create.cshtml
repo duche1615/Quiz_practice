@@ -6,7 +6,7 @@
 <h1>Create new question</h1>
 
 <form method="post">
-    
+    <div asp-validation-summary="All" class="text-danger"></div>
     <div class="mb-3">
         <label class="form-label">Subject</label>
         <select class="form-select" asp-for="QuestionAnswer.SubjectId" id="SubjectDropdown" onchange="loadChapters()">
@@ -18,13 +18,16 @@
         </select>
         <span asp-validation-for="QuestionAnswer.SubjectId" class="text-danger"></span>
     </div>
-
     <div class="mb-3">
         <label class="form-label">Chapter</label>
         <select class="form-select" asp-for="QuestionAnswer.ChapterId" id="ChapterDropdown" >
             <option value="">-- Select a Chapter --</option>
+            @foreach (var chapter in Model.Chapters)
+            {
+                <option value="@chapter.ChapterId">@chapter.ChapterName</option>
+            }
         </select>
-        <span asp-validation-for="QuestionAnswer.ChapterId" class="text-danger"></span>
+        
     </div>
 
     <div class="mb-3">
@@ -45,6 +48,7 @@
     <div class="mb-3">
         <label class="form-label">Multiplechoice</label>
         <input type="checkbox" asp-for="QuestionAnswer.IsMultipleChoice" />
+        <span asp-validation-for="QuestionAnswer.IsMultipleChoice" class="text-danger"></span>
     </div>
 
     <h3>Answers</h3>
@@ -60,14 +64,9 @@
                 </div>
             </div>
         }
-        
+        <span asp-validation-for="QuestionAnswer.Answers" class="text-danger"></span>
     </div>
-    @if (!ModelState.IsValid)
-    {
-        <div class="alert alert-danger">
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        </div>
-    }
     <button type="submit" class="btn btn-primary">Save</button>
     <a asp-page="Index" class="btn btn-secondary">Cancel</a>
 </form>
+<script src="~/js/loadchaptersofquestion.js"></script>

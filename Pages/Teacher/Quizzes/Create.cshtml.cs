@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Quizpractice.Models;
 using Quizpractice.Services.IRepository;
@@ -8,6 +9,7 @@ using System.Linq;
 
 namespace Quizpractice.Pages.Teacher.Quizzes
 {
+    [Authorize(Roles = "Lecturer")]
     public class CreateModel : PageModel
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -30,9 +32,9 @@ namespace Quizpractice.Pages.Teacher.Quizzes
                 Subjects = new List<Subject>();
             }
             // Nếu subjectId có giá trị, lấy danh sách chapters tương ứng
-            if (subjectId.HasValue)
+            if (QuizModel.SubjectId.HasValue)
             {
-                Chapters = await _unitOfWork.Chapters.GetAllChaptersBySubjectId(subjectId.Value);
+                Chapters = await _unitOfWork.Chapters.GetAllChaptersBySubjectId(QuizModel.SubjectId.Value);
             }
             else
             {
@@ -50,7 +52,14 @@ namespace Quizpractice.Pages.Teacher.Quizzes
             if (!ModelState.IsValid)
             {
                 Subjects = await _unitOfWork.Subjects.GetAllSubjects();
-                Chapters = new List<Chapter>();
+                if (QuizModel.SubjectId.HasValue)
+                {
+                    Chapters = await _unitOfWork.Chapters.GetAllChaptersBySubjectId(QuizModel.SubjectId.Value);
+                }
+                else
+                {
+                    Chapters = new List<Chapter>();
+                }
                 return Page();
 
                 
@@ -59,7 +68,14 @@ namespace Quizpractice.Pages.Teacher.Quizzes
             {
                 ModelState.AddModelError("", "Subject is required.");
                 Subjects = await _unitOfWork.Subjects.GetAllSubjects();
-                Chapters = new List<Chapter>();
+                if (QuizModel.SubjectId.HasValue)
+                {
+                    Chapters = await _unitOfWork.Chapters.GetAllChaptersBySubjectId(QuizModel.SubjectId.Value);
+                }
+                else
+                {
+                    Chapters = new List<Chapter>();
+                }
                 return Page();
                 
             }
@@ -75,7 +91,14 @@ namespace Quizpractice.Pages.Teacher.Quizzes
             {
                 ModelState.AddModelError("", "End time must be greater than start time.");
                 Subjects = await _unitOfWork.Subjects.GetAllSubjects();
-                Chapters = new List<Chapter>();
+                if (QuizModel.SubjectId.HasValue)
+                {
+                    Chapters = await _unitOfWork.Chapters.GetAllChaptersBySubjectId(QuizModel.SubjectId.Value);
+                }
+                else
+                {
+                    Chapters = new List<Chapter>();
+                }
                 return Page();
             }
             // check if total questions is greater than the number of questions
@@ -83,7 +106,14 @@ namespace Quizpractice.Pages.Teacher.Quizzes
             {
                 ModelState.AddModelError("", "Not enough questions for quiz.");
                 Subjects = await _unitOfWork.Subjects.GetAllSubjects();
-                Chapters = new List<Chapter>();
+                if (QuizModel.SubjectId.HasValue)
+                {
+                    Chapters = await _unitOfWork.Chapters.GetAllChaptersBySubjectId(QuizModel.SubjectId.Value);
+                }
+                else
+                {
+                    Chapters = new List<Chapter>();
+                }
                 return Page();
             }
             var totalQuestions = QuizModel.TotalQuestions;
