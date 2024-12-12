@@ -28,7 +28,7 @@
                 var questionId = Model.Questions[i - 1].QuestionId;
                 var answerStatus = HttpContext.Session.GetInt32($"Answer_{questionId}");
 
-                <a href="javascript:void(0);" onclick="goToQuestion(@Model.Questions[i-1].QuestionId)">
+                <a href="@Url.Page("/Quizs/Detail", new { questionId = questionId, subjectId = Model.SubjectId })">
                     <div class="number @(answerStatus.HasValue ? "answered" : "unanswered")">
                         @i
                     </div>
@@ -36,85 +36,26 @@
             }
         </div>
         <div class="score-exam-btn">
-            <button class="btn btn-primary" onclick="submitExam()">SCORE EXAM NOW</button>
+            <form id="scoreExamForm" method="post" asp-page-handler="ScoreExam">
+                <button type="button" class="btn btn-primary" onclick="submitExam()">SCORE EXAM NOW</button>
+            </form>
         </div>
     </div>
 </div>
 
-<!-- Hiển thị nội dung câu hỏi -->
-<div class="review-question-details" data-question-id="@Model.Question?.QuestionId">
-    @if (Model.Question != null)
-    {
-        @await Html.PartialAsync("_QuestionPartial", Model.Question)
+<!-- Ensure the script is placed before the closing body tag -->
+<script>
+    // This function will be triggered when the "SCORE EXAM NOW" button is clicked
+    function submitExam() {
+        // Log to the console to confirm the function is called
+        console.log("submitExam function is being called");
+
+        // Submit the form containing the "SCORE EXAM NOW" button
+        document.getElementById("scoreExamForm").submit();
     }
-</div>
 
-@section Scripts {
-    <script>
-        var subjectId = @Model.SubjectId;
-        var quizId = @Model.QuizId;
-
-        var isRequesting = false; // Biến kiểm tra xem yêu cầu đang xử lý hay chưa
-
-        $(document).on('change', 'input[name="selectedAnswer"]', function () {
-            const selectedAnswer = $(this).val();
-            const questionId = $(this).closest('.review-question-details').data('question-id');
-
-            // Gửi yêu cầu AJAX để lưu đáp án
-            $.ajax({
-                url: '@Url.Page("/Quizs/Take_Quiz", new { subjectId = Model.SubjectId, quizId = Model.QuizId })',
-                type: 'POST',
-                data: {
-                    answerId: selectedAnswer,
-                    questionId: questionId
-                },
-                success: function () {
-                    console.log("Answer saved successfully!");
-                },
-                error: function () {
-                    alert("Error saving the answer.");
-                }
-            });
-        });
-
-        // Hàm chuyển tới câu hỏi theo ID
-        function goToQuestion(questionId) {
-            if (isRequesting) {
-                return; // Nếu có yêu cầu đang xử lý, không làm gì
-            }
-
-            isRequesting = true; // Đánh dấu yêu cầu đang xử lý
-
-            // Gửi yêu cầu AJAX để lấy câu hỏi mới
-            $.ajax({
-                url: '/Quizs/Take_Quiz/' + subjectId + '/' + quizId + '?questionId=' + questionId,
-                type: 'GET',
-                success: function (data) {
-                    $(".review-question-details").html(data); // Cập nhật câu hỏi mới
-
-                    isRequesting = false; // Đánh dấu yêu cầu hoàn thành
-                },
-                error: function () {
-                    alert("Error while fetching the question.");
-                    isRequesting = false; // Đánh dấu yêu cầu hoàn thành khi có lỗi
-                }
-            });
-        }
-
-        // Hàm nộp bài thi
-        function submitExam() {
-            // Gửi yêu cầu AJAX để nộp bài thi
-            $.ajax({
-                url: '/Quizs/SubmitExam/' + subjectId + '/' + quizId, // Điều hướng đến trang kết quả
-                type: 'POST',
-                success: function () {
-                    window.location.href = '/Quizs/Result'; // Chuyển đến trang kết quả
-                },
-                error: function () {
-                    alert("Error submitting the exam.");
-                }
-            });
-        }
-    </script>
-}
-
+    // Optional: Add an event listener to ensure the script runs after the DOM is fully loaded
+    document.addEventListener("DOMContentLoaded", function () {
+        console.log("DOM content loaded, submitExam function ready.");
+    });
+</script>

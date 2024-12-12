@@ -42,7 +42,7 @@ namespace Quizpractice.Pages.Users
             // Redirect based on role
             if (user.RoleId == 1) // Admin
             {
-                return RedirectToPage("/Admin/Index");
+                return RedirectToPage("/Users/Index");
             }
             else if (user.RoleId == 2) // Learner
             {

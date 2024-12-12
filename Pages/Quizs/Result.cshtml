@@ -1,38 +1,16 @@
-﻿@page
+﻿@* @page "{subjectId:int}/{quizId:int}"
 @model Quizpractice.Pages.Quizs.ResultModel
 
-<h2>Kết quả bài kiểm tra</h2>
+<h2>Quiz Results</h2>
 
-@if (Model.QuizFinished)
+@if (TempData["Score"] != null)
 {
     <div class="alert alert-success">
-        <h4>Bạn đã hoàn thành bài kiểm tra!</h4>
-        <p>Điểm của bạn: @Model.Score/20</p>
+        You scored @TempData["Score"] out of @TempData["TotalQuestions"]!
     </div>
+}
 
-    <h3>Các câu trả lời của bạn:</h3>
-    <ul>
-        @foreach (var answer in Model.AnswerDetails)
-        {
-            <li>
-                Câu hỏi @answer.QuestionId:
-                @if (answer.IsCorrect)
-                {
-                    <span class="text-success">Đúng</span>
-                }
-                else
-                {
-                    <span class="text-danger">Sai</span>
-                }
-                <br />
-                Đáp án bạn chọn: @answer.SelectedAnswer
-            </li>
-        }
-    </ul>
-}
-else
-{
-    <div class="alert alert-info">
-        Bạn hoàn thành bài kiểm tra.
-    </div>
-}
+<a href="@Url.Page("/Quizs/Index", new { subjectId = Model.SubjectId, quizId = Model.QuizId })" class="btn btn-secondary">
+    Back to Quiz
+</a>
+ *@

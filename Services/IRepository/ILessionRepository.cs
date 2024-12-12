@@ -8,5 +8,6 @@ namespace Quizpractice.Services.IRepository
         Task<List<Lession>> GetAllLessionsByChapterId(int id);
         Task<Lession> GetLessionById(int id);
         bool UpdateLession(Lession lession);
+        bool CreateLession(Lession lession);
     }
 }

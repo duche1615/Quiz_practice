@@ -35,7 +35,7 @@ namespace Quizpractice.Pages.Users
             }
             else if (Users.Role.RoleName == "Admin")
             {
-                Layout = "_AdminLayout";
+                Layout = "_Layout_Admin";
             }
             else
             {

@@ -2,12 +2,13 @@
 @model Quizpractice.Pages.Lessions.CreateModel
 @using Quizpractice.Models;
 @{
+    Layout = "~/Pages/Shared/_Layout_Admin.cshtml";
     ViewData["Title"] = "Create";
-    var Subjects = ViewData["Subjects"] as List<Subject>;
-    var Chapters = ViewData["Chapters"] as List<Chapter>;
+    var Subjects = ViewData["Subjects"] as  List<Subject>;
+    var Chapters = ViewData["Chapters"] as  List<Chapter>;
 }
 
-<h1>Edit</h1>
+<h1>Create</h1>
 
 <h4>Lession</h4>
 <hr />
@@ -23,7 +24,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Lession.Status" class="control-label"></label>
-                <select asp-for="Lession.Status" name="Status" name="Status" class="form-control">
+                <select asp-for="Lession.Status" name="Status" class="form-control">
                     <option value="true">Active</option>
                     <option value="false">Deactive</option>
                 </select>
@@ -120,4 +121,3 @@
         filterChapters();
     });
 </script>
-

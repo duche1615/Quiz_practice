@@ -33,6 +33,31 @@ body {
     margin-bottom: 20px;
 }
 
+.number {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: inline-block;
+    text-align: center;
+    line-height: 30px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.unanswered {
+    background-color: #f8d7da; /* Light red for unanswered questions */
+    color: #721c24;
+}
+
+.answered {
+    background-color: #c3e6cb; /* Light green for answered questions */
+    color: #155724;
+}
+
+.number:hover {
+    opacity: 0.8;
+}
+
 .progress-options {
     display: flex;
     margin-bottom: 20px;
@@ -194,6 +219,7 @@ h1 {
     font-weight: 600;
     color: #5a2d8c;
 }
+
 
 </style >
 
