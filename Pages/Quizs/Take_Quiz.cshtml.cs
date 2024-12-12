@@ -101,6 +101,17 @@ namespace Quizpractice.Pages.Quizs
             TempData["Result"] = "Answer saved successfully!";
             return RedirectToPage("Index", new { subjectId, quizId });
         }
+
+
+        public IActionResult OnPostScoreExam(int subjectId, int quizId)
+        {
+            // Your logic to score the exam and calculate the result
+            TempData["Result"] = "Exam submitted successfully!";
+
+            // Redirect to the result page
+            return RedirectToPage("Result", new { subjectId, quizId });
+        }
+
     }
 }
 

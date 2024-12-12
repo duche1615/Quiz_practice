@@ -18,6 +18,7 @@ namespace Quizpractice.Pages.Quizs
         }
 
         public Question Question { get; set; }
+        
         [BindProperty]
         public int SelectedAnswerId { get; set; }
 

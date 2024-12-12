@@ -22,9 +22,12 @@
             </div>
         }
 
-        <!-- Nút gửi câu trả lời -->
+       
         <div class="text-center">
             <button type="submit" class="btn btn-primary">Next question</button>
+            <a href="@Url.Page("/Quizs/Take_Quiz", new { subjectId = Model.Question.SubjectId, quizId = Model.Question.QuestionId })" class="btn btn-secondary mt-2">
+                Back to Quiz
+            </a>
         </div>
     </form>
 </div>
