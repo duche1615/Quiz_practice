@@ -1,7 +1,10 @@
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Quizpractice.Services.IRepository;
 using Quizpractice.ViewModels;
+using System.Security.Claims;
 
 namespace Quizpractice.Pages.Users
 {
@@ -38,6 +41,16 @@ namespace Quizpractice.Pages.Users
             HttpContext.Session.SetString("UserId", user.UserId.ToString());
             HttpContext.Session.SetString("Role", user.RoleId.ToString());
             ViewData["Role"] = user.RoleId.ToString();
+            var claims = new List<Claim>
+{
+    new Claim(ClaimTypes.Name, user.Username),
+    new Claim(ClaimTypes.Role, user.Role.RoleName) // Lưu thông tin vai trò vào claims
+};
+
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal);
 
             // Redirect based on role
             if (user.RoleId == 1) // Admin
