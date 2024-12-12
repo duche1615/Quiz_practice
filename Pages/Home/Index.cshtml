@@ -9,20 +9,20 @@
     <!-- Header Section -->
     <header class="text-center mb-5">
         <h1>Welcome to Quiz Practice</h1>
-        <p>Explore subjects, categories, and blogs to get started.</p>
-        @if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
-        {
-            <p><a href="/Users/Login" class="btn btn-primary">Login</a></p>
-        }
-        else
-        {
-            <p>Welcome, @HttpContext.Session.GetString("UserName")</p>
-        }
+        <p>
+            Welcome to Quiz Practice System, the ultimate quiz practicing system for learners of all ages and levels. Quiz Practice System lets you create,
+            take, and share quizzes on any topic you can imagine. You can choose from different quiz formats, difficulty levels, time limits, feedback
+            options, and scoring methods. You can also access thousands of quizzes created by other users or experts in various fields. Quiz Practice
+            System helps you test your knowledge, improve your skills, and have fun while learning. Whether you want to prepare for an exam, review a
+            course material, or just challenge yourself, Quiz Practice System is the perfect tool for you. Start quizzing today and discover how much you
+            can learn!
+        </p>
     </header>
-
+    
     <!-- Subjects Section -->
     <section id="subjects" class="mb-5">
-        <h2 class="text-center mb-4">Subjects</h2>
+       
+      </div>
         <div class="row">
             @foreach (var subject in Model.Subjects)
             {
@@ -32,7 +32,7 @@
                             <img src="@subject.Thumbnail" class="card-img-top" alt="@subject.SubjectName">
                             <h5 class="card-title">@subject.SubjectName</h5>
                             <p class="card-text">@subject.Description</p>
-                            <a href="@Url.Page("/Subjects/Details", new { id = subject.SubjectId })" class="btn btn-primary">Explore</a>
+                          
                         </div>
                     </div>
                 </div>
