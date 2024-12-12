@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Quizpractice.Services.IRepository;
 using Quizpractice.ViewModels;
 namespace Quizpractice.Pages.Teacher.Questions
 {
+    [Authorize(Roles = "Lecturer")]
     public class EditModel : PageModel
     {
         private readonly IUnitOfWork _unitOfWork;

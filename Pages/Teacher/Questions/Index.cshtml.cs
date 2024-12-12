@@ -9,7 +9,7 @@ using Quizpractice.ViewModels;
 
 namespace Quizpractice.Pages.Questions
 {
-    //[Authorize(Roles = "Teacher")]
+    [Authorize(Roles = "Lecturer")]
     public class IndexModel : PageModel
     {
         private readonly IUnitOfWork _unitOfWork;

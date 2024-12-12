@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Quizpractice.Models;
 using Quizpractice.Services.IRepository;
 using Quizpractice.ViewModels;
 using System.Threading.Tasks;
@@ -16,11 +17,41 @@ namespace Quizpractice.Pages.Users
         }
 
         [BindProperty]
+        public User Users { get; set; }
+        public string Layout { get; set; } = "_Layout";
         public ChangePasswordViewModel ChangePassword { get; set; }
 
         public string ErrorMessage { get; set; }
         public string SuccessMessage { get; set; }
 
+        public async Task<IActionResult> OnGetAsync()
+        {
+            var userId = HttpContext.Session.GetString("UserId");
+            if (string.IsNullOrEmpty(userId))
+            {
+                return RedirectToPage("/Users/Login");
+            }
+
+            // Fetch user details using the ID
+            Users = await _userRepository.FindById(Convert.ToInt32(userId));
+            if (Users == null)
+            {
+                return RedirectToPage("/Users/Login");
+            }
+            if (Users.Role.RoleName == "Lecturer")
+            {
+                Layout = "_Layout_Teacher";
+            }
+            else if (Users.Role.RoleName == "Admin")
+            {
+                Layout = "_Layout_Admin";
+            }
+            else
+            {
+                Layout = "_Layout";
+            }
+            return Page();
+        }
         public async Task<IActionResult> OnPostAsync()
         {
             if (string.IsNullOrEmpty(ChangePassword.OldPassword) ||
@@ -72,6 +103,8 @@ namespace Quizpractice.Pages.Users
                 ModelState.AddModelError("", "Error updating password.");
             }
 
+            
+            
             return Page();
         }
     }
