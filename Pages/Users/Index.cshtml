@@ -2,10 +2,11 @@
 @model Quizpractice.Pages.Users.IndexModel
 
 @{
+    Layout = "~/Pages/Shared/_Layout_Admin.cshtml";
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>User List</h1>
 
 @* <p>
     <a asp-page="Create">Create New</a>
@@ -82,9 +83,9 @@
                     <a>@(item.Status == true ? "Active" : "Inactive")</a>
                 </td>
                 <td>
-                    <a asp-page="./Edit" asp-route-id="@item.UserId">Edit</a> |
-                    <a asp-page="./Details" asp-route-id="@item.UserId">Details</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.UserId">Delete</a>
+                    <a class="btn btn-warning btn-sm" asp-page="./Edit" asp-route-id="@item.UserId"><i class="bi bi-pencil"></i></a> |
+                    <a class="btn btn-info btn-sm" asp-page="./Details" asp-route-id="@item.UserId"><i class="bi bi-info-circle"></i></a> |
+                    <a class="btn btn-danger btn-sm" asp-page="./Delete" asp-route-id="@item.UserId"> <i class="bi bi-toggle-on"></i></a>
                 </td>
             </tr>
         }

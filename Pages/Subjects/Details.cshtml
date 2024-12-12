@@ -2,6 +2,7 @@
 @model Quizpractice.Pages.Subjects.DetailsModel
 
 @{
+    Layout = "~/Pages/Shared/_Layout_Admin.cshtml";
     ViewData["Title"] = "Details";
 }
 
@@ -86,9 +87,9 @@
                 </td>
 
                 <td>
-                    <a asp-page="./Edit" asp-route-id="@item.ChapterId">Edit</a> |
-                    <a asp-page="./Details" asp-route-id="@item.ChapterId">Details</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.ChapterId">Delete</a>
+                    <a class="btn btn-warning btn-sm" asp-page="../Chapters/Edit" asp-route-id="@item.ChapterId"><i class="bi bi-pencil"></i></a> |
+                    <a class="btn btn-info btn-sm" asp-page="../Chapters/Details" asp-route-id="@item.ChapterId"><i class="bi bi-info-circle"></i></a> |
+                    <a class="btn btn-danger btn-sm" asp-page="../Chapters/Delete" asp-route-id="@item.Content"> <i class="bi bi-toggle-on"></i></a>
                 </td>
             </tr>
         }

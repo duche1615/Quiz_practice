@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Quizpractice.Models;
@@ -7,6 +8,7 @@ using Quizpractice.ViewModels;
 
 namespace Quizpractice.Pages.Teacher.Quizzes
 {
+    [Authorize(Roles = "Lecturer")]
     public class IndexModel : PageModel
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -29,17 +31,20 @@ namespace Quizpractice.Pages.Teacher.Quizzes
         public int? SelectedSubjectId { get; set; }
         public IEnumerable<Subject> Subjects { get; set; }
         public IEnumerable<QuizViewModel> Quizzes { get; set; }
+        public IEnumerable<Quiz> quizzes { get; set; }
         public async Task OnGetAsync()
         {
             Subjects = await _unitOfWork.Subjects.GetAllSubjects();
 
             // Initialize the queries
-            IEnumerable<Quiz> quizzes;
+            
             if (SelectedSubjectId.HasValue && SelectedSubjectId > 0)
             {
-                
+                // Get the total number of quizzes
                 var totalQuizzes = await _unitOfWork.Quizzes.GetTotalQuizzesCountAsync(SelectedSubjectId.Value, SearchTerm);
+                // Calculate the total number of pages
                 TotalPages = (int)Math.Ceiling(totalQuizzes / (double)PageSize);
+                // Get the quizzes with pagination
                 quizzes = await _unitOfWork.Quizzes.GetQuizzesWithPaginationAsync(SelectedSubjectId.Value, CurrentPage, PageSize, SearchTerm);               
             }
             else

@@ -18,9 +18,6 @@ namespace Quizpractice.Pages.Chapters
             _context = context;
         }
 
-        [BindProperty]
-      public Chapter Chapter { get; set; } = default!;
-
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null || _context.Chapters == null)
@@ -36,27 +33,12 @@ namespace Quizpractice.Pages.Chapters
             }
             else 
             {
-                Chapter = chapter;
+                chapter.Active = !chapter.Active;
+                _context.Chapters.Update(chapter);
+                _context.SaveChanges();
             }
-            return Page();
-        }
-
-        public async Task<IActionResult> OnPostAsync(int? id)
-        {
-            if (id == null || _context.Chapters == null)
-            {
-                return NotFound();
-            }
-            var chapter = await _context.Chapters.FindAsync(id);
-
-            if (chapter != null)
-            {
-                Chapter = chapter;
-                _context.Chapters.Remove(Chapter);
-                await _context.SaveChangesAsync();
-            }
-
             return RedirectToPage("./Index");
         }
+
     }
 }

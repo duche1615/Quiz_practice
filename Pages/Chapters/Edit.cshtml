@@ -2,6 +2,7 @@
 @model Quizpractice.Pages.Chapters.EditModel
 
 @{
+    Layout = "~/Pages/Shared/_Layout_Admin.cshtml";
     ViewData["Title"] = "Edit";
 }
 
@@ -13,35 +14,41 @@
     <div class="col-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Chapter.ChapterId" />
+            <input type="hidden" name="ChapterId" asp-for="Chapter.ChapterId" />
             <div class="form-group">
                 <label asp-for="Chapter.ChapterName" class="control-label"></label>
-                <input asp-for="Chapter.ChapterName" class="form-control" />
+                <input asp-for="Chapter.ChapterName" name="ChapterName" class="form-control" />
                 <span asp-validation-for="Chapter.ChapterName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Chapter.Content" class="control-label"></label>
-                <input asp-for="Chapter.Content" class="form-control" />
+                <input asp-for="Chapter.Content" name="Content" class="form-control" />
                 <span asp-validation-for="Chapter.Content" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Chapter.Active" class="control-label"></label>
-                <input asp-for="Chapter.Active" class="form-control" />
+                <select asp-for="Chapter.Active" name="Active" class="form-control">
+                    <option value="true">Active</option>
+                    <option value="false">Deactive</option>
+                </select>
                 <span asp-validation-for="Chapter.Active" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Chapter.Public" class="control-label"></label>
-                <input asp-for="Chapter.Public" class="form-control" />
+                <select asp-for="Chapter.Public" name="Public" class="form-control">
+                    <option value="true">Public</option>
+                    <option value="false">Private</option>
+                </select>
                 <span asp-validation-for="Chapter.Public" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Chapter.SubId" class="control-label"></label>
-                <select asp-for="Chapter.SubId" class="form-control" asp-items="ViewBag.SubId"></select>
+                <label asp-for="Chapter.SubId" class="control-label">Subject</label>
+                <select asp-for="Chapter.SubId" name="SubId" class="form-control" asp-items="ViewBag.SubId"></select>
                 <span asp-validation-for="Chapter.SubId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Chapter.Description" class="control-label"></label>
-                <input asp-for="Chapter.Description" class="form-control" />
+                <input asp-for="Chapter.Description" name="Description" class="form-control" />
                 <span asp-validation-for="Chapter.Description" class="text-danger"></span>
             </div>
             <div class="form-group">

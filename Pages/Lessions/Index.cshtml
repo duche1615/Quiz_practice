@@ -1,0 +1,89 @@
+﻿@page
+@model Quizpractice.Pages.Lessions.IndexModel
+
+@{
+    Layout = "~/Pages/Shared/_Layout_Admin.cshtml";
+    ViewData["Title"] = "Index";
+}
+
+<h1>Lession List</h1>
+
+<div class="mb-3">
+    <a asp-page="Create" class="btn btn-success">
+        <i class="bi bi-plus-circle">Create</i>
+    </a>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Lession[0].LessionUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Lession[0].Status)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Lession[0].Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Lession[0].Content)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Lession[0].Backlink)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Lession[0].Notes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Lession[0].Public)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Lession[0].Chapter)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Lession[0].Sub)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Lession)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LessionUrl)
+                </td>
+                <td>
+                    @(item.Status.Value ? "Active" : "Inactive")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Content)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Backlink)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Notes)
+                </td>
+                <td>
+                    @(item.Public == true ? "Public" : "Private")
+                </td>
+                <td>
+                    @(Model.Chapter.First(c => c.ChapterId == item.Chapterid).ChapterName)
+                </td>
+                <td>
+                    @(Model.Subject.First(s=>s.SubjectId==item.Subid).SubjectName)
+                </td>
+                <td>
+                    <a class="btn btn-warning btn-sm" asp-page="./Edit" asp-route-id="@item.LessionId"><i class="bi bi-pencil"></i></a> |
+                    <a class="btn btn-info btn-sm" asp-page="./Details" asp-route-id="@item.LessionId"><i class="bi bi-info-circle"></i></a> |
+                    <a class="btn btn-danger btn-sm" asp-page="./Delete" asp-route-id="@item.LessionId"> <i class="bi bi-toggle-on"></i></a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

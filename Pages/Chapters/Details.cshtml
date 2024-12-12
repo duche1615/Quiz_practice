@@ -2,6 +2,7 @@
 @model Quizpractice.Pages.Chapters.DetailsModel
 
 @{
+    Layout = "~/Pages/Shared/_Layout_Admin.cshtml";
     ViewData["Title"] = "Details";
 }
 
@@ -27,13 +28,13 @@
             @Html.DisplayNameFor(model => model.Chapter.Active)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Chapter.Active)
+            @(Model.Chapter.Active.Value ? "Active" : "Deactive")
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Chapter.Public)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Chapter.Public)
+            @(Model.Chapter.Public==true ? "Public" : "Private")
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Chapter.Description)
@@ -42,10 +43,10 @@
             @Html.DisplayFor(model => model.Chapter.Description)
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Chapter.Sub)
+            <a>Subject</a>
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Chapter.Sub.SubjectId)
+            @(Model.Subjects.First(s=>s.SubjectId==Model.Chapter.SubId).SubjectName)
         </dd>
     </dl>
 </div>

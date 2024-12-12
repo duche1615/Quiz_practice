@@ -1,0 +1,124 @@
+﻿@page
+@model Quizpractice.Pages.Lessions.EditModel
+@using Quizpractice.Models;
+@{
+    Layout = "~/Pages/Shared/_Layout_Admin.cshtml";
+    ViewData["Title"] = "Edit";
+    var Subjects = ViewData["Subjects"] as List<Subject>;
+    var Chapters = ViewData["Chapters"] as List<Chapter>;
+}
+
+<h1>Edit</h1>
+
+<h4>Lession</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" name="LessionId" asp-for="Lession.LessionId" />
+            <div class="form-group">
+                <label asp-for="Lession.LessionUrl" class="control-label"></label>
+                <input asp-for="Lession.LessionUrl" name="LessionUrl" class="form-control" />
+                <span asp-validation-for="Lession.LessionUrl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Lession.Status" class="control-label"></label>
+                <select asp-for="Lession.Status" name="Status" name="Status" class="form-control">
+                    <option value="true">Active</option>
+                    <option value="false">Deactive</option>
+                </select>
+                <span asp-validation-for="Lession.Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Lession.Title" class="control-label"></label>
+                <input asp-for="Lession.Title" name="Title" class="form-control" />
+                <span asp-validation-for="Lession.Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Lession.Content" class="control-label"></label>
+                <input asp-for="Lession.Content" name="Content" class="form-control" />
+                <span asp-validation-for="Lession.Content" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Lession.Backlink" class="control-label"></label>
+                <input asp-for="Lession.Backlink" name="Backlink" class="form-control" />
+                <span asp-validation-for="Lession.Backlink" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Lession.Notes" class="control-label"></label>
+                <input asp-for="Lession.Notes" name="Notes" class="form-control" />
+                <span asp-validation-for="Lession.Notes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Lession.Public" class="control-label"></label>
+                <select asp-for="Lession.Public" name="Public" class="form-control">
+                    <option value="true">Public</option>
+                    <option value="false">Private</option>
+                </select>
+                <span asp-validation-for="Lession.Public" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Lession.Subid" class="control-label"></label>
+                <select asp-for="Lession.Subid" name="Subid" class="form-control" id="subjectDropdown" onchange="filterChapters()">
+                    @foreach (var item in Subjects)
+                    {
+                        <option value="@item.SubjectId">@item.SubjectName</option>
+                    }
+                </select>
+                <span asp-validation-for="Lession.Subid" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Lession.Chapterid" class="control-label"></label>
+                <select asp-for="Lession.Chapterid" name="Chapterid" class="form-control" id="chapterDropdown">
+                    @foreach (var item in Chapters)
+                    {
+                        <option value="@item.ChapterId" data-subid="@item.SubId">@item.ChapterName</option>
+                    }
+                </select>
+                <span asp-validation-for="Lession.Chapterid" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+<script>
+    function filterChapters() {
+        var input, filter, select, options, i;
+        input = document.getElementById("subjectDropdown");
+        filter = input.value;
+        select = document.getElementById("chapterDropdown");
+        options = select.getElementsByTagName("option");
+
+        var firstVisibleOption = null;
+        for (i = 0; i < options.length; i++) {
+            if (options[i].getAttribute("data-subid") == filter) {
+                options[i].style.display = "";
+                if (!firstVisibleOption) {
+                    firstVisibleOption = options[i];
+                }
+            } else {
+                options[i].style.display = "none";
+            }
+        }
+
+        // Set the first visible option as selected by default
+        if (firstVisibleOption) {
+            firstVisibleOption.selected = true;
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        filterChapters();
+    });
+</script>
+

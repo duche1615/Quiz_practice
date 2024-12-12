@@ -2,6 +2,7 @@
 @model Quizpractice.Pages.Users.EditModel
 @using Quizpractice.Models;
 @{
+    Layout = "~/Pages/Shared/_Layout_Admin.cshtml";
     ViewData["Title"] = "Edit";
     var roles = ViewData["role"] as List<Role>;
 }

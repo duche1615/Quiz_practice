@@ -1,7 +1,10 @@
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Quizpractice.Services.IRepository;
 using Quizpractice.ViewModels;
+using System.Security.Claims;
 
 namespace Quizpractice.Pages.Users
 {
@@ -15,56 +18,54 @@ namespace Quizpractice.Pages.Users
         }
 
         [BindProperty]
-        public string Email { get; set; }
-
-        [BindProperty]
-        public string Password { get; set; }
-
-        public string ErrorMessage { get; set; }
+        public LoginViewModel LoginViewModel { get; set; } = new();
 
         public async Task<IActionResult> OnPostAsync()
         {
             // Validate inputs
-            if (string.IsNullOrEmpty(Email) || string.IsNullOrEmpty(Password))
+            if (string.IsNullOrEmpty(LoginViewModel.Email) || string.IsNullOrEmpty(LoginViewModel.Password))
             {
-                ErrorMessage = "Email and Password are required.";
+                ModelState.AddModelError("", "Email and Password are required.");
                 return Page();
             }
 
-            var loginModel = new LoginViewModel
-            {
-                Email = Email,
-                Password = Password
-            };
-
-            var user = await _userRepository.LoginAsync(loginModel);
+            var user = await _userRepository.LoginAsync(LoginViewModel);
 
             if (user == null)
             {
-                ErrorMessage = "Invalid email or password.";
+                ModelState.AddModelError("", "Invalid email or password.");
                 return Page();
             }
+
+            
             HttpContext.Session.SetString("UserId", user.UserId.ToString());
             HttpContext.Session.SetString("Role", user.RoleId.ToString());
             ViewData["Role"] = user.RoleId.ToString();
+            var claims = new List<Claim>
+{
+    new Claim(ClaimTypes.Name, user.Username),
+    new Claim(ClaimTypes.Role, user.Role.RoleName) // Lưu thông tin vai trò vào claims
+};
+
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal);
 
             // Redirect based on role
             if (user.RoleId == 1) // Admin
             {
-                return RedirectToPage("/Admin/Index");
+                return RedirectToPage("/Users/Index");
             }
             else if (user.RoleId == 2) // Learner
             {
                 return RedirectToPage("/Quizs/List");
             }
-            else if (user.RoleId == 3) // Teacher
+            else if (user.RoleId == 3) // Lecturer
             {
                 return RedirectToPage("/Teacher/Questions/Index");
             }
-            else if (user.RoleId == 4) // Sale
-            {
-                return RedirectToPage("/Sale/Index");
-            }
+            
             // Login is successful, redirect to home page or dashboard
             return RedirectToPage("/Index");
         }

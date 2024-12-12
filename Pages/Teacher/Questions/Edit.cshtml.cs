@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Quizpractice.Services.IRepository;
 using Quizpractice.ViewModels;
 namespace Quizpractice.Pages.Teacher.Questions
 {
+    [Authorize(Roles = "Lecturer")]
     public class EditModel : PageModel
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -31,7 +33,7 @@ namespace Quizpractice.Pages.Teacher.Questions
             if (question == null)
             {
                 // If no question found, redirect to an error page or index
-                return RedirectToPage("/Error"); // Return an IActionResult directly
+                return RedirectToPage("/Error"); 
             }
 
             // Load the data for the question
@@ -55,7 +57,7 @@ namespace Quizpractice.Pages.Teacher.Questions
             QuestionAnswer.Subjects = await _unitOfWork.Subjects.GetAllSubjects();
             QuestionAnswer.Chapters = await _unitOfWork.Chapters.GetAllChapters();
 
-            return Page(); // Return the Page with the loaded data
+            return Page(); 
         }
 
         public async Task<IActionResult> OnPostAsync()

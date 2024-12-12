@@ -28,73 +28,34 @@
                 var questionId = Model.Questions[i - 1].QuestionId;
                 var answerStatus = HttpContext.Session.GetInt32($"Answer_{questionId}");
 
-                <a href="javascript:void(0);" onclick="goToQuestion(@Model.Questions[i-1].QuestionId)">
-                    <div class="number @(HttpContext.Session.GetInt32($"Answer_{Model.Questions[i - 1].QuestionId}") != null ? "answered" : "unanswered")">
+                <a href="@Url.Page("/Quizs/Detail", new { questionId = questionId, subjectId = Model.SubjectId })">
+                    <div class="number @(answerStatus.HasValue ? "answered" : "unanswered")">
                         @i
                     </div>
                 </a>
             }
         </div>
         <div class="score-exam-btn">
-            <button class="btn btn-primary">SCORE EXAM NOW</button>
+            <form id="scoreExamForm" method="post" asp-page-handler="ScoreExam">
+                <button type="button" class="btn btn-primary" onclick="submitExam()">SCORE EXAM NOW</button>
+            </form>
         </div>
     </div>
 </div>
 
-<!-- Hiển thị nội dung câu hỏi -->
-<div class="review-question-details">
-    @if (Model.Question != null)
-    {
-        @await Html.PartialAsync("_QuestionPartial", Model.Question)
+<!-- Ensure the script is placed before the closing body tag -->
+<script>
+    // This function will be triggered when the "SCORE EXAM NOW" button is clicked
+    function submitExam() {
+        // Log to the console to confirm the function is called
+        console.log("submitExam function is being called");
+
+        // Submit the form containing the "SCORE EXAM NOW" button
+        document.getElementById("scoreExamForm").submit();
     }
-</div>
 
-@section Scripts {
-    <script type="text/javascript">
-        var isRequesting = false; // Biến kiểm tra xem yêu cầu đang xử lý hay chưa
-
-        // Hàm lưu đáp án vào session và chuyển câu hỏi
-        function goToQuestion(questionId) {
-            if (isRequesting) return;
-
-            // Lấy đáp án đã chọn
-            var selectedAnswerId = $("input[name='selectedAnswer']:checked").val();
-
-            if (!selectedAnswerId) {
-                alert("Please select an answer first.");
-                return;
-            }
-
-            isRequesting = true;
-
-            // Gửi đáp án lên session
-            $.ajax({
-                url: '/Quizs/Take_Quiz/SaveAnswer',  // Đảm bảo URL này đúng
-                type: 'POST',
-                data: {
-                    questionId: questionId,
-                    selectedAnswerId: selectedAnswerId
-                },
-                success: function (response) {
-                    // Sau khi gửi đáp án, lấy câu hỏi tiếp theo
-                    $.ajax({
-                        url: `/Quizs/Take_Quiz/${@Model.SubjectId}/${@Model.QuizId}?questionId=${questionId}`,
-                        type: 'GET',
-                        success: function (data) {
-                            $(".review-question-details").html(data);  // Cập nhật câu hỏi mới
-                            isRequesting = false;
-                        },
-                        error: function () {
-                            alert("Error while fetching the question.");
-                            isRequesting = false;
-                        }
-                    });
-                },
-                error: function () {
-                    alert("Error while saving answer.");
-                    isRequesting = false;
-                }
-            });
-        }
-    </script>
-}
+    // Optional: Add an event listener to ensure the script runs after the DOM is fully loaded
+    document.addEventListener("DOMContentLoaded", function () {
+        console.log("DOM content loaded, submitExam function ready.");
+    });
+</script>

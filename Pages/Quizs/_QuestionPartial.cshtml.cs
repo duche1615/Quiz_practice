@@ -1,60 +1,70 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Newtonsoft.Json;
 using Quizpractice.Models;
-using System.Linq;
 
 namespace Quizpractice.Pages.Quizs
 {
-    public class TakeQuizModel : PageModel
+    public class _QuestionPartialModel : PageModel
     {
-        private readonly SWP391_DBContext _context;
+        private readonly SWP391_DBContext _dbContext;
 
-        public TakeQuizModel(SWP391_DBContext context)
+        public _QuestionPartialModel(SWP391_DBContext dbContext)
         {
-            _context = context;
+            _dbContext = dbContext;
         }
 
-        public Question Question { get; set; }
-        public int SelectedAnswerId { get; set; }
+        [BindProperty(SupportsGet = true)]
+        public int QuestionId { get; set; } // ID câu hỏi hiện tại
 
-        // Phương thức GET để lấy câu hỏi
-        public IActionResult OnGet(int subjectId, int quizId, int? questionId)
+        public Question? Question { get; set; } // Dữ liệu câu hỏi
+        public int? SelectedAnswer { get; set; } // Đáp án đã chọn
+
+        public void OnGet()
         {
-            ViewData["SubjectId"] = subjectId;  // Truyền SubjectId vào ViewData
-            ViewData["QuizId"] = quizId;        // Truyền QuizId vào ViewData
+            // Lấy câu hỏi từ cơ sở dữ liệu cùng với đáp án của nó
+            Question = _dbContext.Questions
+                .Where(q => q.QuestionId == QuestionId)
+                .Select(q => new Question
+                {
+                    QuestionId = q.QuestionId,
+                    Content = q.Content,
+                    Level = q.Level,
+                    IsMultipleChoice = q.IsMultipleChoice,
+                    Answers = q.Answers.Select(a => new Answer
+                    {
+                        AnswerId = a.AnswerId,
+                        Content = a.Content,
+                        Correct = a.Correct
+                    }).ToList()
+                })
+                .FirstOrDefault();
 
-            string sessionKey = $"QuestionList_{subjectId}";
-
-            if (HttpContext.Session.GetString(sessionKey) == null)
+            // Lấy đáp án đã chọn từ Session
+            if (Question != null)
             {
-                return NotFound("No questions found for this subject.");
+                SelectedAnswer = HttpContext.Session.GetInt32($"Answer_{QuestionId}");
             }
 
-            var questions = JsonConvert.DeserializeObject<List<Question>>(HttpContext.Session.GetString(sessionKey));
-            Question = questions.FirstOrDefault(q => q.QuestionId == questionId);
-            SelectedAnswerId = HttpContext.Session.GetInt32($"Answer_{questionId}") ?? 0;
+            // Cập nhật ViewData để có thể hiển thị trên trang
+            ViewData["SelectedAnswer"] = SelectedAnswer;
+        }
 
-            ViewData["SelectedAnswerId"] = SelectedAnswerId;  // Truyền SelectedAnswerId vào ViewData
 
-            if (Question == null)
+        public IActionResult OnPostSaveAnswer(int questionId, int selectedAnswer)
+        {
+            // Lưu đáp án đã chọn vào Session
+            try
             {
-                return NotFound();
+                HttpContext.Session.SetInt32($"Answer_{questionId}", selectedAnswer);
+                return new JsonResult(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(new { success = false, error = ex.Message });
             }
 
-            return Page();
         }
 
-
-        // Phương thức POST để lưu câu trả lời và lấy câu hỏi tiếp theo
-        [HttpPost]
-        public IActionResult OnPostSaveAnswer(int questionId, int selectedAnswerId)
-        {
-            // Lưu đáp án vào session
-            HttpContext.Session.SetInt32($"Answer_{questionId}", selectedAnswerId);
-
-            return new JsonResult(new { success = true, message = "Answer saved successfully" });
-        }
     }
 }
