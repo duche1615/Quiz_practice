@@ -2,6 +2,7 @@
 @model Quizpractice.Pages.Lessions.CreateModel
 @using Quizpractice.Models;
 @{
+    Layout = "~/Pages/Shared/_Layout_Admin.cshtml";
     ViewData["Title"] = "Create";
     var Subjects = ViewData["Subjects"] as  List<Subject>;
     var Chapters = ViewData["Chapters"] as  List<Chapter>;

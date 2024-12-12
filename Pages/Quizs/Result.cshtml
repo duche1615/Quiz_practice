@@ -1,4 +1,4 @@
-﻿@page "{subjectId:int}/{quizId:int}"
+﻿@* @page "{subjectId:int}/{quizId:int}"
 @model Quizpractice.Pages.Quizs.ResultModel
 
 <h2>Quiz Results</h2>
@@ -13,3 +13,4 @@
 <a href="@Url.Page("/Quizs/Index", new { subjectId = Model.SubjectId, quizId = Model.QuizId })" class="btn btn-secondary">
     Back to Quiz
 </a>
+ *@
