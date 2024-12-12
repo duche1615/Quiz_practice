@@ -1,0 +1,47 @@
+﻿@page
+@model Quizpractice.Pages.Home.IndexModel
+@{
+    Layout = "~/Pages/Shared/_Layout_Learner.cshtml";
+    
+}
+<!-- Main Container -->
+<div class="container mt-4">
+    <!-- Header Section -->
+    <header class="text-center mb-5">
+        <h1>Welcome to Quiz Practice</h1>
+        <p>Explore subjects, categories, and blogs to get started.</p>
+        @if (string.IsNullOrEmpty(HttpContext.Session.GetString("UserId")))
+        {
+            <p><a href="/Users/Login" class="btn btn-primary">Login</a></p>
+        }
+        else
+        {
+            <p>Welcome, @HttpContext.Session.GetString("UserName")</p>
+        }
+    </header>
+
+    <!-- Subjects Section -->
+    <section id="subjects" class="mb-5">
+        <h2 class="text-center mb-4">Subjects</h2>
+        <div class="row">
+            @foreach (var subject in Model.Subjects)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <img src="@subject.Thumbnail" class="card-img-top" alt="@subject.SubjectName">
+                            <h5 class="card-title">@subject.SubjectName</h5>
+                            <p class="card-text">@subject.Description</p>
+                            <a href="@Url.Page("/Subjects/Details", new { id = subject.SubjectId })" class="btn btn-primary">Explore</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer class="text-center mt-5 py-4 bg-light">
+        <p>&copy; 2024 Quiz Practice. All Rights Reserved.</p>
+    </footer>
