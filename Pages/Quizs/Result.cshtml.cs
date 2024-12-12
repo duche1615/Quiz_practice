@@ -78,6 +78,26 @@ namespace Quizpractice.Pages.Quizs
             return Page();
         }
 
+        public IActionResult OnGetClearAnswers(int subjectId, int quizId)
+        {
+            // Retrieve the question list from the session
+            string sessionKey = $"QuestionList_{subjectId}";
+            var questionList = HttpContext.Session.GetString(sessionKey);
+
+            if (!string.IsNullOrEmpty(questionList))
+            {
+                var questions = JsonConvert.DeserializeObject<List<Question>>(questionList);
+
+                // Clear only the answer-related session keys
+                foreach (var question in questions)
+                {
+                    HttpContext.Session.Remove($"Answer_{question.QuestionId}");
+                }
+            }
+
+            // Redirect to the quiz start page
+            return RedirectToPage("/Quizs/Take_Quiz", new { subjectId, quizId });
+        }
         public class AnswerDetail
         {
             public int QuestionId { get; set; }

@@ -107,12 +107,14 @@ namespace Quizpractice.Pages.Quizs
             var questionList = HttpContext.Session.GetString(sessionKey);
             if (string.IsNullOrEmpty(questionList))
             {
+                TempData["Error"] = "No questions available to score.";
                 return RedirectToPage("./List");
             }
 
             var questions = JsonConvert.DeserializeObject<List<Question>>(questionList);
             int correctAnswers = 0;
 
+            // Calculate the score
             foreach (var question in questions)
             {
                 var selectedAnswerId = HttpContext.Session.GetInt32($"Answer_{question.QuestionId}");
@@ -126,13 +128,29 @@ namespace Quizpractice.Pages.Quizs
                 }
             }
 
-            // Calculate score on a scale of 10
-            double totalQuestions = questions.Count;
-            double score = (correctAnswers / totalQuestions) * 10;
+            // Save the result in QuizDetail table
+            var userIdString = HttpContext.Session.GetString("UserId");
+            if (string.IsNullOrEmpty(userIdString))
+            {
+                TempData["Error"] = "User is not logged in.";
+                return RedirectToPage("/Users/Login");
+            }
 
-            // Store the score as a string in TempData
-            TempData["Score"] = score.ToString("F2"); // Format to 2 decimal places
+            int userId = int.Parse(userIdString);
+            var score = correctAnswers;
+            var quizDetail = new QuizDetail
+            {
+                QuizId = quizId,
+                UserId = userId,
+                TakenDate = DateTime.Now,
+                Score = score
+            };
 
+            _context.QuizDetails.Add(quizDetail);
+            _context.SaveChanges();
+
+            // Redirect to result page
+            TempData["Score"] = $"{score}/{questions.Count}";
             return RedirectToPage("Result", new { subjectId, quizId });
         }
 

@@ -93,7 +93,7 @@ namespace Quizpractice.Pages.Quizs
             else
             {
                 // Nếu không có câu hỏi tiếp theo, có thể hoàn thành bài quiz hoặc làm gì đó khác
-                return RedirectToPage("/Quizs/Completion"); // Chuyển hướng đến trang hoàn thành quiz
+                return RedirectToPage("/Quizs/Detail", new { questionId = questions.First().QuestionId, subjectId });
             }
         }
     }
