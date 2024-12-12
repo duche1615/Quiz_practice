@@ -65,7 +65,9 @@ namespace Quizpractice.Services.Repository
         public async Task<User> LoginAsync(LoginViewModel loginModel)
         {
             
-            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == loginModel.Email);
+            var user = await _dbContext.Users
+                .Include(u => u.Role)
+                .FirstOrDefaultAsync(u => u.Email == loginModel.Email);
 
             if (user != null && user.Password == loginModel.Password)
             {

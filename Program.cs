@@ -41,22 +41,18 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     });
 var app = builder.Build();
 
-
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
 }
 app.UseHttpsRedirection();
-
-app.UseSession();
-
 app.UseStaticFiles();
-
 app.UseRouting();
+app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapRazorPages().WithMetadata(new RouteNameMetadata("HomePage/Index"));
+app.MapRazorPages();
 
 app.Run();
