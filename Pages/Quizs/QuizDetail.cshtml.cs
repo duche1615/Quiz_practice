@@ -13,17 +13,17 @@ namespace Quizpractice.Pages.Quizs
             _context = context;
         }
 
-        public List<QuizDetailViewModel> PaginatedResults { get; set; }
+        public List<QuizDetailViewModel> PaginatedResults { get; set; } = new List<QuizDetailViewModel>();
         public int CurrentPage { get; set; }
         public int TotalPages { get; set; }
         public int PageSize { get; set; } = 5; // Number of records per page
 
-        public void OnGet(int page = 1)
+        public void OnGet(int currentPage = 1)
         {
-            CurrentPage = page;
+            CurrentPage = currentPage > 0 ? currentPage : 1;
 
-            // Fetch all quiz details from the database
-            var allResults = _context.QuizDetails
+            // Logic phân trang
+            var allResultsQuery = _context.QuizDetails
                 .OrderByDescending(q => q.TakenDate)
                 .Select(q => new QuizDetailViewModel
                 {
@@ -34,23 +34,21 @@ namespace Quizpractice.Pages.Quizs
                     Attempt = _context.QuizDetails
                         .Where(d => d.UserId == q.UserId && d.QuizId == q.QuizId)
                         .Count()
-                })
-                .ToList();
+                });
 
-            // Calculate total pages
-            TotalPages = (int)System.Math.Ceiling(allResults.Count / (double)PageSize);
+            var totalCount = allResultsQuery.Count();
+            TotalPages = (int)Math.Ceiling(totalCount / (double)PageSize);
 
-            // Get the paginated results
-            PaginatedResults = allResults
+            PaginatedResults = allResultsQuery
                 .Skip((CurrentPage - 1) * PageSize)
                 .Take(PageSize)
                 .ToList();
         }
 
+
         public class QuizDetailViewModel
         {
             public int QuizId { get; set; }
-
             public int? SubjectId { get; set; }
             public int Score { get; set; }
             public double Percentage => Score / 10.0 * 100; // Assuming max score = 10
