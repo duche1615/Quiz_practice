@@ -19,6 +19,7 @@ namespace Quizpractice.Pages.Users
         [BindProperty]
         public User Users { get; set; }
         public string Layout { get; set; } = "_Layout";
+        [BindProperty]
         public ChangePasswordViewModel ChangePassword { get; set; }
 
         public string ErrorMessage { get; set; }
@@ -54,6 +55,7 @@ namespace Quizpractice.Pages.Users
         }
         public async Task<IActionResult> OnPostAsync()
         {
+
             if (string.IsNullOrEmpty(ChangePassword.OldPassword) ||
         string.IsNullOrEmpty(ChangePassword.NewPassword) ||
         string.IsNullOrEmpty(ChangePassword.ConfirmPassword))
