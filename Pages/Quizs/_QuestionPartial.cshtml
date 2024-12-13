@@ -5,11 +5,13 @@
     <div class="review-question-details" data-question-id="@Model.QuestionId">
         <h3>@Model.Content</h3> <!-- Nội dung câu hỏi -->
 
-        <form method="post" action="/Quizs/Take_Quiz">
+        <form id="answerForm">
             @foreach (var answer in Model.Answers)
             {
                 @if (!string.IsNullOrEmpty(answer.Content))
                 {
+                    bool isChecked = answer.AnswerId == (int?)ViewData["SelectedAnswerId"];
+
                     <div>
                         <input type="radio" name="selectedAnswer" value="@answer.AnswerId" id="answer_@answer.AnswerId"
                         @(ViewData["SelectedAnswer"] != null && (int)ViewData["SelectedAnswer"] == answer.AnswerId ? "checked" : "") />
