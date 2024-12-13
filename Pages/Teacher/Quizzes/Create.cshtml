@@ -38,7 +38,7 @@
 
     <div class="mb-3">
         <label for="Subject" class="form-label">Subject</label>
-        <select class="form-select" asp-for="QuizModel.SubjectId" id="SubjectDropdown" onchange="loadChaptersofQuizz()">
+        <select class="form-select" asp-for="QuizModel.SubjectId" id="SubjectDropdown" onchange="loadChapters()">
             <option value="">-- Select Subject --</option>
             @foreach (var subject in Model.Subjects)
             {
