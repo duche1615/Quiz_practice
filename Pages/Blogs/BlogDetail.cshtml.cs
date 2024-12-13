@@ -16,7 +16,7 @@ namespace QuizletApp.Pages.Blogs
 
         public Blog Blog { get; set; }
 
-        // Xử lý lấy thông tin chi tiết blog
+        
         public IActionResult OnGet(int blogId)
         {
             Blog = _context.Blogs.FirstOrDefault(b => b.BlogId == blogId);

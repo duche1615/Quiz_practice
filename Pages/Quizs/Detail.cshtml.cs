@@ -31,9 +31,9 @@ namespace Quizpractice.Pages.Quizs
             {
                 // Lọc câu hỏi theo SubjectId (môn học) từ cơ sở dữ liệu
                 var randomQuestions = _context.Questions
-                                              .Where(q => q.SubjectId == subjectId)  // Lọc câu hỏi theo môn học
-                                              .OrderBy(q => Guid.NewGuid())          // Xáo trộn câu hỏi ngẫu nhiên
-                                              .Take(20)                              // Lấy 20 câu hỏi ngẫu nhiên
+                                              .Where(q => q.SubjectId == subjectId)  
+                                              .OrderBy(q => Guid.NewGuid())          
+                                              .Take(20)                             
                                               .ToList();
 
                 // Lưu danh sách câu hỏi vào session với key phụ thuộc vào SubjectId
@@ -57,7 +57,7 @@ namespace Quizpractice.Pages.Quizs
                                .Include(q => q.Answers)  
                                .FirstOrDefault(q => q.QuestionId == currentQuestion.QuestionId);
 
-            // Lấy đáp án đã chọn (nếu có) từ session
+            
             SelectedAnswerId = HttpContext.Session.GetInt32($"Answer_{questionId}") ?? 0;
 
             return Page();
@@ -92,7 +92,7 @@ namespace Quizpractice.Pages.Quizs
             }
             else
             {
-                // Nếu không có câu hỏi tiếp theo, có thể hoàn thành bài quiz hoặc làm gì đó khác
+                
                 return RedirectToPage("/Quizs/Detail", new { questionId = questions.First().QuestionId, subjectId });
             }
         }
