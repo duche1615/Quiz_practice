@@ -10,7 +10,7 @@
     
     <div class="mb-3">
         <label class="form-label">Subject</label>
-        <select class="form-select" asp-for="QuestionAnswer.SubjectId">
+        <select class="form-select" asp-for="QuestionAnswer.SubjectId" id="SubjectDropdown" onchange="loadChapters()">
             <option value="">-- Select a Subject --</option>
             @foreach (var subject in Model.QuestionAnswer.Subjects)
             {
@@ -21,7 +21,7 @@
     </div>
     <div class="mb-3">
         <label class="form-label">Chapter</label>
-        <select class="form-select" asp-for="QuestionAnswer.ChapterId">
+        <select class="form-select" asp-for="QuestionAnswer.ChapterId" id="ChapterDropdown">
             <option value="">-- Select a Chapter --</option>
             @foreach (var chapter in Model.QuestionAnswer.Chapters)
             {
@@ -77,3 +77,4 @@
     <button type="submit" class="btn btn-primary">Save</button>
     <a asp-page="Index" class="btn btn-secondary">Cancel</a>
 </form>
+<script src="~/js/loadchaptersofquestion.js"></script>
