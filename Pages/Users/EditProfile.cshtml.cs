@@ -39,10 +39,7 @@ namespace Quizpractice.Pages.Users
             {
                 Layout = "_Layout_Admin";
             }
-            else
-            {
-                Layout = "_Layout";
-            }
+            
             return Page();
         }
 
