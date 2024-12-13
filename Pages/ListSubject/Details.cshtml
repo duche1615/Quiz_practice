@@ -1,0 +1,49 @@
+﻿@page
+@model Quizpractice.Pages.ListSubject.DetailsModel
+
+<div class="container">
+    <h2>Subject Details</h2>
+    <div class="card">
+        <div class="card-header">
+            <h3>@Model.Subject.Title</h3>
+        </div>
+        <div class="card-body">
+            <p><strong>Subject Name:</strong> @Model.Subject.SubjectName</p>
+            <p><strong>Status:</strong> @(Model.Subject.Status == true ? "Active" : "Inactive")</p>
+            <p><strong>Title:</strong> @Model.Subject.Title</p>
+            <p><strong>Description:</strong> @Model.Subject.Description</p>
+            <p>
+                <strong>Thumbnail:</strong> <br />
+                <img src="@Model.Subject.Thumbnail" alt="Thumbnail" style="width:150px; height:auto;" />
+            </p>
+        </div>
+    </div>
+
+    <h3 class="mt-4">Chapters</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Chapter Name</th>
+                <th>Content</th>
+                <th>Status</th>
+                <th>Public</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var chapter in Model.Chapters)
+            {
+                <tr>
+                    <td>@chapter.ChapterName</td>
+                    <td>@chapter.Content</td>
+                    <td>@(chapter.Active == true ? "Active" : "Inactive")</td>
+                    <td>@(chapter.Public == true ? "Public" : "Private")</td>
+                    <td>@chapter.Description</td>
+                    
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <a class="btn btn-primary mt-3" href="./Index">Back to List</a>
+</div>

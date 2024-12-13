@@ -12,13 +12,12 @@
 <div class="review-progress-container">
     <div class="review-progress-header">
         <h2>Progress</h2>
-        <span class="close-btn">X</span>
     </div>
     <div class="review-progress-content">
+        <p>Time Remaining: <span id="timer" style="font-weight: bold; color: red;">20:00</span></p> <!-- Timer -->
         <p>Review before scoring exam..</p>
         <div class="progress-options">
             <div class="option unanswered">UNANSWERED</div>
-            <div class="option marked">MARKED</div>
             <div class="option answered">ANSWERED</div>
             <div class="option all-questions">ALL QUESTIONS</div>
         </div>
@@ -43,8 +42,28 @@
     </div>
 </div>
 
-<!-- Ensure the script is placed before the closing body tag -->
 <script>
+    // Countdown timer setup
+    let timer = 20 * 60; // 20 minutes in seconds
+    const timerElement = document.getElementById("timer");
+
+    const countdown = setInterval(function () {
+        const minutes = Math.floor(timer / 60);
+        const seconds = timer % 60;
+
+        // Update the timer display
+        timerElement.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+        if (timer <= 0) {
+            clearInterval(countdown);
+            // Automatically submit the quiz when the time is up
+            alert("Time is up! Your quiz will now be submitted.");
+            document.getElementById("scoreExamForm").submit();
+        }
+
+        timer--;
+    }, 1000);
+
     // This function will be triggered when the "SCORE EXAM NOW" button is clicked
     function submitExam() {
         // Log to the console to confirm the function is called
@@ -53,9 +72,4 @@
         // Submit the form containing the "SCORE EXAM NOW" button
         document.getElementById("scoreExamForm").submit();
     }
-
-    // Optional: Add an event listener to ensure the script runs after the DOM is fully loaded
-    document.addEventListener("DOMContentLoaded", function () {
-        console.log("DOM content loaded, submitExam function ready.");
-    });
 </script>

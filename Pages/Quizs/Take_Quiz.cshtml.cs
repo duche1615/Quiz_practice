@@ -19,35 +19,33 @@ namespace Quizpractice.Pages.Quizs
 
         public Quiz Quiz { get; set; }
         public List<Question> Questions { get; set; }
-        public int CurrentQuestionIndex { get; set; }
         public Question Question { get; private set; }
-        public int SelectedAnswerId { get; set; }
-
         public int SubjectId { get; set; } // Lưu subjectId để truyền vào JavaScript
         public int QuizId { get; set; } // Lưu quizId để truyền vào JavaScript
+        public int CurrentQuestionIndex { get; private set; }
 
+        // Lấy câu hỏi từ session hoặc từ cơ sở dữ liệu
         public IActionResult OnGet(int subjectId, int quizId, int? questionId)
         {
             SubjectId = subjectId;
             QuizId = quizId;
 
             string sessionKey = $"QuestionList_{subjectId}";
-
-            // Kiểm tra session, nếu chưa có câu hỏi thì lấy từ cơ sở dữ liệu
             if (HttpContext.Session.GetString(sessionKey) == null)
             {
+                // Lấy câu hỏi ngẫu nhiên từ database
                 var randomQuestions = _context.Questions
                                               .Where(q => q.SubjectId == subjectId)
-                                              .OrderBy(q => Guid.NewGuid()) // Sắp xếp ngẫu nhiên
-                                              .Take(20)
+                                              .OrderBy(q => Guid.NewGuid())
+                                              .Take(10)
                                               .Include(q => q.Answers)
                                               .ToList();
 
+                // Lưu danh sách câu hỏi vào session
                 var settings = new JsonSerializerSettings
                 {
                     ReferenceLoopHandling = ReferenceLoopHandling.Ignore
                 };
-
                 HttpContext.Session.SetString(sessionKey, JsonConvert.SerializeObject(randomQuestions, settings));
             }
 
@@ -89,28 +87,73 @@ namespace Quizpractice.Pages.Quizs
             CurrentQuestionIndex++;
             HttpContext.Session.SetInt32("CurrentQuestionIndex", CurrentQuestionIndex);
 
-            // Kiểm tra nếu hết câu hỏi, có thể hiển thị kết quả
-            if (CurrentQuestionIndex >= Questions.Count)
-            {
-                TempData["Result"] = "You have finished the quiz!";
-                return RedirectToPage("Result"); // Điều hướng đến trang kết quả
-            }
+            // Lấy câu hỏi tiếp theo
+            var currentIndex = Questions.FindIndex(q => q.QuestionId == questionId);
+            var nextQuestion = (currentIndex + 1 < Questions.Count)
+                                ? Questions[currentIndex + 1]
+                                : Questions[0]; // Quay lại câu đầu tiên nếu hết câu
 
             // Cập nhật câu hỏi hiện tại
             Question = Questions[CurrentQuestionIndex];
             TempData["Result"] = "Answer saved successfully!";
-            return RedirectToPage("Index", new { subjectId, quizId });
+            return RedirectToPage("Result", new { subjectId, quizId });
         }
 
 
         public IActionResult OnPostScoreExam(int subjectId, int quizId)
         {
-            // Your logic to score the exam and calculate the result
-            TempData["Result"] = "Exam submitted successfully!";
+            // Retrieve the question list from session
+            string sessionKey = $"QuestionList_{subjectId}";
+            var questionList = HttpContext.Session.GetString(sessionKey);
+            if (string.IsNullOrEmpty(questionList))
+            {
+                TempData["Error"] = "No questions available to score.";
+                return RedirectToPage("./List");
+            }
 
-            // Redirect to the result page
+            var questions = JsonConvert.DeserializeObject<List<Question>>(questionList);
+            int correctAnswers = 0;
+
+            // Calculate the score
+            foreach (var question in questions)
+            {
+                var selectedAnswerId = HttpContext.Session.GetInt32($"Answer_{question.QuestionId}");
+                if (selectedAnswerId.HasValue)
+                {
+                    var selectedAnswer = question.Answers.FirstOrDefault(a => a.AnswerId == selectedAnswerId.Value);
+                    if (selectedAnswer?.Correct == true)
+                    {
+                        correctAnswers++;
+                    }
+                }
+            }
+
+            // Save the result in QuizDetail table
+            var userIdString = HttpContext.Session.GetString("UserId");
+            if (string.IsNullOrEmpty(userIdString))
+            {
+                TempData["Error"] = "User is not logged in.";
+                return RedirectToPage("/Users/Login");
+            }
+
+            int userId = int.Parse(userIdString);
+            var score = correctAnswers;
+            var quizDetail = new QuizDetail
+            {
+                QuizId = quizId,
+                UserId = userId,
+                TakenDate = DateTime.Now,
+                Score = score
+            };
+
+            _context.QuizDetails.Add(quizDetail);
+            _context.SaveChanges();
+
+            // Redirect to result page
+            TempData["Score"] = $"{score}/{questions.Count}";
             return RedirectToPage("Result", new { subjectId, quizId });
         }
+
 
     }
 }
