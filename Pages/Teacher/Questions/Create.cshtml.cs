@@ -125,7 +125,7 @@ namespace Quizpractice.Pages.Questions
             // Lấy danh sách Subjects
             QuestionAnswer.Subjects = await _unitOfWork.Subjects.GetAllSubjects();
 
-            // Lấy danh sách Chapters theo SubjectId (nếu có)
+            
             if (QuestionAnswer.SubjectId.HasValue && QuestionAnswer.SubjectId.Value > 0)
             {
                 Chapters = await _unitOfWork.Chapters.GetAllChaptersBySubjectId(QuestionAnswer.SubjectId.Value);

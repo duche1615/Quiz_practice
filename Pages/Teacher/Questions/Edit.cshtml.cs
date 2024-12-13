@@ -55,11 +55,15 @@ namespace Quizpractice.Pages.Teacher.Questions
 
             // Load subjects and chapters
             QuestionAnswer.Subjects = await _unitOfWork.Subjects.GetAllSubjects();
-            QuestionAnswer.Chapters = await _unitOfWork.Chapters.GetAllChapters();
+            QuestionAnswer.Chapters = await _unitOfWork.Chapters.GetAllChaptersBySubjectId(Convert.ToInt32(question.SubjectId));
 
             return Page(); 
         }
-
+        public async Task<JsonResult> OnGetChaptersBySubject(int subjectId)
+        {
+            var chapters = await _unitOfWork.Chapters.GetAllChaptersBySubjectId(subjectId);
+            return new JsonResult(chapters);
+        }
         public async Task<IActionResult> OnPostAsync()
         {
             if (QuestionAnswer == null)
