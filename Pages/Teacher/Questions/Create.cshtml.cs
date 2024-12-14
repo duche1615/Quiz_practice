@@ -21,7 +21,7 @@ namespace Quizpractice.Pages.Questions
 
         [BindProperty]
         public QuestionAnswerViewModel QuestionAnswer { get; set; }
-        public List<Chapter> Chapters { get; set; }
+        //public List<Chapter> Chapters { get; set; }
         public async Task OnGet(int? subjectId = null)
         {
 
@@ -38,15 +38,7 @@ namespace Quizpractice.Pages.Questions
                 new AnswerViewModel(),
                 new AnswerViewModel()
             };
-            QuestionAnswer.Subjects = await _unitOfWork.Subjects.GetAllSubjects();
-            if (subjectId.HasValue)
-            {
-                Chapters = await _unitOfWork.Chapters.GetAllChaptersBySubjectId(subjectId.Value);
-            }
-            else
-            {
-                Chapters = new List<Chapter>();
-            }
+            await ReloadDropdownDataAsync();
         }
         public async Task<IActionResult> OnGetChaptersBySubjectIdAsync(int subjectId)
         {
@@ -128,11 +120,11 @@ namespace Quizpractice.Pages.Questions
             
             if (QuestionAnswer.SubjectId.HasValue && QuestionAnswer.SubjectId.Value > 0)
             {
-                Chapters = await _unitOfWork.Chapters.GetAllChaptersBySubjectId(QuestionAnswer.SubjectId.Value);
+                QuestionAnswer.Chapters = await _unitOfWork.Chapters.GetAllChaptersBySubjectId(QuestionAnswer.SubjectId.Value);
             }
             else
             {
-                Chapters = new List<Chapter>();
+                QuestionAnswer.Chapters = new List<Chapter>();
             }
         }
     }

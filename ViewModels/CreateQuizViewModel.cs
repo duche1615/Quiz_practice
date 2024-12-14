@@ -5,10 +5,7 @@ namespace Quizpractice.ViewModels
 {
     public class CreateQuizViewModel
     {
-        public CreateQuizViewModel()
-        {
-            StartTime = DateTime.Now;
-        }
+        
         public int? QuizId { get; set; }
         [Required(ErrorMessage = "Title is required.")]
         [StringLength(100, ErrorMessage = "Title cannot exceed 100 characters.")]

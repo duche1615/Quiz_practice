@@ -36,13 +36,17 @@
     </div>
     <div class="mb-3">
         <label for="StartTime" class="form-label">Start Time</label>
-        <input asp-for="QuizVM.StartTime" type="datetime-local" class="form-control" />
+        <input asp-for="QuizVM.StartTime" type="datetime-local" class="form-control"
+               value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")"
+               min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
         <span asp-validation-for="QuizVM.StartTime" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
         <label for="EndTime" class="form-label">End Time</label>
-        <input asp-for="QuizVM.EndTime" type="datetime-local" class="form-control" />
+        <input asp-for="QuizVM.EndTime" type="datetime-local" class="form-control"
+               value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")"
+               min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
         <span asp-validation-for="QuizVM.EndTime" class="text-danger"></span>
     </div>
 
