@@ -24,7 +24,6 @@ namespace Quizpractice.Pages.Home
         {
             // Fetching data from repositories
             Subjects = await _subjectRepository.GetAllSubjects();
-
         }
     }
 }

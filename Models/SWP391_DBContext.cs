@@ -372,8 +372,6 @@ namespace Quizpractice.Models
 
                 entity.Property(e => e.Public).HasColumnName("public");
 
-                entity.Property(e => e.QuesId).HasColumnName("quesId");
-
                 entity.Property(e => e.StartTime)
                     .HasColumnType("datetime")
                     .HasColumnName("start_time");

@@ -18,16 +18,16 @@ namespace Quizpractice.Pages.ListSubject
         public async Task OnGetAsync()
         {
             Subjects = await _context.Subjects
-                .Include(s => s.Chapters) // Load số chương
+                .Include(s => s.Chapters) 
                 .Select(s => new Subject
                 {
                     SubjectId = s.SubjectId,
                     SubjectName = s.SubjectName,
                     Title = s.Title,
-                    Thumbnail = s.Thumbnail ?? "/images/default.png", // Ảnh mặc định nếu không có
+                    Thumbnail = s.Thumbnail ?? "/images/default.png", 
                     Description = s.Description,
                     Status = s.Status,
-                    TagLine = s.Chapters.Count() // Đếm số chương
+                    TagLine = s.Chapters.Count() 
                 })
                 .ToListAsync();
         }

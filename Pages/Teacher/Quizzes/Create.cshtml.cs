@@ -28,7 +28,7 @@ namespace Quizpractice.Pages.Teacher.Quizzes
             Subjects = await _unitOfWork.Subjects.GetAllSubjects();
             if (Subjects == null)
             {
-                
+
                 Subjects = new List<Subject>();
             }
             // Nếu subjectId có giá trị, lấy danh sách chapters tương ứng
@@ -38,7 +38,7 @@ namespace Quizpractice.Pages.Teacher.Quizzes
             }
             else
             {
-                Chapters = new List<Chapter>();  
+                Chapters = new List<Chapter>();
             }
 
         }
@@ -62,7 +62,7 @@ namespace Quizpractice.Pages.Teacher.Quizzes
                 }
                 return Page();
 
-                
+
             }
             if (QuizModel.SubjectId == null)
             {
@@ -77,7 +77,7 @@ namespace Quizpractice.Pages.Teacher.Quizzes
                     Chapters = new List<Chapter>();
                 }
                 return Page();
-                
+
             }
             // get all questions by subject id
             var questions = await _unitOfWork.Questions.GetQuestionsBySubjectIdAsync(QuizModel.SubjectId.Value);
@@ -141,7 +141,8 @@ namespace Quizpractice.Pages.Teacher.Quizzes
                 StartTime = QuizModel.StartTime,
                 EndTime = QuizModel.EndTime,
                 Active = true,
-                UserCreateId = Convert.ToInt32(userId)
+                UserCreateId = Convert.ToInt32(userId),
+                PassPercent = 80
             };
 
             //add quiz

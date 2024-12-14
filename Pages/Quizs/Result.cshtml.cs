@@ -15,7 +15,7 @@ namespace Quizpractice.Pages.Quizs
         public ResultModel(SWP391_DBContext context)
         {
             _context = context;
-            AnswerDetails = new List<AnswerDetail>(); // Initialize the list
+            AnswerDetails = new List<AnswerDetail>(); 
         }
 
         // Variables to store quiz results

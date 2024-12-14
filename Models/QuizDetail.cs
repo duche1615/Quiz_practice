@@ -9,7 +9,7 @@ namespace Quizpractice.Models
         public int QuizId { get; set; }
         public int UserId { get; set; }
         public DateTime TakenDate { get; set; }
-        public int Score { get; set; }
+        public double Score { get; set; }
 
         public virtual Quiz Quiz { get; set; } = null!;
     }

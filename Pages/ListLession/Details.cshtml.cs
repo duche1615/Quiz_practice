@@ -23,10 +23,10 @@ namespace Quizpractice.Pages.ListLession
                 return NotFound();
             }
 
-            // Lấy thông tin của Lession từ database
+            
             Lession = await _context.Lessions
-                .Include(l => l.Chapter) // Load thông tin liên quan đến Chapter
-                .Include(l => l.Sub) // Load thông tin liên quan đến Subject
+                .Include(l => l.Chapter) 
+                .Include(l => l.Sub) 
                 .FirstOrDefaultAsync(m => m.LessionId == id);
 
             if (Lession == null)
