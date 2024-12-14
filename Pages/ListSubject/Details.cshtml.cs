@@ -24,7 +24,6 @@ namespace Quizpractice.Pages.ListSubject
                 return NotFound();
             }
 
-            // Load thông tin Subject cùng với các Chapters
             Subject = await _context.Subjects
                 .Include(s => s.Chapters)
                 .FirstOrDefaultAsync(m => m.SubjectId == id);
@@ -34,7 +33,7 @@ namespace Quizpractice.Pages.ListSubject
                 return NotFound();
             }
 
-            // Load danh sách Chapters riêng (nếu cần thêm xử lý)
+            
             Chapters = await _context.Chapters
                 .Where(c => c.SubId == id)
                 .ToListAsync();

@@ -18,10 +18,10 @@ namespace Quizpractice.Pages.ListLession
 
         public async Task OnGetAsync()
         {
-            // Lấy tất cả các bài học, kèm theo thông tin Subject và Chapter
+          
             Lessions = await _context.Lessions
-                .Include(l => l.Chapter) // Load thông tin Chapter
-                .Include(l => l.Sub) // Load thông tin Subject
+                .Include(l => l.Chapter) 
+                .Include(l => l.Sub) 
                 .ToListAsync();
         }
     }

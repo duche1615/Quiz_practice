@@ -10,12 +10,12 @@ namespace Quizpractice.Pages.HomePage
     public class IndexModel : PageModel
     {
         private readonly ISubjectRepository _subjectRepository;
-        
-        
+
+
 
         public IndexModel(ISubjectRepository subjectRepository)
         {
-            _subjectRepository = subjectRepository;        
+            _subjectRepository = subjectRepository;
         }
 
         public List<Subject> Subjects { get; set; }
@@ -24,7 +24,7 @@ namespace Quizpractice.Pages.HomePage
         {
             // Fetching data from repositories
             Subjects = await _subjectRepository.GetAllSubjects();
-
+            HttpContext.Session.Clear();
         }
     }
 }

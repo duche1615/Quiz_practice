@@ -15,10 +15,10 @@ namespace Quizpractice.Pages.Quizs
         }
 
         [BindProperty(SupportsGet = true)]
-        public int QuestionId { get; set; } // ID câu hỏi hiện tại
+        public int QuestionId { get; set; } 
 
-        public Question? Question { get; set; } // Dữ liệu câu hỏi
-        public int? SelectedAnswer { get; set; } // Đáp án đã chọn
+        public Question? Question { get; set; } 
+        public int? SelectedAnswer { get; set; } 
 
         public void OnGet()
         {

@@ -16,7 +16,7 @@ namespace Quizpractice.Pages.Quizs
         public List<QuizDetailViewModel> PaginatedResults { get; set; } = new List<QuizDetailViewModel>();
         public int CurrentPage { get; set; }
         public int TotalPages { get; set; }
-        public int PageSize { get; set; } = 5; // Number of records per page
+        public int PageSize { get; set; } = 5; 
 
         public void OnGet(int currentPage = 1)
         {
@@ -50,8 +50,8 @@ namespace Quizpractice.Pages.Quizs
         {
             public int QuizId { get; set; }
             public int? SubjectId { get; set; }
-            public int Score { get; set; }
-            public double Percentage => Score / 10.0 * 100; // Assuming max score = 10
+            public double Score { get; set; }
+            public double Percentage => Score / 10.0 * 100; 
             public int Attempt { get; set; }
             public System.DateTime TakenDate { get; set; }
         }
