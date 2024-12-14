@@ -19,7 +19,7 @@
                 <th>Percentage</th>
                 <th>Attempt</th>
                 <th>Taken Date</th>
-                <th>Review</th>
+               
             </tr>
         </thead>
         <tbody>
@@ -31,9 +31,7 @@
                     <td>@(record.Score / 10.0 * 100)%</td>
                     <td>@record.Attempt</td>
                     <td>@record.TakenDate.ToString("yyyy-MM-dd")</td>
-                    <td>
-                        <a href="/Quizs/Result?subjectId=@record.SubjectId&quizId=@record.QuizId" class="btn btn-warning btn-sm">Review</a>
-                    </td>
+                    
                 </tr>
             }
         </tbody>
@@ -86,3 +84,12 @@
         </nav>
     </div>
 </div>
+<script>
+    function test(subjectId, quizId) {
+        console.log("Subject ID:", subjectId);
+        console.log("Quiz ID:", quizId);
+
+        // Ví dụ: Điều hướng đến URL khác dựa trên dữ liệu
+        window.location.href = `/Quizs/Result?subjectId=${subjectId}&quizId=${quizId}`;
+    }
+</script>

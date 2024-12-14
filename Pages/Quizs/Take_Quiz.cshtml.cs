@@ -116,25 +116,49 @@ namespace Quizpractice.Pages.Quizs
 
         public IActionResult OnPostScoreExam(int subjectId, int quizId)
         {
-            // Retrieve the question list from session
+            // Lấy danh sách câu hỏi từ session
             string sessionKey = $"QuestionList_{subjectId}";
             var questionList = HttpContext.Session.GetString(sessionKey);
             if (string.IsNullOrEmpty(questionList))
             {
-                TempData["Error"] = "No questions available to score.";
-                return RedirectToPage("./List");
+                TempData["Error"] = "Không có câu hỏi nào để chấm điểm.";
+                return RedirectToPage("./List"); // Trả về danh sách hoặc trang khác
             }
 
             var questions = JsonConvert.DeserializeObject<List<Question>>(questionList);
             int correctAnswers = 0;
 
-            // Calculate the score
+            // Lấy UserId từ session
+            var userIdString = HttpContext.Session.GetString("UserId");
+            if (string.IsNullOrEmpty(userIdString))
+            {
+                TempData["Error"] = "Người dùng chưa đăng nhập.";
+                return RedirectToPage("/Users/Login");
+            }
+
+            int userId = int.Parse(userIdString);
+
+            // Lưu đáp án vào bảng QuizAnswerDetail
             foreach (var question in questions)
             {
                 var selectedAnswerId = HttpContext.Session.GetInt32($"Answer_{question.QuestionId}");
                 if (selectedAnswerId.HasValue)
                 {
                     var selectedAnswer = question.Answers.FirstOrDefault(a => a.AnswerId == selectedAnswerId.Value);
+                    var correctAnswer = question.Answers.FirstOrDefault(a => a.Correct == true);
+
+                    var quizAnswerDetail = new QuizAnswerDetail
+                    {
+                        QuizDetailId = quizId,
+                        QuestionId = question.QuestionId,
+                        SelectedAnswerId = selectedAnswerId.Value,
+                        TrueAnswerId = correctAnswer?.AnswerId ?? 0,
+                        IsCorrect = selectedAnswer?.Correct ?? false
+                    };
+
+                    _context.QuizAnswerDetails.Add(quizAnswerDetail);
+
+                    // Tăng số câu trả lời đúng nếu đáp án chính xác
                     if (selectedAnswer?.Correct == true)
                     {
                         correctAnswers++;
@@ -142,32 +166,25 @@ namespace Quizpractice.Pages.Quizs
                 }
             }
 
-            // Save the result in QuizDetail table
-            var userIdString = HttpContext.Session.GetString("UserId");
-            if (string.IsNullOrEmpty(userIdString))
-            {
-                TempData["Error"] = "User is not logged in.";
-                return RedirectToPage("/Users/Login");
-            }
-
-            int userId = int.Parse(userIdString);
-            var score = correctAnswers;
+            // Lưu kết quả bài thi vào bảng QuizDetail
             var quizDetail = new QuizDetail
             {
                 QuizId = quizId,
                 UserId = userId,
                 TakenDate = DateTime.Now,
-                Score = score
+                Score = correctAnswers
             };
 
             _context.QuizDetails.Add(quizDetail);
-            _context.SaveChanges();
 
-            // Redirect to result page
-            TempData["Score"] = $"{score}/{questions.Count}";
+            // Lưu vào cơ sở dữ liệu
+            _context.SaveChanges();
+            TempData["ClearSession"] = "true";
+
+            // Chuyển hướng đến trang kết quả
+            TempData["Score"] = $"{correctAnswers}/{questions.Count}";
+            TempData["Debug"] = "Nộp bài thành công!";
             return RedirectToPage("Result", new { subjectId, quizId });
         }
-
-
     }
 }
