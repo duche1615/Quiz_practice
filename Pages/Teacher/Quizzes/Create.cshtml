@@ -40,9 +40,16 @@
         <label for="Subject" class="form-label">Subject</label>
         <select class="form-select" asp-for="QuizModel.SubjectId" id="SubjectDropdown" onchange="loadChapters()">
             <option value="">-- Select Subject --</option>
-            @foreach (var subject in Model.Subjects)
+            @if (Model.Subjects != null && Model.Subjects.Any())
             {
-                <option value="@subject.SubjectId">@subject.SubjectName</option>
+                @foreach (var subject in Model.Subjects)
+                {
+                    <option value="@subject.SubjectId">@subject.SubjectName</option>
+                }
+            }
+            else
+            {
+                <p>No subjects available.</p>
             }
         </select>
         <span asp-validation-for="QuizModel.SubjectId" class="text-danger"></span>
@@ -51,22 +58,33 @@
         <label for="Chapter" class="form-label">Chapter</label>
         <select id="ChapterDropdown" class="form-select" asp-for="QuizModel.ChapterId">
             <option value="">-- Select Chapter --</option>
-            @foreach (var chapter in Model.Chapters)
+            @if (Model.Chapters != null && Model.Chapters.Any())
             {
-                <option value="@chapter.ChapterId">@chapter.ChapterName</option>
+                @foreach (var chapter in Model.Chapters)
+                {
+                    <option value="@chapter.ChapterId">@chapter.ChapterName</option>
+                }
+            }
+            else
+            {
+                <p>No chapters available.</p>
             }
         </select>
 
     </div>
     <div class="mb-3">
         <label for="StartTime" class="form-label">Start Time</label>
-        <input asp-for="QuizModel.StartTime" type="datetime-local" class="form-control" id="StartTime" />
+        <input asp-for="QuizModel.StartTime" type="datetime-local" class="form-control" id="StartTime"
+               value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")"
+               min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
         <span asp-validation-for="QuizModel.StartTime" class="text-danger"></span>
     </div>
 
     <div class="mb-3">
         <label for="EndTime" class="form-label">End Time</label>
-        <input asp-for="QuizModel.EndTime" type="datetime-local" class="form-control" id="EndTime" />
+        <input asp-for="QuizModel.EndTime" type="datetime-local" class="form-control" id="EndTime"
+               value="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")"
+               min="@DateTime.Now.ToString("yyyy-MM-ddTHH:mm")" />
         <span asp-validation-for="QuizModel.EndTime" class="text-danger"></span>
     </div>
     <div class="mb-3">
