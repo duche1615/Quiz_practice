@@ -12,5 +12,6 @@ namespace Quizpractice.Models
         public double Score { get; set; }
 
         public virtual Quiz Quiz { get; set; } = null!;
+        public virtual QuizAnswerDetail? QuizAnswerDetail { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [SWP391_DB]    Script Date: 12/7/2024 8:52:54 PM ******/
+/****** Object:  Database [SWP391_DB]    Script Date: 12/15/2024 1:13:35 AM ******/
 CREATE DATABASE [SWP391_DB]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -82,7 +82,7 @@ ALTER DATABASE [SWP391_DB] SET QUERY_STORE (OPERATION_MODE = READ_WRITE, CLEANUP
 GO
 USE [SWP391_DB]
 GO
-/****** Object:  Table [dbo].[Answer]    Script Date: 12/7/2024 8:52:54 PM ******/
+/****** Object:  Table [dbo].[Answer]    Script Date: 12/15/2024 1:13:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -98,7 +98,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Blog]    Script Date: 12/7/2024 8:52:55 PM ******/
+/****** Object:  Table [dbo].[Blog]    Script Date: 12/15/2024 1:13:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -115,7 +115,7 @@ CREATE TABLE [dbo].[Blog](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Chapter]    Script Date: 12/7/2024 8:52:55 PM ******/
+/****** Object:  Table [dbo].[Chapter]    Script Date: 12/15/2024 1:13:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -127,25 +127,25 @@ CREATE TABLE [dbo].[Chapter](
 	[active] [bit] NULL,
 	[public] [bit] NULL,
 	[subId] [int] NULL,
-	[description] [varchar](255) NULL,
+	[description] [varchar](max) NULL,
  CONSTRAINT [PK__Lesson__F88A977848BD6CBE] PRIMARY KEY CLUSTERED 
 (
 	[chapterId] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Lession]    Script Date: 12/7/2024 8:52:55 PM ******/
+/****** Object:  Table [dbo].[Lession]    Script Date: 12/15/2024 1:13:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Lession](
 	[lessionId] [int] IDENTITY(1,1) NOT NULL,
-	[lessionURL] [varchar](255) NULL,
+	[lessionURL] [varchar](max) NULL,
 	[status] [bit] NULL,
 	[title] [varchar](255) NULL,
 	[content] [varchar](255) NOT NULL,
-	[backlink] [varchar](255) NULL,
+	[backlink] [varchar](max) NULL,
 	[notes] [varchar](255) NULL,
 	[public] [bit] NULL,
 	[subid] [int] NULL,
@@ -154,9 +154,9 @@ CREATE TABLE [dbo].[Lession](
 (
 	[lessionId] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Post]    Script Date: 12/7/2024 8:52:55 PM ******/
+/****** Object:  Table [dbo].[Post]    Script Date: 12/15/2024 1:13:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -179,7 +179,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Post_File]    Script Date: 12/7/2024 8:52:55 PM ******/
+/****** Object:  Table [dbo].[Post_File]    Script Date: 12/15/2024 1:13:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -195,7 +195,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[PricePackage]    Script Date: 12/7/2024 8:52:55 PM ******/
+/****** Object:  Table [dbo].[PricePackage]    Script Date: 12/15/2024 1:13:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -213,7 +213,7 @@ CREATE TABLE [dbo].[PricePackage](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Question]    Script Date: 12/7/2024 8:52:55 PM ******/
+/****** Object:  Table [dbo].[Question]    Script Date: 12/15/2024 1:13:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -232,7 +232,7 @@ CREATE TABLE [dbo].[Question](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Question_Quiz]    Script Date: 12/7/2024 8:52:55 PM ******/
+/****** Object:  Table [dbo].[Question_Quiz]    Script Date: 12/15/2024 1:13:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -247,7 +247,7 @@ CREATE TABLE [dbo].[Question_Quiz](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Quiz]    Script Date: 12/7/2024 8:52:55 PM ******/
+/****** Object:  Table [dbo].[Quiz]    Script Date: 12/15/2024 1:13:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -263,7 +263,6 @@ CREATE TABLE [dbo].[Quiz](
 	[pass_percent] [float] NULL,
 	[subId] [int] NULL,
 	[user_create_id] [int] NULL,
-	[quesId] [int] NULL,
 	[duration] [int] NULL,
 	[description] [varchar](max) NULL,
 	[totalQues] [int] NULL,
@@ -274,7 +273,7 @@ CREATE TABLE [dbo].[Quiz](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Quiz_Answer_Detail]    Script Date: 12/7/2024 8:52:55 PM ******/
+/****** Object:  Table [dbo].[Quiz_Answer_Detail]    Script Date: 12/15/2024 1:13:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -284,10 +283,14 @@ CREATE TABLE [dbo].[Quiz_Answer_Detail](
 	[questionId] [int] NOT NULL,
 	[selected_answer_id] [int] NOT NULL,
 	[true_answer_id] [int] NOT NULL,
-	[isCorrect] [bit] NOT NULL
+	[isCorrect] [bit] NOT NULL,
+ CONSTRAINT [PK_Quiz_Answer_Detail] PRIMARY KEY CLUSTERED 
+(
+	[quiz_detail_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Quiz_Chapter]    Script Date: 12/7/2024 8:52:55 PM ******/
+/****** Object:  Table [dbo].[Quiz_Chapter]    Script Date: 12/15/2024 1:13:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -302,7 +305,7 @@ CREATE TABLE [dbo].[Quiz_Chapter](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Quiz_Detail]    Script Date: 12/7/2024 8:52:55 PM ******/
+/****** Object:  Table [dbo].[Quiz_Detail]    Script Date: 12/15/2024 1:13:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -312,14 +315,14 @@ CREATE TABLE [dbo].[Quiz_Detail](
 	[quizId] [int] NOT NULL,
 	[userId] [int] NOT NULL,
 	[taken_date] [datetime] NOT NULL,
-	[score] [int] NOT NULL,
+	[score] [float] NOT NULL,
  CONSTRAINT [PK_Quiz_Detail] PRIMARY KEY CLUSTERED 
 (
 	[quiz_detail_id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Registration_Subject]    Script Date: 12/7/2024 8:52:55 PM ******/
+/****** Object:  Table [dbo].[Registration_Subject]    Script Date: 12/15/2024 1:13:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -337,7 +340,7 @@ CREATE TABLE [dbo].[Registration_Subject](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Role]    Script Date: 12/7/2024 8:52:55 PM ******/
+/****** Object:  Table [dbo].[Role]    Script Date: 12/15/2024 1:13:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -351,7 +354,7 @@ CREATE TABLE [dbo].[Role](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Subject]    Script Date: 12/7/2024 8:52:55 PM ******/
+/****** Object:  Table [dbo].[Subject]    Script Date: 12/15/2024 1:13:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -362,15 +365,15 @@ CREATE TABLE [dbo].[Subject](
 	[status] [bit] NULL,
 	[tagLine] [int] NULL,
 	[title] [nvarchar](255) NULL,
-	[thumbnail] [nvarchar](255) NULL,
-	[description] [nvarchar](255) NULL,
+	[thumbnail] [nvarchar](max) NULL,
+	[description] [nvarchar](max) NULL,
  CONSTRAINT [PK_Subject] PRIMARY KEY CLUSTERED 
 (
 	[subjectId] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[SubjectPrice]    Script Date: 12/7/2024 8:52:55 PM ******/
+/****** Object:  Table [dbo].[SubjectPrice]    Script Date: 12/15/2024 1:13:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -380,7 +383,7 @@ CREATE TABLE [dbo].[SubjectPrice](
 	[subjectId] [int] NULL
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Type]    Script Date: 12/7/2024 8:52:55 PM ******/
+/****** Object:  Table [dbo].[Type]    Script Date: 12/15/2024 1:13:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -394,7 +397,7 @@ CREATE TABLE [dbo].[Type](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[User]    Script Date: 12/7/2024 8:52:55 PM ******/
+/****** Object:  Table [dbo].[User]    Script Date: 12/15/2024 1:13:35 AM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -919,15 +922,15 @@ SET IDENTITY_INSERT [dbo].[Blog] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Chapter] ON 
 GO
-INSERT [dbo].[Chapter] ([chapterId], [chapterName], [content], [active], [public], [subId], [description]) VALUES (1, N'Chapter 1', N'Matrix', 1, NULL, 1, N'ok')
+INSERT [dbo].[Chapter] ([chapterId], [chapterName], [content], [active], [public], [subId], [description]) VALUES (1, N'Chapter 1', N'Matrix', 1, 1, 1, N'ok')
 GO
-INSERT [dbo].[Chapter] ([chapterId], [chapterName], [content], [active], [public], [subId], [description]) VALUES (2, N'Chapter 1.1', N'Add, Subtract Matrix', 1, NULL, 1, N'ok')
+INSERT [dbo].[Chapter] ([chapterId], [chapterName], [content], [active], [public], [subId], [description]) VALUES (2, N'Chapter 2', N'Add, Subtract Matrix', 1, 1, 1, N'ok')
 GO
-INSERT [dbo].[Chapter] ([chapterId], [chapterName], [content], [active], [public], [subId], [description]) VALUES (3, N'Chapter 2', N'Vector', 1, NULL, 1, N'ok')
+INSERT [dbo].[Chapter] ([chapterId], [chapterName], [content], [active], [public], [subId], [description]) VALUES (3, N'Chapter 3', N'Vector', 1, 1, 1, N'ok')
 GO
-INSERT [dbo].[Chapter] ([chapterId], [chapterName], [content], [active], [public], [subId], [description]) VALUES (4, N'Chapter 2.1', N'Trees', 1, NULL, 1, N'ok')
+INSERT [dbo].[Chapter] ([chapterId], [chapterName], [content], [active], [public], [subId], [description]) VALUES (4, N'Chapter 4', N'Trees', 1, 1, 1, N'ok')
 GO
-INSERT [dbo].[Chapter] ([chapterId], [chapterName], [content], [active], [public], [subId], [description]) VALUES (5, N'Chapter 2.2', N'Probability, Basic Overview', 1, NULL, 1, N'ok')
+INSERT [dbo].[Chapter] ([chapterId], [chapterName], [content], [active], [public], [subId], [description]) VALUES (5, N'Chapter 5', N'Probability, Basic Overview', 1, 1, 1, N'ok')
 GO
 INSERT [dbo].[Chapter] ([chapterId], [chapterName], [content], [active], [public], [subId], [description]) VALUES (6, N'Chapter 1', N'Adverb Clause of Concession', 1, NULL, 2, N'ok')
 GO
@@ -945,21 +948,27 @@ INSERT [dbo].[Chapter] ([chapterId], [chapterName], [content], [active], [public
 GO
 INSERT [dbo].[Chapter] ([chapterId], [chapterName], [content], [active], [public], [subId], [description]) VALUES (13, N'Chapter 1', N'An introduction for teachers', 1, NULL, 9, N'ok')
 GO
+INSERT [dbo].[Chapter] ([chapterId], [chapterName], [content], [active], [public], [subId], [description]) VALUES (17, N'Chapter 6', N'abc', 1, 1, 1, N'abcbbcb')
+GO
+INSERT [dbo].[Chapter] ([chapterId], [chapterName], [content], [active], [public], [subId], [description]) VALUES (18, N'test', N'test', 1, 1, 9, N'test')
+GO
 SET IDENTITY_INSERT [dbo].[Chapter] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Lession] ON 
 GO
-INSERT [dbo].[Lession] ([lessionId], [lessionURL], [status], [title], [content], [backlink], [notes], [public], [subid], [chapterid]) VALUES (2, N'img/2.png', 1, N'Math Class', N'About this Specialization For a lot of higher level courses in Machine Learning and Data Science, you find you need to freshen up on the basics in mathematics - stuff you may have studied before in school or university.', N'', N'Sale for Math', 1, 1, NULL)
+INSERT [dbo].[Lession] ([lessionId], [lessionURL], [status], [title], [content], [backlink], [notes], [public], [subid], [chapterid]) VALUES (2, N'img/2.png', 1, N'Math Class', N'About this Specialization For a lot of higher level courses in Machine Learning and Data Science, you find you need to freshen up on the basics in mathematics - stuff you may have studied before in school or university.', NULL, N'Sale for Math', 1, 1, 17)
 GO
-INSERT [dbo].[Lession] ([lessionId], [lessionURL], [status], [title], [content], [backlink], [notes], [public], [subid], [chapterid]) VALUES (3, N'img/3.png', 1, N'English Class', N'This Specialization helps you improve your professional communication in English for successful business interactions. Each course focuses on a particular area of communication in English.', N'', N'Sale for English', 1, 2, NULL)
+INSERT [dbo].[Lession] ([lessionId], [lessionURL], [status], [title], [content], [backlink], [notes], [public], [subid], [chapterid]) VALUES (3, N'img/3.png', 1, N'English Class', N'This Specialization helps you improve your professional communication in English for successful business interactions. Each course focuses on a particular area of communication in English.', N'', N'Sale for English', 1, 2, 6)
 GO
-INSERT [dbo].[Lession] ([lessionId], [lessionURL], [status], [title], [content], [backlink], [notes], [public], [subid], [chapterid]) VALUES (4, N'img/4.png', 1, N'Health & Physical Education', N'The vital signs – heart rate, blood pressure, body temperature, respiration rate, and pain – communicate important information about the physiological status of the human body.', N'', N'Sale for Health', 1, 9, NULL)
+INSERT [dbo].[Lession] ([lessionId], [lessionURL], [status], [title], [content], [backlink], [notes], [public], [subid], [chapterid]) VALUES (4, N'img/4.png', 1, N'Health & Physical Education', N'The vital signs – heart rate, blood pressure, body temperature, respiration rate, and pain – communicate important information about the physiological status of the human body.', N'', N'Sale for Health', 1, 9, 7)
 GO
-INSERT [dbo].[Lession] ([lessionId], [lessionURL], [status], [title], [content], [backlink], [notes], [public], [subid], [chapterid]) VALUES (5, N'img/5.png', 1, N'History Class', N'This course is the first of a series that aims to prepare you for a role as an entry-level IT Support Specialist. In this course, you’ll be introduced to the world of Information Technology, or IT.', N'', N'Sale for Technical', 1, 7, NULL)
+INSERT [dbo].[Lession] ([lessionId], [lessionURL], [status], [title], [content], [backlink], [notes], [public], [subid], [chapterid]) VALUES (5, N'img/5.png', 1, N'History Class', N'This course is the first of a series that aims to prepare you for a role as an entry-level IT Support Specialist. In this course, you’ll be introduced to the world of Information Technology, or IT.', N'', N'Sale for Technical', 1, 7, 8)
 GO
-INSERT [dbo].[Lession] ([lessionId], [lessionURL], [status], [title], [content], [backlink], [notes], [public], [subid], [chapterid]) VALUES (6, N'img/6.png', 1, N'Computer Class', N'This Specialization is intended for anyone seeking to learn basic computer skills. Through 3 courses, you will study computer hardware, software, and data safety. ', N'', N'Sale for Computer', 1, 6, NULL)
+INSERT [dbo].[Lession] ([lessionId], [lessionURL], [status], [title], [content], [backlink], [notes], [public], [subid], [chapterid]) VALUES (6, N'img/6.png', 1, N'Computer Class', N'This Specialization is intended for anyone seeking to learn basic computer skills. Through 3 courses, you will study computer hardware, software, and data safety. ', N'', N'Sale for Computer', 1, 6, 9)
 GO
-INSERT [dbo].[Lession] ([lessionId], [lessionURL], [status], [title], [content], [backlink], [notes], [public], [subid], [chapterid]) VALUES (7, N'img/7.png', 1, N'Art Class', N'Graphic design is all around us, in a myriad of forms, both on screen and in print, yet it is always made up of images and words to create a communication goal. ', N'', N'Sale for Arts', 1, 8, NULL)
+INSERT [dbo].[Lession] ([lessionId], [lessionURL], [status], [title], [content], [backlink], [notes], [public], [subid], [chapterid]) VALUES (7, N'img/7.png', 1, N'Art Class', N'Graphic design is all around us, in a myriad of forms, both on screen and in print, yet it is always made up of images and words to create a communication goal. ', N'', N'Sale for Arts', 1, 8, 10)
+GO
+INSERT [dbo].[Lession] ([lessionId], [lessionURL], [status], [title], [content], [backlink], [notes], [public], [subid], [chapterid]) VALUES (8, N'test', 1, N'test', N'test', N'test', N'test', 1, 1, 1)
 GO
 SET IDENTITY_INSERT [dbo].[Lession] OFF
 GO
@@ -1115,37 +1124,205 @@ INSERT [dbo].[Question] ([questionId], [content], [subjectId], [chapterId], [lev
 GO
 SET IDENTITY_INSERT [dbo].[Question] OFF
 GO
+SET IDENTITY_INSERT [dbo].[Question_Quiz] ON 
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (1, 1, 15)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (2, 2, 15)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (3, 6, 15)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (4, 3, 15)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (5, 4, 15)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (6, 9, 16)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (7, 3, 16)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (8, 5, 16)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (9, 2, 16)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (10, 12, 16)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (11, 1, 16)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (12, 4, 16)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (13, 8, 16)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (14, 7, 16)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (15, 10, 16)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (16, 2, 17)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (17, 3, 17)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (18, 1, 17)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (19, 11, 17)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (20, 9, 17)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (21, 12, 17)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (22, 4, 17)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (23, 10, 17)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (24, 8, 17)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (25, 6, 17)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (26, 6, 18)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (27, 8, 18)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (28, 9, 18)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (29, 2, 18)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (30, 3, 18)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (31, 4, 18)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (32, 1, 18)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (33, 5, 18)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (34, 11, 18)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (35, 7, 18)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (36, 5, 19)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (37, 8, 19)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (38, 2, 19)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (39, 7, 19)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (40, 3, 19)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (41, 4, 19)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (42, 12, 19)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (43, 9, 19)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (44, 6, 19)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (45, 1, 19)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (46, 7, 20)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (47, 6, 20)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (48, 1, 20)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (49, 3, 20)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (50, 2, 20)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (51, 1, 21)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (52, 8, 21)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (53, 2, 21)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (54, 10, 21)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (55, 11, 21)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (56, 12, 21)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (57, 7, 21)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (58, 9, 21)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (59, 3, 21)
+GO
+INSERT [dbo].[Question_Quiz] ([quiz_question_id], [quesId], [quizId]) VALUES (60, 4, 21)
+GO
+SET IDENTITY_INSERT [dbo].[Question_Quiz] OFF
+GO
 SET IDENTITY_INSERT [dbo].[Quiz] ON 
 GO
-INSERT [dbo].[Quiz] ([quizId], [title], [level], [start_time], [end_time], [public], [active], [pass_percent], [subId], [user_create_id], [quesId], [duration], [description], [totalQues], [attempt]) VALUES (1, N'Math Matrix', N'Easy', CAST(N'1900-01-01T00:30:00.000' AS DateTime), CAST(N'1900-01-01T00:15:00.000' AS DateTime), NULL, 1, 80, 1, 1, 1, 20, N'ok', 10, 4)
+INSERT [dbo].[Quiz] ([quizId], [title], [level], [start_time], [end_time], [public], [active], [pass_percent], [subId], [user_create_id], [duration], [description], [totalQues], [attempt]) VALUES (1, N'Math Matrix', N'Easy', CAST(N'1900-01-01T00:30:00.000' AS DateTime), CAST(N'1900-01-01T00:15:00.000' AS DateTime), NULL, 1, 80, 1, 1, 20, N'ok', 10, 4)
 GO
-INSERT [dbo].[Quiz] ([quizId], [title], [level], [start_time], [end_time], [public], [active], [pass_percent], [subId], [user_create_id], [quesId], [duration], [description], [totalQues], [attempt]) VALUES (2, N'Vector', N'Medium', CAST(N'1900-01-01T00:30:00.000' AS DateTime), CAST(N'1900-01-01T00:15:00.000' AS DateTime), NULL, 1, 80, 1, 1, 1, 20, N'ok', 10, 5)
+INSERT [dbo].[Quiz] ([quizId], [title], [level], [start_time], [end_time], [public], [active], [pass_percent], [subId], [user_create_id], [duration], [description], [totalQues], [attempt]) VALUES (2, N'Vector', N'Medium', CAST(N'1900-01-01T00:30:00.000' AS DateTime), CAST(N'1900-01-01T00:15:00.000' AS DateTime), NULL, 1, 80, 1, 1, 20, N'ok', 10, 5)
 GO
-INSERT [dbo].[Quiz] ([quizId], [title], [level], [start_time], [end_time], [public], [active], [pass_percent], [subId], [user_create_id], [quesId], [duration], [description], [totalQues], [attempt]) VALUES (3, N'English Tense', N'Medium', CAST(N'1900-01-01T00:30:00.000' AS DateTime), CAST(N'1900-01-01T00:15:00.000' AS DateTime), NULL, 1, 80, 2, 1, 1, 20, N'ok', 10, 1)
+INSERT [dbo].[Quiz] ([quizId], [title], [level], [start_time], [end_time], [public], [active], [pass_percent], [subId], [user_create_id], [duration], [description], [totalQues], [attempt]) VALUES (3, N'English Tense', N'Medium', CAST(N'1900-01-01T00:30:00.000' AS DateTime), CAST(N'1900-01-01T00:15:00.000' AS DateTime), NULL, 1, 80, 2, 1, 20, N'ok', 10, 1)
 GO
-INSERT [dbo].[Quiz] ([quizId], [title], [level], [start_time], [end_time], [public], [active], [pass_percent], [subId], [user_create_id], [quesId], [duration], [description], [totalQues], [attempt]) VALUES (4, N'Social', N'Medium', CAST(N'1900-01-01T00:30:00.000' AS DateTime), CAST(N'1900-01-01T00:50:00.000' AS DateTime), NULL, 1, 8, 3, 1, 1, 20, N'ok', 10, 2)
+INSERT [dbo].[Quiz] ([quizId], [title], [level], [start_time], [end_time], [public], [active], [pass_percent], [subId], [user_create_id], [duration], [description], [totalQues], [attempt]) VALUES (4, N'Social', N'Medium', CAST(N'1900-01-01T00:30:00.000' AS DateTime), CAST(N'1900-01-01T00:50:00.000' AS DateTime), NULL, 1, 8, 3, 1, 20, N'ok', 10, 2)
 GO
-INSERT [dbo].[Quiz] ([quizId], [title], [level], [start_time], [end_time], [public], [active], [pass_percent], [subId], [user_create_id], [quesId], [duration], [description], [totalQues], [attempt]) VALUES (5, N'Progess test', N'Medium', CAST(N'1900-01-01T00:00:00.000' AS DateTime), NULL, NULL, 1, 80, 2, 4, 1, 20, N'ok', 10, 1)
+INSERT [dbo].[Quiz] ([quizId], [title], [level], [start_time], [end_time], [public], [active], [pass_percent], [subId], [user_create_id], [duration], [description], [totalQues], [attempt]) VALUES (5, N'Progess test', N'Medium', CAST(N'1900-01-01T00:00:00.000' AS DateTime), NULL, NULL, 1, 80, 2, 4, 20, N'ok', 10, 1)
 GO
-INSERT [dbo].[Quiz] ([quizId], [title], [level], [start_time], [end_time], [public], [active], [pass_percent], [subId], [user_create_id], [quesId], [duration], [description], [totalQues], [attempt]) VALUES (6, N'Factors', N'Medium', CAST(N'1900-01-01T00:00:00.000' AS DateTime), CAST(N'1900-01-01T00:15:00.000' AS DateTime), NULL, 1, 80, 5, 1, 1, 20, N'ok', 10, 2)
+INSERT [dbo].[Quiz] ([quizId], [title], [level], [start_time], [end_time], [public], [active], [pass_percent], [subId], [user_create_id], [duration], [description], [totalQues], [attempt]) VALUES (6, N'Factors', N'Medium', CAST(N'1900-01-01T00:00:00.000' AS DateTime), CAST(N'1900-01-01T00:15:00.000' AS DateTime), NULL, 1, 80, 5, 1, 20, N'ok', 10, 2)
 GO
-INSERT [dbo].[Quiz] ([quizId], [title], [level], [start_time], [end_time], [public], [active], [pass_percent], [subId], [user_create_id], [quesId], [duration], [description], [totalQues], [attempt]) VALUES (7, N'Great Wall of China - Junior 1', N'Medium', CAST(N'1900-01-01T00:00:00.000' AS DateTime), CAST(N'1900-01-01T00:22:00.000' AS DateTime), NULL, 1, 80, 6, 1, 1, 20, N'ok', 10, 2)
+INSERT [dbo].[Quiz] ([quizId], [title], [level], [start_time], [end_time], [public], [active], [pass_percent], [subId], [user_create_id], [duration], [description], [totalQues], [attempt]) VALUES (7, N'Great Wall of China - Junior 1', N'Medium', CAST(N'1900-01-01T00:00:00.000' AS DateTime), CAST(N'1900-01-01T00:22:00.000' AS DateTime), NULL, 1, 80, 6, 1, 20, N'ok', 10, 2)
 GO
-INSERT [dbo].[Quiz] ([quizId], [title], [level], [start_time], [end_time], [public], [active], [pass_percent], [subId], [user_create_id], [quesId], [duration], [description], [totalQues], [attempt]) VALUES (8, N'Wonders of the Past', N'Medium', CAST(N'1900-01-01T00:00:00.000' AS DateTime), CAST(N'1900-01-01T00:33:00.000' AS DateTime), NULL, 1, 80, 7, 1, 1, 20, N'ok', 10, 2)
+INSERT [dbo].[Quiz] ([quizId], [title], [level], [start_time], [end_time], [public], [active], [pass_percent], [subId], [user_create_id], [duration], [description], [totalQues], [attempt]) VALUES (8, N'Wonders of the Past', N'Medium', CAST(N'1900-01-01T00:00:00.000' AS DateTime), CAST(N'1900-01-01T00:33:00.000' AS DateTime), NULL, 1, 80, 7, 1, 20, N'ok', 10, 2)
 GO
-INSERT [dbo].[Quiz] ([quizId], [title], [level], [start_time], [end_time], [public], [active], [pass_percent], [subId], [user_create_id], [quesId], [duration], [description], [totalQues], [attempt]) VALUES (9, N'Animals Art', N'Medium', CAST(N'1900-01-01T00:00:00.000' AS DateTime), CAST(N'1900-01-01T00:33:00.000' AS DateTime), NULL, 1, 80, 8, 1, 1, 20, N'ok', 10, 2)
+INSERT [dbo].[Quiz] ([quizId], [title], [level], [start_time], [end_time], [public], [active], [pass_percent], [subId], [user_create_id], [duration], [description], [totalQues], [attempt]) VALUES (9, N'Animals Art', N'Medium', CAST(N'1900-01-01T00:00:00.000' AS DateTime), CAST(N'1900-01-01T00:33:00.000' AS DateTime), NULL, 1, 80, 8, 1, 20, N'ok', 10, 2)
 GO
-INSERT [dbo].[Quiz] ([quizId], [title], [level], [start_time], [end_time], [public], [active], [pass_percent], [subId], [user_create_id], [quesId], [duration], [description], [totalQues], [attempt]) VALUES (10, N'Body Health', N'Medium', CAST(N'1900-01-01T00:00:00.000' AS DateTime), CAST(N'1900-01-01T00:33:00.000' AS DateTime), NULL, 1, 80, 9, 1, 1, 20, N'ok', 10, 2)
+INSERT [dbo].[Quiz] ([quizId], [title], [level], [start_time], [end_time], [public], [active], [pass_percent], [subId], [user_create_id], [duration], [description], [totalQues], [attempt]) VALUES (10, N'Body Health', N'Medium', CAST(N'1900-01-01T00:00:00.000' AS DateTime), CAST(N'1900-01-01T00:33:00.000' AS DateTime), NULL, 1, 80, 9, 1, 20, N'ok', 10, 2)
 GO
-INSERT [dbo].[Quiz] ([quizId], [title], [level], [start_time], [end_time], [public], [active], [pass_percent], [subId], [user_create_id], [quesId], [duration], [description], [totalQues], [attempt]) VALUES (11, N'Fact Check Ice Breaker: Two truths ...', N'meduum', CAST(N'1900-01-01T00:00:00.000' AS DateTime), CAST(N'1900-01-01T00:15:00.000' AS DateTime), NULL, 1, 0, 6, 1, 1, 20, N'ok', 10, 2)
+INSERT [dbo].[Quiz] ([quizId], [title], [level], [start_time], [end_time], [public], [active], [pass_percent], [subId], [user_create_id], [duration], [description], [totalQues], [attempt]) VALUES (11, N'Fact Check Ice Breaker: Two truths ...', N'meduum', CAST(N'1900-01-01T00:00:00.000' AS DateTime), CAST(N'1900-01-01T00:15:00.000' AS DateTime), NULL, 1, 0, 6, 1, 20, N'ok', 10, 2)
 GO
-INSERT [dbo].[Quiz] ([quizId], [title], [level], [start_time], [end_time], [public], [active], [pass_percent], [subId], [user_create_id], [quesId], [duration], [description], [totalQues], [attempt]) VALUES (12, N'Check for understanding during clas...', N'medium', CAST(N'1900-01-01T00:00:00.000' AS DateTime), CAST(N'1900-01-01T00:30:00.000' AS DateTime), NULL, 1, 0, 7, 1, 1, 20, N'ok', 10, 2)
+INSERT [dbo].[Quiz] ([quizId], [title], [level], [start_time], [end_time], [public], [active], [pass_percent], [subId], [user_create_id], [duration], [description], [totalQues], [attempt]) VALUES (12, N'Check for understanding during clas...', N'medium', CAST(N'1900-01-01T00:00:00.000' AS DateTime), CAST(N'1900-01-01T00:30:00.000' AS DateTime), NULL, 1, 0, 7, 1, 20, N'ok', 10, 2)
 GO
-INSERT [dbo].[Quiz] ([quizId], [title], [level], [start_time], [end_time], [public], [active], [pass_percent], [subId], [user_create_id], [quesId], [duration], [description], [totalQues], [attempt]) VALUES (13, N'Introduction Database and Database ...', N'Medium', CAST(N'1900-01-01T00:00:00.000' AS DateTime), CAST(N'1900-01-01T00:15:00.000' AS DateTime), NULL, 1, 0, 8, 1, 1, 20, N'ok', 10, 2)
+INSERT [dbo].[Quiz] ([quizId], [title], [level], [start_time], [end_time], [public], [active], [pass_percent], [subId], [user_create_id], [duration], [description], [totalQues], [attempt]) VALUES (13, N'Introduction Database and Database ...', N'Medium', CAST(N'1900-01-01T00:00:00.000' AS DateTime), CAST(N'1900-01-01T00:15:00.000' AS DateTime), NULL, 1, 0, 8, 1, 20, N'ok', 10, 2)
 GO
-INSERT [dbo].[Quiz] ([quizId], [title], [level], [start_time], [end_time], [public], [active], [pass_percent], [subId], [user_create_id], [quesId], [duration], [description], [totalQues], [attempt]) VALUES (14, N'Safe Sanctuary', N'Medium', CAST(N'1900-01-01T00:00:00.000' AS DateTime), CAST(N'1900-01-01T00:16:00.000' AS DateTime), NULL, 1, 0, 9, 1, 1, 20, N'ok', 10, 2)
+INSERT [dbo].[Quiz] ([quizId], [title], [level], [start_time], [end_time], [public], [active], [pass_percent], [subId], [user_create_id], [duration], [description], [totalQues], [attempt]) VALUES (14, N'Safe Sanctuary', N'Medium', CAST(N'1900-01-01T00:00:00.000' AS DateTime), CAST(N'1900-01-01T00:16:00.000' AS DateTime), NULL, 1, 0, 9, 1, 20, N'ok', 10, 2)
+GO
+INSERT [dbo].[Quiz] ([quizId], [title], [level], [start_time], [end_time], [public], [active], [pass_percent], [subId], [user_create_id], [duration], [description], [totalQues], [attempt]) VALUES (15, N'test1', N'Easy', CAST(N'2024-12-14T00:00:00.000' AS DateTime), CAST(N'2024-12-16T00:00:00.000' AS DateTime), NULL, 1, NULL, 1, 3, 5, N'test1', 5, 0)
+GO
+INSERT [dbo].[Quiz] ([quizId], [title], [level], [start_time], [end_time], [public], [active], [pass_percent], [subId], [user_create_id], [duration], [description], [totalQues], [attempt]) VALUES (16, N'test2', N'Easy', CAST(N'2024-12-14T00:00:00.000' AS DateTime), CAST(N'2024-12-31T00:00:00.000' AS DateTime), NULL, 1, NULL, 1, 3, 10, N'test2', 10, 0)
+GO
+INSERT [dbo].[Quiz] ([quizId], [title], [level], [start_time], [end_time], [public], [active], [pass_percent], [subId], [user_create_id], [duration], [description], [totalQues], [attempt]) VALUES (17, N'test3', N'Easy', CAST(N'2024-12-14T00:00:00.000' AS DateTime), CAST(N'2024-12-21T00:00:00.000' AS DateTime), NULL, 1, NULL, 1, 3, 10, N'test3', 10, 0)
+GO
+INSERT [dbo].[Quiz] ([quizId], [title], [level], [start_time], [end_time], [public], [active], [pass_percent], [subId], [user_create_id], [duration], [description], [totalQues], [attempt]) VALUES (18, N'test4', N'Easy', CAST(N'2024-12-14T00:00:00.000' AS DateTime), CAST(N'2024-12-21T00:00:00.000' AS DateTime), NULL, 1, 80, 1, 3, 10, N'test4', 10, 0)
+GO
+INSERT [dbo].[Quiz] ([quizId], [title], [level], [start_time], [end_time], [public], [active], [pass_percent], [subId], [user_create_id], [duration], [description], [totalQues], [attempt]) VALUES (19, N'test5', N'Easy', CAST(N'2024-12-14T00:00:00.000' AS DateTime), CAST(N'2024-12-21T00:00:00.000' AS DateTime), NULL, 1, 80, 1, 3, 10, N'test5', 10, 0)
+GO
+INSERT [dbo].[Quiz] ([quizId], [title], [level], [start_time], [end_time], [public], [active], [pass_percent], [subId], [user_create_id], [duration], [description], [totalQues], [attempt]) VALUES (20, N'test6', N'Easy', CAST(N'2024-12-14T00:00:00.000' AS DateTime), CAST(N'2024-12-14T12:00:00.000' AS DateTime), NULL, 1, 80, 1, 3, 10, N'test', 5, 0)
+GO
+INSERT [dbo].[Quiz] ([quizId], [title], [level], [start_time], [end_time], [public], [active], [pass_percent], [subId], [user_create_id], [duration], [description], [totalQues], [attempt]) VALUES (21, N'test7', N'Easy', CAST(N'2024-12-14T00:00:00.000' AS DateTime), CAST(N'2024-12-14T12:00:00.000' AS DateTime), NULL, 1, 80, 1, 3, 10, N'test', 10, 0)
 GO
 SET IDENTITY_INSERT [dbo].[Quiz] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Quiz_Detail] ON 
+GO
+INSERT [dbo].[Quiz_Detail] ([quiz_detail_id], [quizId], [userId], [taken_date], [score]) VALUES (1, 10, 2, CAST(N'2024-12-14T20:21:40.747' AS DateTime), 7.9)
+GO
+INSERT [dbo].[Quiz_Detail] ([quiz_detail_id], [quizId], [userId], [taken_date], [score]) VALUES (2, 1, 2, CAST(N'2024-12-14T21:21:11.070' AS DateTime), 0)
+GO
+INSERT [dbo].[Quiz_Detail] ([quiz_detail_id], [quizId], [userId], [taken_date], [score]) VALUES (3, 2, 2, CAST(N'2024-12-14T21:28:07.963' AS DateTime), 2)
+GO
+INSERT [dbo].[Quiz_Detail] ([quiz_detail_id], [quizId], [userId], [taken_date], [score]) VALUES (4, 1, 2, CAST(N'2024-12-14T21:29:17.973' AS DateTime), 0)
+GO
+INSERT [dbo].[Quiz_Detail] ([quiz_detail_id], [quizId], [userId], [taken_date], [score]) VALUES (5, 21, 2, CAST(N'2024-12-14T21:30:26.937' AS DateTime), 0)
+GO
+INSERT [dbo].[Quiz_Detail] ([quiz_detail_id], [quizId], [userId], [taken_date], [score]) VALUES (6, 21, 2, CAST(N'2024-12-14T21:30:34.083' AS DateTime), 0)
+GO
+INSERT [dbo].[Quiz_Detail] ([quiz_detail_id], [quizId], [userId], [taken_date], [score]) VALUES (7, 21, 2, CAST(N'2024-12-14T21:30:52.420' AS DateTime), 0)
+GO
+INSERT [dbo].[Quiz_Detail] ([quiz_detail_id], [quizId], [userId], [taken_date], [score]) VALUES (8, 4, 2, CAST(N'2024-12-14T21:31:43.147' AS DateTime), 0)
+GO
+INSERT [dbo].[Quiz_Detail] ([quiz_detail_id], [quizId], [userId], [taken_date], [score]) VALUES (9, 10, 10, CAST(N'2024-12-14T21:45:07.030' AS DateTime), 0)
+GO
+INSERT [dbo].[Quiz_Detail] ([quiz_detail_id], [quizId], [userId], [taken_date], [score]) VALUES (10, 1, 2, CAST(N'2024-12-14T22:08:17.307' AS DateTime), 0)
+GO
+INSERT [dbo].[Quiz_Detail] ([quiz_detail_id], [quizId], [userId], [taken_date], [score]) VALUES (11, 20, 2, CAST(N'2024-12-14T22:08:31.323' AS DateTime), 0)
+GO
+INSERT [dbo].[Quiz_Detail] ([quiz_detail_id], [quizId], [userId], [taken_date], [score]) VALUES (12, 2, 2, CAST(N'2024-12-14T22:09:44.567' AS DateTime), 0)
+GO
+INSERT [dbo].[Quiz_Detail] ([quiz_detail_id], [quizId], [userId], [taken_date], [score]) VALUES (13, 15, 2, CAST(N'2024-12-14T22:11:18.073' AS DateTime), 0)
+GO
+SET IDENTITY_INSERT [dbo].[Quiz_Detail] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Registration_Subject] ON 
 GO
@@ -1185,7 +1362,7 @@ INSERT [dbo].[Role] ([roleId], [roleName]) VALUES (1, N'Admin')
 GO
 INSERT [dbo].[Role] ([roleId], [roleName]) VALUES (2, N'Learner')
 GO
-INSERT [dbo].[Role] ([roleId], [roleName]) VALUES (3, N'Lecture')
+INSERT [dbo].[Role] ([roleId], [roleName]) VALUES (3, N'Lecturer')
 GO
 INSERT [dbo].[Role] ([roleId], [roleName]) VALUES (4, N'Sale')
 GO
@@ -1195,9 +1372,9 @@ SET IDENTITY_INSERT [dbo].[Role] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Subject] ON 
 GO
-INSERT [dbo].[Subject] ([subjectId], [subjectName], [status], [tagLine], [title], [thumbnail], [description]) VALUES (1, N'Math', 1, 20, N'Mathematics', N'https://cf.quizizz.com/img/course-assets/title_imgs/2%20-%20Mathematics.png', N'About this Specialization For a lot of higher level courses in Machine Learning and Data Science, you find you need to freshen up on the basics in mathematics - stuff you may have studied before in school or university.')
+INSERT [dbo].[Subject] ([subjectId], [subjectName], [status], [tagLine], [title], [thumbnail], [description]) VALUES (1, N'Math', 1, NULL, N'Mathematics', N'https://cf.quizizz.com/img/course-assets/title_imgs/2%20-%20Mathematics.png', N'About this Specialization For a lot of higher level courses in Machine Learning and Data Science, you find you need to freshen up on the basics in mathematics - stuff you may have studied before in school or university.')
 GO
-INSERT [dbo].[Subject] ([subjectId], [subjectName], [status], [tagLine], [title], [thumbnail], [description]) VALUES (2, N'English', 1, 20, N'English and Language Arts', N'https://cf.quizizz.com/img/course-assets/title_imgs/1%20-%20English%20and%20Language%20Arts.png', N'This Specialization helps you improve your professional communication in English for successful business interactions. Each course focuses on a particular area of communication in English.')
+INSERT [dbo].[Subject] ([subjectId], [subjectName], [status], [tagLine], [title], [thumbnail], [description]) VALUES (2, N'English', 1, NULL, N'English and Language Arts', N'https://cf.quizizz.com/img/course-assets/title_imgs/1%20-%20English%20and%20Language%20Arts.png', N'This Specialization helps you improve your professional communication in English for successful business interactions. Each course focuses on a particular area of communication in English.')
 GO
 INSERT [dbo].[Subject] ([subjectId], [subjectName], [status], [tagLine], [title], [thumbnail], [description]) VALUES (3, N'Social Studies', 1, 20, N'Social Studies', N'https://cf.quizizz.com/img/course-assets/title_imgs/3%20-%20Social%20Studies.png', N'In this course, you will learn how social workers in the United States engage in creating change and supporting the resilience of individuals, families and communities in this new era.')
 GO
@@ -1255,7 +1432,7 @@ INSERT [dbo].[Type] ([typeId], [typeName]) VALUES (N'Q2', N'Exam')
 GO
 SET IDENTITY_INSERT [dbo].[User] ON 
 GO
-INSERT [dbo].[User] ([userId], [username], [password], [status], [email], [phone], [fullname], [address], [gender], [avatar], [roleId], [created_date], [modify_date], [password_token]) VALUES (1, N'admin', N'123456', 1, N'admin123@gmail.com', N'09123456', N'Nguyễn Văn An', N'Hà Nội', 1, N'', 1, CAST(N'1900-01-01T00:00:00.000' AS DateTime), CAST(N'2024-12-05T13:25:06.097' AS DateTime), N'')
+INSERT [dbo].[User] ([userId], [username], [password], [status], [email], [phone], [fullname], [address], [gender], [avatar], [roleId], [created_date], [modify_date], [password_token]) VALUES (1, N'admin', N'123456', 1, N'admin123@gmail.com', N'1234567890', N'Nguyễn Văn An', N'Ha Noi', 1, N'', 1, CAST(N'1900-01-01T00:00:00.000' AS DateTime), CAST(N'2024-12-13T14:16:26.587' AS DateTime), N'')
 GO
 INSERT [dbo].[User] ([userId], [username], [password], [status], [email], [phone], [fullname], [address], [gender], [avatar], [roleId], [created_date], [modify_date], [password_token]) VALUES (2, N'customer', N'123456', 1, N'customer123@gmail.com', N'09123456', N'Nguyễn Văn B', N'Hà Nội', 1, N'', 2, CAST(N'1900-01-01T00:00:00.000' AS DateTime), CAST(N'2024-12-02T09:45:38.713' AS DateTime), N'')
 GO
@@ -1265,13 +1442,15 @@ INSERT [dbo].[User] ([userId], [username], [password], [status], [email], [phone
 GO
 INSERT [dbo].[User] ([userId], [username], [password], [status], [email], [phone], [fullname], [address], [gender], [avatar], [roleId], [created_date], [modify_date], [password_token]) VALUES (5, N'marketing', N'123456', 1, N'marketing123@gmail.com', N'0912345678', N'Mai Van E', N'Hà Nội', 1, N'', 5, CAST(N'1900-01-01T00:00:00.000' AS DateTime), CAST(N'2024-12-02T09:19:27.647' AS DateTime), N'')
 GO
-INSERT [dbo].[User] ([userId], [username], [password], [status], [email], [phone], [fullname], [address], [gender], [avatar], [roleId], [created_date], [modify_date], [password_token]) VALUES (6, N'test', N'123456', 1, NULL, NULL, NULL, NULL, 1, NULL, 2, CAST(N'2022-06-22T20:00:41.927' AS DateTime), CAST(N'2022-06-22T20:00:41.927' AS DateTime), N'')
+INSERT [dbo].[User] ([userId], [username], [password], [status], [email], [phone], [fullname], [address], [gender], [avatar], [roleId], [created_date], [modify_date], [password_token]) VALUES (6, N'test', N'123456', 0, NULL, NULL, NULL, NULL, 1, NULL, 2, CAST(N'2022-06-22T20:00:41.927' AS DateTime), CAST(N'2022-06-22T20:00:41.927' AS DateTime), N'')
 GO
-INSERT [dbo].[User] ([userId], [username], [password], [status], [email], [phone], [fullname], [address], [gender], [avatar], [roleId], [created_date], [modify_date], [password_token]) VALUES (7, N'test2', N'123456', 1, NULL, NULL, NULL, NULL, 1, NULL, 2, CAST(N'2022-06-22T00:00:00.000' AS DateTime), CAST(N'2022-06-22T00:00:00.000' AS DateTime), N'')
+INSERT [dbo].[User] ([userId], [username], [password], [status], [email], [phone], [fullname], [address], [gender], [avatar], [roleId], [created_date], [modify_date], [password_token]) VALUES (7, N'test2', N'123456', 0, NULL, NULL, NULL, NULL, 1, NULL, 2, CAST(N'2022-06-22T00:00:00.000' AS DateTime), CAST(N'2022-06-22T00:00:00.000' AS DateTime), N'')
 GO
 INSERT [dbo].[User] ([userId], [username], [password], [status], [email], [phone], [fullname], [address], [gender], [avatar], [roleId], [created_date], [modify_date], [password_token]) VALUES (8, NULL, N'Duc123@', NULL, N'duc@gmail.com', N'0378459002', N'abc', NULL, 0, NULL, 2, CAST(N'2023-10-13T11:28:39.857' AS DateTime), CAST(N'2023-10-13T11:28:39.857' AS DateTime), NULL)
 GO
 INSERT [dbo].[User] ([userId], [username], [password], [status], [email], [phone], [fullname], [address], [gender], [avatar], [roleId], [created_date], [modify_date], [password_token]) VALUES (9, NULL, N'123456', NULL, N'ronaldo@gmail.com', N'0334546932', N'Nguyen Hieu', N'Hà Nội', 0, NULL, 3, CAST(N'2023-11-08T08:41:40.723' AS DateTime), CAST(N'2023-11-08T08:41:40.723' AS DateTime), NULL)
+GO
+INSERT [dbo].[User] ([userId], [username], [password], [status], [email], [phone], [fullname], [address], [gender], [avatar], [roleId], [created_date], [modify_date], [password_token]) VALUES (10, NULL, N'123456', 1, N'test@gmail.com', N'12', N'abc', N'123', 1, NULL, 2, CAST(N'2024-12-14T21:44:41.440' AS DateTime), CAST(N'2024-12-14T21:44:41.440' AS DateTime), NULL)
 GO
 SET IDENTITY_INSERT [dbo].[User] OFF
 GO
