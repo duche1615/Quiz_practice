@@ -61,7 +61,7 @@ namespace Quizpractice.Pages.Quizs
                     QuestionContent = question.Content,
                     SelectedAnswer = selectedAnswerContent,
                     IsCorrect = isCorrect,
-                    CorrectAnswer = question.Answers.FirstOrDefault(a => a.Correct == true)?.Content ?? "N/A"
+                    CorrectAnswer = question.Answers.FirstOrDefault(a => a.Correct==true)?.Content ?? "N/A"
                 });
             }
 
