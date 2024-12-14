@@ -114,59 +114,62 @@ namespace Quizpractice.Pages.Quizs
         }
 
 
-        public IActionResult OnPostScoreExam(int subjectId, int quizId)
+        public IActionResult OnPostSubmitQuiz(int quizId)
         {
-            // Retrieve the question list from session
-            string sessionKey = $"QuestionList_{subjectId}";
-            var questionList = HttpContext.Session.GetString(sessionKey);
-            if (string.IsNullOrEmpty(questionList))
+            // Lấy danh sách câu hỏi và đáp án đã lưu trong session
+            string sessionKey = $"QuestionList_{quizId}";
+            var questionListJson = HttpContext.Session.GetString(sessionKey);
+
+            if (string.IsNullOrEmpty(questionListJson))
             {
-                TempData["Error"] = "No questions available to score.";
-                return RedirectToPage("./List");
+                // Nếu không có dữ liệu trong session, thông báo lỗi
+                TempData["Error"] = "Không có câu hỏi nào để nộp bài.";
+                return RedirectToPage("./Error");
             }
 
-            var questions = JsonConvert.DeserializeObject<List<Question>>(questionList);
-            int correctAnswers = 0;
+            var questions = JsonConvert.DeserializeObject<List<Question>>(questionListJson);
 
-            // Calculate the score
+            // Lưu các câu trả lời và đáp án đúng vào QuizAnswerDetail
             foreach (var question in questions)
             {
+                // Lấy câu trả lời đã chọn từ session
                 var selectedAnswerId = HttpContext.Session.GetInt32($"Answer_{question.QuestionId}");
+
                 if (selectedAnswerId.HasValue)
                 {
-                    var selectedAnswer = question.Answers.FirstOrDefault(a => a.AnswerId == selectedAnswerId.Value);
-                    if (selectedAnswer?.Correct == true)
+                    // Kiểm tra đáp án đúng
+                    var correctAnswer = question.Answers.FirstOrDefault(a => a.Correct);
+                    bool isCorrect = correctAnswer != null && correctAnswer.AnswerId == selectedAnswerId.Value;
+
+                    // Tạo một đối tượng QuizAnswerDetail
+                    var quizAnswerDetail = new QuizAnswerDetail
                     {
-                        correctAnswers++;
-                    }
+                        QuizDetailId = quizId, // Hoặc lấy ID từ bảng QuizDetail nếu cần
+                        QuestionId = question.QuestionId,
+                        SelectedAnswerId = selectedAnswerId.Value,
+                        TrueAnswerId = correctAnswer?.AnswerId ?? 0,
+                        IsCorrect = isCorrect
+                    };
+
+                    // Thêm vào cơ sở dữ liệu
+                    _context.QuizAnswerDetails.Add(quizAnswerDetail);
                 }
             }
 
-            // Save the result in QuizDetail table
-            var userIdString = HttpContext.Session.GetString("UserId");
-            if (string.IsNullOrEmpty(userIdString))
-            {
-                TempData["Error"] = "User is not logged in.";
-                return RedirectToPage("/Users/Login");
-            }
-
-            int userId = int.Parse(userIdString);
-            var score = correctAnswers;
-            var quizDetail = new QuizDetail
-            {
-                QuizId = quizId,
-                UserId = userId,
-                TakenDate = DateTime.Now,
-                Score = score
-            };
-
-            _context.QuizDetails.Add(quizDetail);
+            // Lưu thay đổi vào cơ sở dữ liệu
             _context.SaveChanges();
 
-            // Redirect to result page
-            TempData["Score"] = $"{score}/{questions.Count}";
-            return RedirectToPage("Result", new { subjectId, quizId });
+            // Xóa session sau khi lưu xong
+            foreach (var question in questions)
+            {
+                HttpContext.Session.Remove($"Answer_{question.QuestionId}");
+            }
+            HttpContext.Session.Remove(sessionKey);
+
+            // Chuyển hướng đến trang kết quả
+            return RedirectToPage("Result", new { quizId });
         }
+
 
 
     }

@@ -34,7 +34,7 @@
 <table class="table">
     <thead>
         <tr>
-            <th>ID</th>
+            
             <th>Exam Name</th>
             <th>Level</th>
             <th>Subject</th>
@@ -48,10 +48,10 @@
         @foreach (var item in Model.QuizList)
         {
             <tr>
-                <td>@item.QuizId</td>
+                
                 <td>@item.Title</td>
                 <td>@item.Level</td>
-                <td>@item.SubjectName</td>
+                <td>@item.Sub.SubjectName</td>
                 <td>@item.TotalQues</td>
                 <td>@item.Duration</td>
                 <td>@item.PassPercent</td>
