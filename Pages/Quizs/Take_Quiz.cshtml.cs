@@ -23,12 +23,20 @@ namespace Quizpractice.Pages.Quizs
         public int SubjectId { get; set; } // Lưu subjectId để truyền vào JavaScript
         public int QuizId { get; set; } // Lưu quizId để truyền vào JavaScript
         public int CurrentQuestionIndex { get; private set; }
+        public int Duration { get; set; } // Duration in seconds
 
         // Lấy câu hỏi từ session hoặc từ cơ sở dữ liệu
         public IActionResult OnGet(int subjectId, int quizId, int? questionId)
         {
             SubjectId = subjectId;
             QuizId = quizId;
+
+            var quiz = _context.Quizzes.FirstOrDefault(q => q.QuizId == quizId);
+            if (quiz != null)
+            {
+                Duration = (int)quiz.Duration; // Duration in seconds
+            }
+
 
             string sessionKey = $"QuestionList_{subjectId}";
             if (HttpContext.Session.GetString(sessionKey) == null)
