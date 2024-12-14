@@ -23,12 +23,20 @@ namespace Quizpractice.Pages.Quizs
         public int SubjectId { get; set; } // Lưu subjectId để truyền vào JavaScript
         public int QuizId { get; set; } // Lưu quizId để truyền vào JavaScript
         public int CurrentQuestionIndex { get; private set; }
+        public int Duration { get; set; } // Duration in seconds
 
         // Lấy câu hỏi từ session hoặc từ cơ sở dữ liệu
         public IActionResult OnGet(int subjectId, int quizId, int? questionId)
         {
             SubjectId = subjectId;
             QuizId = quizId;
+
+            var quiz = _context.Quizzes.FirstOrDefault(q => q.QuizId == quizId);
+            if (quiz != null)
+            {
+                Duration = (int)quiz.Duration * 60; // Duration in seconds
+            }
+
 
             string sessionKey = $"QuestionList_{subjectId}";
             if (HttpContext.Session.GetString(sessionKey) == null)
@@ -41,10 +49,10 @@ namespace Quizpractice.Pages.Quizs
                 //                              .Take(10)
                 //                              .Include(q => q.Answers)
                 //                              .ToList();
-                var listquestion=_context.QuestionQuizzes.Where(qq=>qq.QuizId==quizId).ToList();
+                var listquestion = _context.QuestionQuizzes.Where(qq => qq.QuizId == quizId).ToList();
                 foreach (var question in listquestion)
                 {
-                    qs.Add(_context.Questions.Include(q => q.Answers).First(q=>q.QuestionId==question.QuesId));
+                    qs.Add(_context.Questions.Include(q => q.Answers).First(q => q.QuestionId == question.QuesId));
                 }
                 // Lưu danh sách câu hỏi vào session
                 var settings = new JsonSerializerSettings
@@ -163,4 +171,3 @@ namespace Quizpractice.Pages.Quizs
 
     }
 }
-
