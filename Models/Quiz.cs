@@ -23,7 +23,6 @@ namespace Quizpractice.Models
         public double? PassPercent { get; set; }
         public int? SubId { get; set; }
         public int? UserCreateId { get; set; }
-        public int? QuesId { get; set; }
         public int? Duration { get; set; }
         public string? Description { get; set; }
         public int? TotalQues { get; set; }

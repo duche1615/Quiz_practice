@@ -44,7 +44,7 @@ namespace Quizpractice.Pages.Quizs
                 var listquestion=_context.QuestionQuizzes.Where(qq=>qq.QuizId==quizId).ToList();
                 foreach (var question in listquestion)
                 {
-                    qs.Add(_context.Questions.First(q=>q.QuestionId==question.QuesId));
+                    qs.Add(_context.Questions.Include(q => q.Answers).First(q=>q.QuestionId==question.QuesId));
                 }
                 // Lưu danh sách câu hỏi vào session
                 var settings = new JsonSerializerSettings
