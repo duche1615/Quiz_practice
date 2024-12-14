@@ -43,10 +43,6 @@ namespace Quizpractice.Pages.Users
             ViewData["Role"] = user.RoleId.ToString();
             var claims = new List<Claim>
 {
-<<<<<<< HEAD
-=======
-    //new Claim(ClaimTypes.Name, user.Username),
->>>>>>> c42b74d0faff2fbc3b8867fdfa2df98628da1b94
     new Claim(ClaimTypes.Role, user.Role.RoleName) // Lưu thông tin vai trò vào claims
 };
 

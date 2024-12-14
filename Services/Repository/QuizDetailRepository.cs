@@ -19,14 +19,8 @@ namespace Quizpractice.Services.Repository
         public int CountQuizPass(int quizId)
         {
             double score = _dbContext.Quizzes.First(q => q.QuizId == quizId).PassPercent.Value;
-<<<<<<< HEAD
-            var sc = _dbContext.QuizDetails.FirstOrDefault(q => q.QuizId == 1 );
-            var s = sc.Score;
-            if (score <= 0) {
-=======
             if (score <= 0)
             {
->>>>>>> c42b74d0faff2fbc3b8867fdfa2df98628da1b94
                 return 0;
             }
             else
