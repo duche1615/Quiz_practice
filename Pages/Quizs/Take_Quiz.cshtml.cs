@@ -34,7 +34,7 @@ namespace Quizpractice.Pages.Quizs
             var quiz = _context.Quizzes.FirstOrDefault(q => q.QuizId == quizId);
             if (quiz != null)
             {
-                Duration = (int)quiz.Duration; // Duration in seconds
+                Duration = (int)quiz.Duration * 60; // Duration in seconds
             }
 
 

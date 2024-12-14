@@ -47,25 +47,28 @@
 </div>
 
 <script>
-    // Countdown timer setup
-    var duration = @Model.Duration; // Duration in seconds
-    var timerElement = document.getElementById("timer");
-
-    function updateTimer() {
-        var minutes = Math.floor(duration / 60);
-        var seconds = duration % 60;
-        timerElement.textContent = minutes.toString().padStart(2, '0') + ":" + seconds.toString().padStart(2, '0');
-
-        if (duration <= 0) {
-            clearInterval(timerInterval); // Dừng đếm ngược khi hết thời gian
-            alert("Time's up!");
-        } else {
-            duration--;
-        }
+    if (sessionStorage.getItem("timeRemaining")) {
+        duration = parseInt(sessionStorage.getItem("timeRemaining"));
+    } else {
+        sessionStorage.setItem("timeRemaining", duration);
     }
 
-    // Cập nhật thời gian mỗi giây
-    var timerInterval = setInterval(updateTimer, 1000);
+    function startTimer() {
+        var timerElement = document.getElementById("timer");
+        var timeRemaining = duration;
+
+        var interval = setInterval(function () {
+            timeRemaining--;
+            sessionStorage.setItem("timeRemaining", timeRemaining); // Lưu lại thời gian còn lại trong sessionStorage
+            timerElement.textContent = formatTime(timeRemaining);
+
+            // Nếu hết thời gian, dừng đếm ngược
+            if (timeRemaining <= 0) {
+                clearInterval(interval);
+                alert("Time's up!");
+            }
+        }, 1000);
+    }
 
     // This function will be triggered when the "SCORE EXAM NOW" button is clicked
     function submitExam() {
