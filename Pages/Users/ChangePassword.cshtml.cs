@@ -46,7 +46,7 @@ namespace Quizpractice.Pages.Users
             {
                 Layout = "_Layout_Admin";
             }
-            else if (user.Role.RoleName == "learner")
+            else if (user.Role.RoleName == "Learner")
             {
                 Layout = "_Layout_Learner";
             }
@@ -80,7 +80,7 @@ namespace Quizpractice.Pages.Users
                 {
                     Layout = "_Layout_Admin";
                 }
-                else if (user.Role.RoleName == "learner")
+                else if (user.Role.RoleName == "Learner")
                 {
                     Layout = "_Layout_Learner";
                 }
@@ -102,7 +102,7 @@ namespace Quizpractice.Pages.Users
                 {
                     Layout = "_Layout_Admin";
                 }
-                else if (user.Role.RoleName == "learner")
+                else if (user.Role.RoleName == "Learner")
                 {
                     Layout = "_Layout_Learner";
                 }
@@ -118,7 +118,7 @@ namespace Quizpractice.Pages.Users
                 {
                     Layout = "_Layout_Admin";
                 }
-                else if (user.Role.RoleName == "learner")
+                else if (user.Role.RoleName == "Learner")
                 {
                     Layout = "_Layout_Learner";
                 }
@@ -136,7 +136,7 @@ namespace Quizpractice.Pages.Users
                 {
                     Layout = "_Layout_Admin";
                 }
-                else if (user.Role.RoleName == "learner")
+                else if (user.Role.RoleName == "Learner")
                 {
                     Layout = "_Layout_Learner";
                 }
