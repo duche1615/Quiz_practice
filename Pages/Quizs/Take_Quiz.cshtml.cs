@@ -34,7 +34,7 @@ namespace Quizpractice.Pages.Quizs
             var quiz = _context.Quizzes.FirstOrDefault(q => q.QuizId == quizId);
             if (quiz != null)
             {
-                Duration = (int)quiz.Duration; // Duration in seconds
+                Duration = (int)quiz.Duration * 60; // Duration in seconds
             }
 
 
@@ -49,10 +49,10 @@ namespace Quizpractice.Pages.Quizs
                 //                              .Take(10)
                 //                              .Include(q => q.Answers)
                 //                              .ToList();
-                var listquestion=_context.QuestionQuizzes.Where(qq=>qq.QuizId==quizId).ToList();
+                var listquestion = _context.QuestionQuizzes.Where(qq => qq.QuizId == quizId).ToList();
                 foreach (var question in listquestion)
                 {
-                    qs.Add(_context.Questions.Include(q => q.Answers).First(q=>q.QuestionId==question.QuesId));
+                    qs.Add(_context.Questions.Include(q => q.Answers).First(q => q.QuestionId == question.QuesId));
                 }
                 // Lưu danh sách câu hỏi vào session
                 var settings = new JsonSerializerSettings
@@ -171,4 +171,3 @@ namespace Quizpractice.Pages.Quizs
 
     }
 }
-

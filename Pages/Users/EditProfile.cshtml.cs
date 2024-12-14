@@ -41,6 +41,10 @@ namespace Quizpractice.Pages.Users
             {
                 Layout = "_Layout_Admin";
             }
+            else if (user.Role.RoleName == "Learner")
+            {
+                Layout = "_Layout_Learner";
+            }
 
             EditProfile = new EditProfileViewModel
             {

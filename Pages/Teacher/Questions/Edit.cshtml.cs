@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Quizpractice.Models;
 using Quizpractice.Services.IRepository;
 using Quizpractice.ViewModels;
 namespace Quizpractice.Pages.Teacher.Questions
@@ -17,7 +18,7 @@ namespace Quizpractice.Pages.Teacher.Questions
 
         [BindProperty]
         public QuestionAnswerViewModel QuestionAnswer { get; set; }
-
+        
         public async Task<IActionResult> OnGet(int id)
         {
             
@@ -71,9 +72,8 @@ namespace Quizpractice.Pages.Teacher.Questions
                 QuestionAnswer = new QuestionAnswerViewModel();
             }
             if (!ModelState.IsValid)
-            {               
-                QuestionAnswer.Subjects = await _unitOfWork.Subjects.GetAllSubjects();
-                QuestionAnswer.Chapters = await _unitOfWork.Chapters.GetAllChapters();
+            {
+                await ReloadDropdownDataAsync();
                 return Page();
             }
 
@@ -82,8 +82,7 @@ namespace Quizpractice.Pages.Teacher.Questions
                 QuestionAnswer.ChapterId == null || QuestionAnswer.ChapterId <= 0)
             {
                 ModelState.AddModelError(string.Empty, "Please select a subject and chapter for the question.");
-                QuestionAnswer.Subjects = await _unitOfWork.Subjects.GetAllSubjects();
-                QuestionAnswer.Chapters = await _unitOfWork.Chapters.GetAllChapters();
+                await ReloadDropdownDataAsync();
                 return Page();
             }
 
@@ -102,8 +101,7 @@ namespace Quizpractice.Pages.Teacher.Questions
                 if (correctAnswers != 1)
                 {
                     ModelState.AddModelError(string.Empty, "Please choose one correct answer.");
-                    QuestionAnswer.Subjects = await _unitOfWork.Subjects.GetAllSubjects();
-                    QuestionAnswer.Chapters = await _unitOfWork.Chapters.GetAllChapters();
+                    await ReloadDropdownDataAsync();
                     return Page();
                 }
             }
@@ -113,8 +111,7 @@ namespace Quizpractice.Pages.Teacher.Questions
                 if (correctAnswers < 2)
                 {
                     ModelState.AddModelError(string.Empty, "Please choose at least two correct answers.");
-                    QuestionAnswer.Subjects = await _unitOfWork.Subjects.GetAllSubjects();
-                    QuestionAnswer.Chapters = await _unitOfWork.Chapters.GetAllChapters();
+                    await ReloadDropdownDataAsync();
                     return Page();
                 }
             }
@@ -148,6 +145,20 @@ namespace Quizpractice.Pages.Teacher.Questions
             // Redirect to the Index page after successful update
             return RedirectToPage("Index");
         }
+        private async Task ReloadDropdownDataAsync()
+        {
+            // Lấy danh sách Subjects
+            QuestionAnswer.Subjects = await _unitOfWork.Subjects.GetAllSubjects();
 
+
+            if (QuestionAnswer.SubjectId.HasValue && QuestionAnswer.SubjectId.Value > 0)
+            {
+                QuestionAnswer.Chapters = await _unitOfWork.Chapters.GetAllChaptersBySubjectId(QuestionAnswer.SubjectId.Value);
+            }
+            else
+            {
+                QuestionAnswer.Chapters = new List<Chapter>();
+            }
+        }
     }
 }

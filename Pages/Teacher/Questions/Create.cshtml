@@ -30,9 +30,9 @@
         <label class="form-label">Chapter</label>
         <select class="form-select" asp-for="QuestionAnswer.ChapterId" id="ChapterDropdown" >
             <option value="">-- Select a Chapter --</option>           
-            @if (Model.Chapters != null && Model.Chapters.Any())
+            @if (Model.QuestionAnswer.Chapters != null && Model.QuestionAnswer.Chapters.Any())
             {
-                @foreach (var chapter in Model.Chapters)
+                @foreach (var chapter in Model.QuestionAnswer.Chapters)
                 {
                     <option value="@chapter.ChapterId">@chapter.ChapterName</option>
                 }
