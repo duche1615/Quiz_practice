@@ -11,9 +11,16 @@
         <label class="form-label">Subject</label>
         <select class="form-select" asp-for="QuestionAnswer.SubjectId" id="SubjectDropdown" onchange="loadChapters()">
             <option value="">-- Select a Subject --</option>
-            @foreach (var subject in Model.QuestionAnswer.Subjects)
+            @if (Model.QuestionAnswer.Subjects != null && Model.QuestionAnswer.Subjects.Any())
             {
-                <option value="@subject.SubjectId">@subject.SubjectName</option>
+                @foreach (var subject in Model.QuestionAnswer.Subjects)
+                {
+                    <option value="@subject.SubjectId">@subject.SubjectName</option>
+                }
+            }
+            else
+            {
+                <p>No subjects available.</p>
             }
         </select>
         <span asp-validation-for="QuestionAnswer.SubjectId" class="text-danger"></span>
@@ -22,10 +29,17 @@
     <div class="mb-3">
         <label class="form-label">Chapter</label>
         <select class="form-select" asp-for="QuestionAnswer.ChapterId" id="ChapterDropdown" >
-            <option value="">-- Select a Chapter --</option>
-            @foreach (var chapter in Model.Chapters)
+            <option value="">-- Select a Chapter --</option>           
+            @if (Model.Chapters != null && Model.Chapters.Any())
             {
-                <option value="@chapter.ChapterId">@chapter.ChapterName</option>
+                @foreach (var chapter in Model.Chapters)
+                {
+                    <option value="@chapter.ChapterId">@chapter.ChapterName</option>
+                }
+            }
+            else
+            {
+                <p>No chapters available.</p>
             }
         </select>
         
