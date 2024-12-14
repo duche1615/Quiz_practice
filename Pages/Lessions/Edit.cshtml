@@ -19,7 +19,7 @@
             <input type="hidden" name="LessionId" asp-for="Lession.LessionId" />
             <div class="form-group">
                 <label asp-for="Lession.LessionUrl" class="control-label"></label>
-                <input asp-for="Lession.LessionUrl" name="LessionUrl" class="form-control" />
+                <input asp-for="Lession.LessionUrl" required name="LessionUrl" class="form-control" />
                 <span asp-validation-for="Lession.LessionUrl" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -32,12 +32,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="Lession.Title" class="control-label"></label>
-                <input asp-for="Lession.Title" name="Title" class="form-control" />
+                <input asp-for="Lession.Title" required maxlength="255" name="Title" class="form-control" />
                 <span asp-validation-for="Lession.Title" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Lession.Content" class="control-label"></label>
-                <input asp-for="Lession.Content" name="Content" class="form-control" />
+                <textarea asp-for="Lession.Content" required maxlength="255" name="Content" class="form-control"></textarea>
                 <span asp-validation-for="Lession.Content" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -47,7 +47,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Lession.Notes" class="control-label"></label>
-                <input asp-for="Lession.Notes" name="Notes" class="form-control" />
+                <input asp-for="Lession.Notes" required maxlength="255" name="Notes" class="form-control" />
                 <span asp-validation-for="Lession.Notes" class="text-danger"></span>
             </div>
             <div class="form-group">

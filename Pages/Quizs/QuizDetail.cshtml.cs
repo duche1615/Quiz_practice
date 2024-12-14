@@ -50,7 +50,7 @@ namespace Quizpractice.Pages.Quizs
         {
             public int QuizId { get; set; }
             public int? SubjectId { get; set; }
-            public int Score { get; set; }
+            public double Score { get; set; }
             public double Percentage => Score / 10.0 * 100; 
             public int Attempt { get; set; }
             public System.DateTime TakenDate { get; set; }

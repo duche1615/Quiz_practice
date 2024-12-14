@@ -1,4 +1,5 @@
-﻿using Quizpractice.Models;
+﻿using Humanizer;
+using Quizpractice.Models;
 using Quizpractice.Services.IRepository;
 namespace Quizpractice.Services.Repository
 {
@@ -18,12 +19,13 @@ namespace Quizpractice.Services.Repository
         public int CountQuizPass(int quizId)
         {
             double score = _dbContext.Quizzes.First(q => q.QuizId == quizId).PassPercent.Value;
-            if (score <= 0) {
+            if (score <= 0)
+            {
                 return 0;
             }
             else
             {
-                return _dbContext.QuizDetails.Count(qd=>qd.Score>=score);
+                return _dbContext.QuizDetails.Where(qd => (qd.Score * 10) >= score).Count();
             }
         }
     }

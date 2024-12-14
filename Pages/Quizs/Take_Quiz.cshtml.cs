@@ -33,20 +33,26 @@ namespace Quizpractice.Pages.Quizs
             string sessionKey = $"QuestionList_{subjectId}";
             if (HttpContext.Session.GetString(sessionKey) == null)
             {
-                // Lấy câu hỏi ngẫu nhiên từ database
-                var randomQuestions = _context.Questions
-                                              .Where(q => q.SubjectId == subjectId)
-                                              .OrderBy(q => Guid.NewGuid())
-                                              .Take(10)
-                                              .Include(q => q.Answers)
-                                              .ToList();
-
+                List<Question> qs = new List<Question>();
+                // Lấy câu hỏi từ database
+                //var randomQuestions = _context.Questions
+                //                              .Where(q => q.SubjectId == subjectId)
+                //                              .OrderBy(q => Guid.NewGuid())
+                //                              .Take(10)
+                //                              .Include(q => q.Answers)
+                //                              .ToList();
+                var listquestion=_context.QuestionQuizzes.Where(qq=>qq.QuizId==quizId).ToList();
+                foreach (var question in listquestion)
+                {
+                    qs.Add(_context.Questions.First(q=>q.QuestionId==question.QuesId));
+                }
                 // Lưu danh sách câu hỏi vào session
                 var settings = new JsonSerializerSettings
                 {
                     ReferenceLoopHandling = ReferenceLoopHandling.Ignore
                 };
-                HttpContext.Session.SetString(sessionKey, JsonConvert.SerializeObject(randomQuestions, settings));
+                //HttpContext.Session.SetString(sessionKey, JsonConvert.SerializeObject(randomQuestions, settings));
+                HttpContext.Session.SetString(sessionKey, JsonConvert.SerializeObject(qs, settings));
             }
 
             Questions = JsonConvert.DeserializeObject<List<Question>>(HttpContext.Session.GetString(sessionKey));
