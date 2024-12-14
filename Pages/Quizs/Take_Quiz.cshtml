@@ -47,11 +47,9 @@
 </div>
 
 <script>
-    if (sessionStorage.getItem("timeRemaining")) {
-        duration = parseInt(sessionStorage.getItem("timeRemaining"));
-    } else {
-        sessionStorage.setItem("timeRemaining", duration);
-    }
+    // Lấy thời gian từ sessionStorage hoặc từ Razor Model
+    var storedTime = sessionStorage.getItem("timeRemaining");
+    var duration = storedTime ? parseInt(storedTime) : @Model.Duration;
 
     function startTimer() {
         var timerElement = document.getElementById("timer");
@@ -59,23 +57,37 @@
 
         var interval = setInterval(function () {
             timeRemaining--;
-            sessionStorage.setItem("timeRemaining", timeRemaining); // Lưu lại thời gian còn lại trong sessionStorage
+            sessionStorage.setItem("timeRemaining", timeRemaining); // Lưu thời gian còn lại vào sessionStorage
             timerElement.textContent = formatTime(timeRemaining);
 
-            // Nếu hết thời gian, dừng đếm ngược
+            // Khi hết thời gian, dừng đếm ngược và tự động nộp bài
             if (timeRemaining <= 0) {
                 clearInterval(interval);
-                alert("Time's up!");
+                alert("Time's up! Your exam will be submitted automatically.");
+                document.getElementById("scoreExamForm").submit(); // Gửi form tự động
             }
         }, 1000);
+
+        // Lưu lại thời gian trước khi rời khỏi trang
+        window.addEventListener("beforeunload", function () {
+            sessionStorage.setItem("timeRemaining", timeRemaining);
+        });
     }
 
-    // This function will be triggered when the "SCORE EXAM NOW" button is clicked
-    function submitExam() {
-        // Log to the console to confirm the function is called
-        console.log("submitExam function is being called");
+    // Định dạng thời gian thành phút:giây
+    function formatTime(seconds) {
+        var minutes = Math.floor(seconds / 60);
+        var seconds = seconds % 60;
+        return minutes.toString().padStart(2, '0') + ":" + seconds.toString().padStart(2, '0');
+    }
 
-        // Submit the form containing the "SCORE EXAM NOW" button
+    // Bắt đầu đếm ngược
+    startTimer();
+
+    // Hàm gọi khi bấm nút SCORE EXAM NOW
+    function submitExam() {
+        console.log("submitExam function is being called");
         document.getElementById("scoreExamForm").submit();
     }
+
 </script>
