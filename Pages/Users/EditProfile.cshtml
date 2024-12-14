@@ -8,6 +8,7 @@
 <div class="container">
     <div class="card shadow-lg p-4">
         <form method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group mb-3">
                 <label asp-for="EditProfile.Fullname" class="form-label"></label>
                 <input asp-for="EditProfile.Fullname" class="form-control" />
