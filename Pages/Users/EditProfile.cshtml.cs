@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Quizpractice.Models;
 using Quizpractice.Services.IRepository;
+using Quizpractice.ViewModels;
 
 namespace Quizpractice.Pages.Users
 {
@@ -14,7 +15,7 @@ namespace Quizpractice.Pages.Users
         }
 
         [BindProperty]
-        public User Users { get; set; }
+        public EditProfileViewModel EditProfile { get; set; }
 
         public string Layout { get; set; } = "_Layout";
 
@@ -26,25 +27,34 @@ namespace Quizpractice.Pages.Users
             {
                 return RedirectToPage("/Users/Login");
             }
-            Users = await _userRepository.FindById(Convert.ToInt32(userIdString));
-            if (Users == null)
+            var user = await _userRepository.FindById(Convert.ToInt32(userIdString));
+            if (user == null)
             {
                 return RedirectToPage("/Users/Login");
-            }
-            if (Users.Role.RoleName == "Lecturer")
+            }         
+
+            if (user.Role.RoleName == "Lecturer")
             {
                 Layout = "_Layout_Teacher";
             }
-            else if (Users.Role.RoleName == "Admin")
+            else if (user.Role.RoleName == "Admin")
             {
                 Layout = "_Layout_Admin";
             }
-            
+
+            EditProfile = new EditProfileViewModel
+            {
+                Fullname = user.Fullname,
+                Phone = user.Phone,
+                Address = user.Address,
+                Gender = user.Gender
+            };
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
+            
             var userIdString = HttpContext.Session.GetString("UserId");
 
             if (userIdString == null)
@@ -54,25 +64,39 @@ namespace Quizpractice.Pages.Users
             }
 
             
-                Users = await _userRepository.FindById(Convert.ToInt32(userIdString));
-                if (Users == null)
-                {
-                ModelState.AddModelError("", "Error.");
+            var user = await _userRepository.FindById(Convert.ToInt32(userIdString));
+            if (user == null)
+            {
+                ModelState.AddModelError("", "User not found.");
                 return Page();
+            }
+            if (!ModelState.IsValid)
+            {
+                if (user.Role.RoleName == "Lecturer")
+                {
+                    Layout = "_Layout_Teacher";
+                }
+                else if (user.Role.RoleName == "Admin")
+                {
+                    Layout = "_Layout_Admin";
+                }else if (user.Role.RoleName == "Learner")
+                {
+                    Layout = "_Layout_Learner";
                 }
 
-                // Update user profile fields
-                Users.Fullname = Request.Form["Fullname"];
-                Users.Phone = Request.Form["Phone"];
-                Users.Address = Request.Form["Address"];
-                Users.Gender = Convert.ToBoolean(Request.Form["Gender"]);
-                // Save changes
-                await _userRepository.UpdateAsync(Users);
+                return Page();
+            }
+            // Update user data from ViewModel
+            user.Fullname = EditProfile.Fullname;
+            user.Phone = EditProfile.Phone;
+            user.Address = EditProfile.Address;
+            user.Gender = EditProfile.Gender;
 
-                
-            
+            // Save changes
+            await _userRepository.UpdateAsync(user);
 
-            return RedirectToPage("Profile");
+            return RedirectToPage("/Users/Profile");
+
         }
     }
 }
