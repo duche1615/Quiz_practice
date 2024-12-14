@@ -392,7 +392,8 @@ namespace Quizpractice.Models
 
             modelBuilder.Entity<QuizAnswerDetail>(entity =>
             {
-                entity.HasKey(e => e.QuizDetailId);
+                entity.HasKey(e => e.Id); // Cột 'id' làm khóa chính
+             
 
                 entity.ToTable("Quiz_Answer_Detail");
 
