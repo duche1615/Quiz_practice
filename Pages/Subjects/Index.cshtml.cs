@@ -22,14 +22,14 @@ namespace Quizpractice.Pages.Subjects
             _chapterRepository = chapterRepository;
         }
 
-        public IList<Subject> Subject { get;set; } = default!;
-        public IList<Chapter> Chapters { get;set; }=default!;
+        public IList<Subject> Subject { get; set; } = default!;
+        public IList<Chapter> Chapters { get; set; } = default!;
 
         public ActionResult OnGetAsync()
         {
-            Subject=_subjectRepository.GetAllSubjects().Result;
-            Chapters=_chapterRepository.GetAllChapters().Result;
-            if (Subject != null&&Chapters!=null)
+            Subject = _subjectRepository.GetAllSubjects().Result;
+            Chapters = _chapterRepository.GetAllChapters().Result;
+            if (Subject != null && Chapters != null)
             {
                 return Page();
             }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Quizpractice.Models;
@@ -6,6 +7,8 @@ using Quizpractice.Services.IRepository;
 
 namespace Quizpractice.Pages.Lessions
 {
+    [Authorize(Roles = "Admin")]
+
     public class EditModel : PageModel
     {
         private readonly ILessionRepository _lessionRepository;

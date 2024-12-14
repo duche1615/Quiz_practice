@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -11,6 +12,8 @@ using Quizpractice.Services.IRepository;
 
 namespace Quizpractice.Pages.Chapters
 {
+    [Authorize(Roles = "Admin")]
+
     public class IndexModel : PageModel
     {
         private readonly IChapterRepository _chapterRepository;
