@@ -178,7 +178,7 @@ namespace Quizpractice.Pages.Quizs
             _context.QuizDetails.Add(quizDetail);
 
             // Lưu vào cơ sở dữ liệu
-            _context.SaveChanges();
+            _context.SaveChangesAsync();
             TempData["ClearSession"] = "true";
 
             // Chuyển hướng đến trang kết quả
