@@ -40,11 +40,12 @@ namespace Quizpractice.Pages.Users
             
             HttpContext.Session.SetString("UserId", user.UserId.ToString());
             HttpContext.Session.SetString("Role", user.RoleId.ToString());
-            ViewData["Role"] = user.RoleId.ToString();
+            //ViewData["Role"] = user.RoleId.ToString();
             var claims = new List<Claim>
-{
-    new Claim(ClaimTypes.Role, user.Role.RoleName) // Lưu thông tin vai trò vào claims
-};
+            {
+                new Claim(ClaimTypes.Role, user.Fullname), // Lưu thông tin tên người dùng vào claims
+                 new Claim(ClaimTypes.Role, user.Role.RoleName) // Lưu thông tin vai trò vào claims
+            };
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);

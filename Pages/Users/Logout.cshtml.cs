@@ -11,8 +11,6 @@ namespace Quizpractice.Pages.Users
             
             await HttpContext.SignOutAsync();  
             HttpContext.Session.Clear();  
-
-            
             return RedirectToPage("/Users/Login");
         }
     }
