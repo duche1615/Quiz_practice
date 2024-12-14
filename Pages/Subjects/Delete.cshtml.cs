@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
 namespace Quizpractice.Pages.Subjects
 {
+    [Authorize(Roles = "Admin")]
+
     public class DeleteModel : PageModel
     {
         private readonly Quizpractice.Models.SWP391_DBContext _context;
