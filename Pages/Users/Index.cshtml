@@ -14,7 +14,7 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
+            <th hidden>
                 @Html.DisplayNameFor(model => model.User[0].Username)
             </th>
             <th>
@@ -51,7 +51,7 @@
         @foreach (var item in Model.User)
         {
             <tr>
-                <td>
+                <td hidden>
                     @Html.DisplayFor(modelItem => item.Username)
                 </td>
 

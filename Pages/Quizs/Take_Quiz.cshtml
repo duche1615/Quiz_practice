@@ -48,8 +48,15 @@
 
 <script>
     // Lấy thời gian từ sessionStorage hoặc từ Razor Model
+    // Lấy thời gian từ sessionStorage hoặc từ Razor Model
     var storedTime = sessionStorage.getItem("timeRemaining");
-    var duration = storedTime ? parseInt(storedTime) : @Model.Duration;
+    if (storedTime) {
+        var duration = parseInt(storedTime);
+    } else {
+        // Nếu không có trong sessionStorage, lấy từ Razor Model (Session trong backend)
+        var duration = @Model.Duration;
+        sessionStorage.setItem("timeRemaining", duration); // Lưu vào sessionStorage lần đầu
+    }
 
     function startTimer() {
         var timerElement = document.getElementById("timer");
@@ -89,5 +96,6 @@
         console.log("submitExam function is being called");
         document.getElementById("scoreExamForm").submit();
     }
+
 
 </script>
