@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
 
 namespace Quizpractice.Models
 {
@@ -27,13 +26,11 @@ namespace Quizpractice.Models
         public string? Description { get; set; }
         public int? TotalQues { get; set; }
         public int Attempt { get; set; }
-        [JsonIgnore]
+
         public virtual Subject? Sub { get; set; }
         public virtual User? UserCreate { get; set; }
         public virtual ICollection<QuestionQuiz> QuestionQuizzes { get; set; }
         public virtual ICollection<QuizChapter> QuizChapters { get; set; }
         public virtual ICollection<QuizDetail> QuizDetails { get; set; }
-
-        public string? SubjectName => Sub?.SubjectName;
     }
 }
