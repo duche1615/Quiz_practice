@@ -40,13 +40,8 @@ namespace Quizpractice.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                Console.WriteLine(Directory.GetCurrentDirectory());
-                IConfiguration config = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", true, true)
-                .Build();
-                var strConn = config["ConnectionStrings:MyDatabase"];
-                optionsBuilder.UseSqlServer(strConn);
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("server =DESKTOP-QO80HR6\\SQLEXPRESS; database = SWP391_DB;uid=sa;pwd=123;TrustServerCertificate=True;");
             }
         }
 
@@ -113,7 +108,6 @@ namespace Quizpractice.Models
                     .HasColumnName("content");
 
                 entity.Property(e => e.Description)
-                    .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("description");
 
@@ -134,7 +128,6 @@ namespace Quizpractice.Models
                 entity.Property(e => e.LessionId).HasColumnName("lessionId");
 
                 entity.Property(e => e.Backlink)
-                    .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("backlink");
 
@@ -146,7 +139,6 @@ namespace Quizpractice.Models
                     .HasColumnName("content");
 
                 entity.Property(e => e.LessionUrl)
-                    .HasMaxLength(255)
                     .IsUnicode(false)
                     .HasColumnName("lessionURL");
 
@@ -400,23 +392,25 @@ namespace Quizpractice.Models
 
             modelBuilder.Entity<QuizAnswerDetail>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.QuizDetailId);
 
                 entity.ToTable("Quiz_Answer_Detail");
+
+                entity.Property(e => e.QuizDetailId)
+                    .ValueGeneratedNever()
+                    .HasColumnName("quiz_detail_id");
 
                 entity.Property(e => e.IsCorrect).HasColumnName("isCorrect");
 
                 entity.Property(e => e.QuestionId).HasColumnName("questionId");
-
-                entity.Property(e => e.QuizDetailId).HasColumnName("quiz_detail_id");
 
                 entity.Property(e => e.SelectedAnswerId).HasColumnName("selected_answer_id");
 
                 entity.Property(e => e.TrueAnswerId).HasColumnName("true_answer_id");
 
                 entity.HasOne(d => d.QuizDetail)
-                    .WithMany()
-                    .HasForeignKey(d => d.QuizDetailId)
+                    .WithOne(p => p.QuizAnswerDetail)
+                    .HasForeignKey<QuizAnswerDetail>(d => d.QuizDetailId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Quiz_Question_Detail_Quiz_Detail");
             });
@@ -522,9 +516,7 @@ namespace Quizpractice.Models
 
                 entity.Property(e => e.SubjectId).HasColumnName("subjectId");
 
-                entity.Property(e => e.Description)
-                    .HasMaxLength(255)
-                    .HasColumnName("description");
+                entity.Property(e => e.Description).HasColumnName("description");
 
                 entity.Property(e => e.Status).HasColumnName("status");
 
@@ -534,9 +526,7 @@ namespace Quizpractice.Models
 
                 entity.Property(e => e.TagLine).HasColumnName("tagLine");
 
-                entity.Property(e => e.Thumbnail)
-                    .HasMaxLength(255)
-                    .HasColumnName("thumbnail");
+                entity.Property(e => e.Thumbnail).HasColumnName("thumbnail");
 
                 entity.Property(e => e.Title)
                     .HasMaxLength(255)

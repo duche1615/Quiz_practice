@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Quizpractice.Models
 {
-    public class Subject
+    public partial class Subject
     {
         public Subject()
         {
