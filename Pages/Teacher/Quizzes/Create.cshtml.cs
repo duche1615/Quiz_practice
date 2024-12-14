@@ -82,7 +82,7 @@ namespace Quizpractice.Pages.Teacher.Quizzes
             // get all questions by subject id
             var questions = await _unitOfWork.Questions.GetQuestionsBySubjectIdAsync(QuizModel.SubjectId.Value);
             //check if chapter id is selected
-            if (QuizModel.ChapterId != null)
+            if (QuizModel.ChapterId.HasValue)
             {
                 questions = questions.Where(q => q.ChapterId == QuizModel.ChapterId).ToList();
             }

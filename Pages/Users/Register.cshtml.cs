@@ -21,12 +21,8 @@ namespace Quizpractice.Pages.Users
 
         public async Task<IActionResult> OnPostAsync()
         {
-            // Validate inputs
-            if (string.IsNullOrEmpty(RegisterViewModel.Email) ||
-                string.IsNullOrEmpty(RegisterViewModel.Password) ||
-                string.IsNullOrEmpty(RegisterViewModel.Fullname))
+            if (!ModelState.IsValid)
             {
-                ModelState.AddModelError("", "Email, Password, and Full Name are required.");
                 return Page();
             }
             // check if email exists

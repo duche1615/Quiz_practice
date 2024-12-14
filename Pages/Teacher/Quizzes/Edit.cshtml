@@ -8,7 +8,7 @@
 
 <form method="post">
     <input type="hidden" asp-for="QuizVM.QuizId" />
-    
+    <div asp-validation-summary="All" class="text-danger"></div>
     <div class="mb-3">
         <label for="Title" class="form-label">Quiz Title</label>
         <input asp-for="QuizVM.Title" class="form-control" />
@@ -32,6 +32,7 @@
     <div class="mb-3">
         <label for="Duration" class="form-label">Duration (minutes)</label>
         <input type="number" class="form-control" asp-for="QuizVM.Duration" />
+        <span asp-validation-for="QuizVM.Duration" class="text-danger"></span>
     </div>
     <div class="mb-3">
         <label for="StartTime" class="form-label">Start Time</label>

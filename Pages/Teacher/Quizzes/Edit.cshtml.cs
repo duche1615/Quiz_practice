@@ -23,6 +23,7 @@ namespace Quizpractice.Pages.Teacher.Quizzes
 
         public async Task<IActionResult> OnGetAsync(int id)
         {
+            
             // Load quiz to edit
             var quiz = await _unitOfWork.Quizzes.GetByIdAsync(id);
             if (quiz == null)
@@ -48,9 +49,14 @@ namespace Quizpractice.Pages.Teacher.Quizzes
 
         public async Task<IActionResult> OnPostAsync()
         {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
             if (QuizVM.EndTime <= QuizVM.StartTime)
             {
-                ModelState.AddModelError(string.Empty, "End Time must be after Start Time.");
+                ModelState.AddModelError("", "End time must be greater than start time.");
+                return Page();
             }          
 
             // Update quiz entity

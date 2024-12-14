@@ -18,6 +18,8 @@ namespace Quizpractice.Services.Repository
         public int CountQuizPass(int quizId)
         {
             double score = _dbContext.Quizzes.First(q => q.QuizId == quizId).PassPercent.Value;
+            var sc = _dbContext.QuizDetails.FirstOrDefault(q => q.QuizId == 1 );
+            var s = sc.Score;
             if (score <= 0) {
                 return 0;
             }

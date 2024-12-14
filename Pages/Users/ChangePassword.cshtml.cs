@@ -16,8 +16,7 @@ namespace Quizpractice.Pages.Users
             _userRepository = userRepository;
         }
 
-        [BindProperty]
-        public User Users { get; set; }
+
         public string Layout { get; set; } = "_Layout";
         [BindProperty]
         public ChangePasswordViewModel ChangePassword { get; set; }
@@ -34,43 +33,28 @@ namespace Quizpractice.Pages.Users
             }
 
             // Fetch user details using the ID
-            Users = await _userRepository.FindById(Convert.ToInt32(userId));
-            if (Users == null)
+            var user = await _userRepository.FindById(Convert.ToInt32(userId));
+            if (user == null)
             {
                 return RedirectToPage("/Users/Login");
             }
-            if (Users.Role.RoleName == "Lecturer")
+            if (user.Role.RoleName == "Lecturer")
             {
                 Layout = "_Layout_Teacher";
             }
-            else if (Users.Role.RoleName == "Admin")
+            else if (user.Role.RoleName == "Admin")
             {
                 Layout = "_Layout_Admin";
             }
-            else
+            else if (user.Role.RoleName == "learner")
             {
-                Layout = "_Layout";
+                Layout = "_Layout_Learner";
             }
+
             return Page();
         }
         public async Task<IActionResult> OnPostAsync()
         {
-
-            if (string.IsNullOrEmpty(ChangePassword.OldPassword) ||
-        string.IsNullOrEmpty(ChangePassword.NewPassword) ||
-        string.IsNullOrEmpty(ChangePassword.ConfirmPassword))
-            {
-                ModelState.AddModelError("", "All fields are required.");
-                return Page();
-            }
-
-            // Kiểm tra nếu mật khẩu mới và mật khẩu xác nhận không khớp
-            if (ChangePassword.NewPassword != ChangePassword.ConfirmPassword)
-            {
-                ModelState.AddModelError("", "Passwords do not match.");
-                return Page();
-            }
-
             var userId = HttpContext.Session.GetString("UserId");
             if (userId == null)
             {
@@ -78,13 +62,31 @@ namespace Quizpractice.Pages.Users
                 return Page();
             }
 
-            var user = await _userRepository.GetByIdAsync(int.Parse(userId));
+            var user = await _userRepository.FindById(int.Parse(userId));
             if (user == null)
             {
                 ModelState.AddModelError("", "User not found.");
                 return Page();
             }
-
+            // Kiểm tra nếu mật khẩu mới và mật khẩu xác nhận không khớp
+            if (ChangePassword.NewPassword != ChangePassword.ConfirmPassword)
+            {
+                ModelState.AddModelError("", "Passwords do not match.");
+                if (user.Role.RoleName == "Lecturer")
+                {
+                    Layout = "_Layout_Teacher";
+                }
+                else if (user.Role.RoleName == "Admin")
+                {
+                    Layout = "_Layout_Admin";
+                }
+                else if (user.Role.RoleName == "learner")
+                {
+                    Layout = "_Layout_Learner";
+                }
+                return Page();
+            }
+                     
             // Use await to get the result of the task
             var isPasswordValid = await _userRepository.ValidatePassword(user, ChangePassword.OldPassword);
 
@@ -92,21 +94,60 @@ namespace Quizpractice.Pages.Users
             if (!isPasswordValid)
             {
                 ModelState.AddModelError("", "Incorrect old password.");
+                if (user.Role.RoleName == "Lecturer")
+                {
+                    Layout = "_Layout_Teacher";
+                }
+                else if (user.Role.RoleName == "Admin")
+                {
+                    Layout = "_Layout_Admin";
+                }
+                else if (user.Role.RoleName == "learner")
+                {
+                    Layout = "_Layout_Learner";
+                }
                 return Page();
             }
+            if (!ModelState.IsValid)
+            {
+                if (user.Role.RoleName == "Lecturer")
+                {
+                    Layout = "_Layout_Teacher";
+                }
+                else if (user.Role.RoleName == "Admin")
+                {
+                    Layout = "_Layout_Admin";
+                }
+                else if (user.Role.RoleName == "learner")
+                {
+                    Layout = "_Layout_Learner";
+                }
+                return Page();
 
+            }
             var isUpdated = await _userRepository.UpdatePasswordAsync(user, ChangePassword.NewPassword);
             if (isUpdated)
             {
+                if (user.Role.RoleName == "Lecturer")
+                {
+                    Layout = "_Layout_Teacher";
+                }
+                else if (user.Role.RoleName == "Admin")
+                {
+                    Layout = "_Layout_Admin";
+                }
+                else if (user.Role.RoleName == "learner")
+                {
+                    Layout = "_Layout_Learner";
+                }
                 SuccessMessage = "Password changed successfully.";
+                
             }
             else
             {
                 ModelState.AddModelError("", "Error updating password.");
             }
-
-            
-            
+                      
             return Page();
         }
     }
