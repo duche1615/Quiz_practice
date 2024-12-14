@@ -50,7 +50,7 @@
     // Lấy thời gian từ sessionStorage hoặc từ Razor Model
     // Lấy thời gian từ sessionStorage hoặc từ Razor Model
     var storedTime = sessionStorage.getItem("timeRemaining");
-    if (storedTime) {
+    if (storedTime && duration>storedTime) {
         var duration = parseInt(storedTime);
     } else {
         // Nếu không có trong sessionStorage, lấy từ Razor Model (Session trong backend)
@@ -69,6 +69,7 @@
 
             // Khi hết thời gian, dừng đếm ngược và tự động nộp bài
             if (timeRemaining <= 0) {
+                sessionStorage.removeItem("timeRemaining");
                 clearInterval(interval);
                 alert("Time's up! Your exam will be submitted automatically.");
                 document.getElementById("scoreExamForm").submit(); // Gửi form tự động
@@ -93,8 +94,10 @@
 
     // Hàm gọi khi bấm nút SCORE EXAM NOW
     function submitExam() {
+        sessionStorage.removeItem("timeRemaining");
         console.log("submitExam function is being called");
         document.getElementById("scoreExamForm").submit();
+         // Xóa thời gian còn lại khi nộp bài
     }
 
 

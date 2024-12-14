@@ -91,7 +91,6 @@ namespace Quizpractice.Pages.Quizs
             // Xóa danh sách câu hỏi khỏi session
             string sessionKey = $"QuestionList_{subjectId}";
             HttpContext.Session.Remove(sessionKey);
-
             // Xóa câu trả lời đã lưu trong session
             foreach (var question in questions)
             {
