@@ -19,7 +19,7 @@ namespace Quizpractice.ViewModels
         [Required(ErrorMessage = "Full name is required.")]
         [StringLength(50, ErrorMessage = "Full name cannot exceed 50 characters.")]
         public string Fullname { get; set; }
-        [RegularExpression(@"^(\+?[0-9]{1,3})?([0-9]{10})$", ErrorMessage = "Invalid phone number format.")]
+        [RegularExpression(@"^0[0-9]{9}$", ErrorMessage = "Invalid phone number format.")]
         [Phone(ErrorMessage = "Invalid phone number format.")]
         public string? Phone { get; set; }
 

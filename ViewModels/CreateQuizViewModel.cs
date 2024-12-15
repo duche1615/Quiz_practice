@@ -29,7 +29,6 @@ namespace Quizpractice.ViewModels
         [Required(ErrorMessage = "End Time is required.")]
         
         public DateTime EndTime { get; set; }
-        //public IEnumerable<Subject>? Subjects { get; set; }
-        //public IEnumerable<Chapter>? Chapters { get; set; }
+
     }
 }

@@ -71,11 +71,7 @@ namespace Quizpractice.Pages.Teacher.Questions
             {
                 QuestionAnswer = new QuestionAnswerViewModel();
             }
-            if (!ModelState.IsValid)
-            {
-                await ReloadDropdownDataAsync();
-                return Page();
-            }
+            
 
             // Validate subject and chapter selection
             if (QuestionAnswer.SubjectId == null || QuestionAnswer.SubjectId <= 0 ||
@@ -115,7 +111,11 @@ namespace Quizpractice.Pages.Teacher.Questions
                     return Page();
                 }
             }
-
+            if (!ModelState.IsValid)
+            {
+                await ReloadDropdownDataAsync();
+                return Page();
+            }
             // Update the question
             question.Content = QuestionAnswer.Content;
             question.Level = QuestionAnswer.Level;
